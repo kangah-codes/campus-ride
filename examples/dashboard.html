@@ -9,18 +9,42 @@
     <title>Campus Ride wallet</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <!-- CSS Files -->
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../assets/css/now-ui-dashboard.css?v=1.0.1" rel="stylesheet" />
     <link href="../assets/demo/demo.css" rel="stylesheet" />
     <style>
+        * {
+            font-family: 'Rubik', sans-serif;
+        }
+        
+        body {
+            font-family: 'Rubik', sans-serif;
+            letter-spacing: 2px;
+        }
+        
         #panel {
             background-image: -moz-linear-gradient( 122deg, #1F7BBC 30%, #2CA8FF 100%);
             background-image: -webkit-linear-gradient( 122deg, #1F7BBC 30%, #2CA8FF 100%);
             background-image: -ms-linear-gradient( 122deg, #1F7BBC 30%, #2CA8FF 100%);
             background-image: linear-gradient( 122deg, #1F7BBC 30%, #2CA8FF 100%);
+        }
+        
+        .tbl {
+            height: 428px;
+            overflow-y: scroll;
+        }
+        
+        .account {
+            height: 300px;
+            overflow-y: auto;
+        }
+        
+        .tb2 {
+            height: 328px;
+            overflow-y: scroll;
         }
     </style>
 
@@ -131,7 +155,78 @@
                                 <h4 class="card-title text-center">Account Preview</h4>
                             </div>
                             <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12 col-md-6 text-center">Account Balance
+                                        <h1 class="py-5" style="font-size: 60px;">GHS 14.00</h1>
+                                    </div>
 
+                                    <div class=" col-12 col-md-6 text-center ">Account History
+                                        <div class="table-responsive  justify-content-Center  tb2 pt-3">
+                                            <table class="account table">
+                                                <thead class=" thead" style="color: #2CA8FF;">
+                                                    <th class="text-center">
+                                                        Date
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Top-Up
+                                                    </th>
+
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            Monday
+                                                        </td>
+                                                        <td class="text-center">
+                                                            GHS 9.00
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            Tuesday
+                                                        </td>
+                                                        <td class="text-center">
+                                                            GHS 9.00
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            Wednesday
+                                                        </td>
+                                                        <td class="text-center">
+                                                            GHS 9.00
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            Thursday
+                                                        </td>
+                                                        <td class="text-center">
+                                                            GHS 9.00
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            Friday
+                                                        </td>
+                                                        <td class="text-center">
+                                                            GHS 9.00
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
                             </div>
                             <div class="card-footer">
                                 <hr>
@@ -148,60 +243,77 @@
                                 <h4 class="card-title text-center"> Rides History</h4>
                             </div>
                             <div class="card-body">
-                                <div class="table-responsive  justify-content-Center ">
+                                <div class="table-responsive  justify-content-Center  tbl">
                                     <table class="table">
-                                        <thead class=" text-primary">
-                                            <th>
+                                        <thead class=" thead" style="color: #2CA8FF;">
+                                            <th class="text-center">
                                                 Date
                                             </th>
-                                            <th>
-                                                Number of Rides
+                                            <th class="text-center">
+                                                Rides
+                                            </th>
+                                            <th class="text-center">
+                                                Fare
                                             </th>
 
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>
-                                                    Dakota Rice
+                                                <td class="text-center">
+                                                    Monday
                                                 </td>
-                                                <td>
+                                                <td class="text-center">
                                                     9
                                                 </td>
+                                                <td class="text-center">
+                                                    GHS 9.00
+                                                </td>
 
                                             </tr>
                                             <tr>
-                                                <td>
-                                                    Minerva Hooper
+                                                <td class="text-center">
+                                                    Tuesday
                                                 </td>
-                                                <td>
+                                                <td class="text-center">
                                                     4
                                                 </td>
+                                                <td class="text-center">
+                                                    GHS 4.00
+                                                </td>
 
                                             </tr>
                                             <tr>
-                                                <td>
-                                                    Sage Rodriguez
+                                                <td class="text-center">
+                                                    Wednesday
                                                 </td>
-                                                <td>
+                                                <td class="text-center">
                                                     8
                                                 </td>
-
+                                                <td class="text-center">
+                                                    GHS 8.00
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>
-                                                    Doris Greene
+                                                <td class="text-center">
+                                                    Thursday
                                                 </td>
-                                                <td>
+                                                <td class="text-center">
                                                     4
                                                 </td>
+                                                <td class="text-center">
+                                                    GHS 4.00
+                                                </td>
 
                                             </tr>
                                             <tr>
-                                                <td>
-                                                    Mason Porter
+                                                <td class="text-center">
+                                                    Friday
                                                 </td>
-                                                <td>
+                                                <td class="text-center">
                                                     6
+                                                </td>
+                                                <td class="text-center">
+                                                    GHS 6.00
                                                 </td>
 
                                             </tr>
@@ -242,18 +354,21 @@
             </footer>
         </div>
     </div>
-</body>
-<script src="../assets/js/core/jquery.min.js"></script>
-<script src="../assets/js/core/popper.min.js"></script>
-<script src="../assets/js/core/bootstrap.min.js"></script>
-<script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-<script src="https://kit.fontawesome.com/1911436ffb.js" crossorigin="anonymous"></script>
+    <script src="../assets/js/core/jquery.min.js"></script>
 
-<!--  Notifications Plugin    -->
-<script src="../assets/js/plugins/bootstrap-notify.js"></script>
-<!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
-<script src="../assets/js/now-ui-dashboard.js?v=1.0.1"></script>
-<!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
-<script src="../assets/demo/demo.js"></script>
+    <script src="../assets/js/core/popper.min.js"></script>
+    <script src="../assets/js/core/bootstrap.min.js"></script>
+    <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/1911436ffb.js" crossorigin="anonymous"></script>
+
+    <!--  Notifications Plugin    -->
+    <script src="../assets/js/plugins/bootstrap-notify.js"></script>
+    <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="../assets/js/now-ui-dashboard.js?v=1.0.1"></script>
+    <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
+    <script src="../assets/demo/demo.js"></script>
+
+</body>
+
 
 </html>
