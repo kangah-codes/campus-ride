@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="./assets/css/bootstrap-reboot.min.css">
     <link href="./assets/css/now-ui-dashboard.css?v=1.0.1" rel="stylesheet" />
     <link href="./assets/demo/demo.css" rel="stylesheet" />
+
     <style>
         * {
             font-family: 'Rubik', sans-serif;
@@ -59,14 +60,109 @@
             background-position: right;
         }
         
-        .borderofinput {
-            border-color: #2CA8FF;
-        }
-        
         .button:active {
             top: 5px;
         }
+        
+        .select-box {
+            cursor: pointer;
+            position: relative;
+            max-width: 20em;
+            width: 100%;
+            color: #fff;
+            font-family: 'Rubik', sans-serif;
+        }
+        
+        .select,
+        .label {
+            color: #fff;
+            display: block;
+            font: 400 17px/2em 'Rubik', sans-serif;
+        }
+        
+        .select {
+            width: 100%;
+            position: absolute;
+            top: 0;
+            padding: 5px 0;
+            height: 40px;
+            opacity: 0;
+            /* -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; */
+            background: none transparent;
+            border: 0 none;
+            font-family: 'Rubik', sans-serif;
+        }
+        
+        .select-box1 {
+            background: #2CA8FF;
+            color: #fff;
+            font-family: 'Rubik', sans-serif;
+        }
+        
+        .label {
+            position: relative;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-family: 'Rubik', sans-serif;
+        }
+        
+        .open .label::after {
+            content: "▲";
+            color: #fff;
+            font-family: 'Rubik', sans-serif;
+        }
+        
+        .label::after {
+            color: #fff;
+            content: "▼";
+            font-size: 12px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            padding: 5px 15px;
+            border-left: 5px solid #fff;
+        }
+        
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
     </style>
+    <!-- Start of Async Drift Code -->
+    <script>
+        "use strict";
+
+        ! function() {
+            var t = window.driftt = window.drift = window.driftt || [];
+            if (!t.init) {
+                if (t.invoked) return void(window.console && console.error && console.error("Drift snippet included twice."));
+                t.invoked = !0, t.methods = ["identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on"],
+                    t.factory = function(e) {
+                        return function() {
+                            var n = Array.prototype.slice.call(arguments);
+                            return n.unshift(e), t.push(n), t;
+                        };
+                    }, t.methods.forEach(function(e) {
+                        t[e] = t.factory(e);
+                    }), t.load = function(t) {
+                        var e = 3e5,
+                            n = Math.ceil(new Date() / e) * e,
+                            o = document.createElement("script");
+                        o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
+                        var i = document.getElementsByTagName("script")[0];
+                        i.parentNode.insertBefore(o, i);
+                    };
+            }
+        }();
+        drift.SNIPPET_VERSION = '0.3.1';
+        drift.load('gmgzi36smtbc');
+    </script>
+    <!-- End of Async Drift Code -->
 
 
 </head>
@@ -89,7 +185,7 @@
             <div class="sidebar-wrapper">
                 <ul class="nav">
                     <li>
-                        <a href="./dashboard.html">
+                        <a href="./index.html">
                             <i class="now-ui-icons design_app"></i>
                             <p>Dashboard</p>
                         </a>
@@ -170,7 +266,7 @@
             <div class="content">
                 <div class="row">
                     <div class="col-md-6 pb-5">
-                        <div class="card ">
+                        <div class="card " style="height: 500px;">
                             <div class="card-header text-center ">
                                 Wallet Preview
                                 <hr width="80%">
@@ -189,7 +285,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="card ">
+                        <div class="card " style="height: 500px;">
                             <div class="card-header text-center ">
                                 Load Your Wallet
                                 <hr width="80%">
@@ -210,10 +306,47 @@
                                     </DIV>
 
                                     <div class="col-6 pt-5 justify-content-end">
-                                        <button class="button">
+                                        <button class="button" data-toggle="modal" data-target="#staticBackdrop" style="height:35px; padding: 0;">
                                             USE
-                                        </BUTton>
+                                        </button>
 
+                                    </div>
+                                    <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="staticBackdropLabel">Top-Up With <span> <img src="./assets/img/mtn21.png" alt="" width="80px"></span></h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                              </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="#">
+                                                        <div class="form-group mt-3">
+                                                            <label> MTN Wallet Number</label>
+                                                            <input type="number" id="momo" name="Wallet Number" class="form-control text-center" placeholder="Wallet Number" required oninvalid="this.setCustomValidity('Enter Wallet Number')" oninput="this.setCustomValidity('')">
+
+                                                        </div>
+                                                        <div class="form-group mt-3">
+                                                            <label>Amount</label>
+                                                            <input type="number" name="Amount" class="form-control text-center" placeholder="Amount" required oninvalid="this.setCustomValidity('Enter the amount')" oninput="this.setCustomValidity('')">
+
+                                                        </div>
+                                                        <div class="form-group mt-3">
+                                                            <label>Campus Ride Pin</label>
+                                                            <input type="password" name="Pin" class="form-control text-center" placeholder="Pin" pattern="[0-9]{4}" maxlength="4" required oninvalid="this.setCustomValidity('Enter your pin')" oninput="this.setCustomValidity('')">
+
+                                                        </div>
+                                                    </form>
+
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                    <button type="button" class="btn btn-danger" style="width: 30%; font-size: 15px ; height: 40px; background-color: #2CA8FF;">Top-Up</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -223,9 +356,46 @@
                                         <hr width="95%">
                                     </div>
                                     <div class="col-6 pt-3">
-                                        <button class="button">
+                                        <button class="button" data-toggle="modal" data-target="#staticBackdrop2" style="height:35px; padding: 0;">
                                             USE
                                         </button>
+                                    </div>
+                                    <div class="modal fade" id="staticBackdrop2" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="staticBackdropLabel2">Top-Up With <span><img src="./assets/img/airtel.png" alt="" width="80px"></span></h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                              </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="#">
+                                                        <div class="form-group mt-3">
+                                                            <label> AIRTEL TIGO Wallet Number</label>
+                                                            <input type="number" id="momo" name="Wallet Number" class="form-control text-center" placeholder="Wallet Number" required oninvalid="this.setCustomValidity('Enter Wallet Number')" oninput="this.setCustomValidity('')">
+
+                                                        </div>
+                                                        <div class="form-group mt-3">
+                                                            <label>Amount</label>
+                                                            <input type="number" name="Amount" class="form-control text-center" placeholder="Amount" required oninvalid="this.setCustomValidity('Enter the amount')" oninput="this.setCustomValidity('')">
+
+                                                        </div>
+                                                        <div class="form-group mt-3">
+                                                            <label>Campus Ride Pin</label>
+                                                            <input type="password" name="Pin" class="form-control text-center" placeholder="Pin" pattern="[0-9]{4}" maxlength="4" required oninvalid="this.setCustomValidity('Enter your pin')" oninput="this.setCustomValidity('')">
+
+                                                        </div>
+                                                    </form>
+
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                    <button type="button" class="btn btn-danger" style="width: 30%; font-size: 15px ; height: 40px; background-color: #2CA8FF;">Top-Up</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -235,9 +405,47 @@
 
                                     </div>
                                     <div class="col-6 pt-3">
-                                        <button class="button">
+                                        <button class="button" data-toggle="modal" data-target="#staticBackdrop3" style="height:35px; padding: 0;">
                                             USE
                                         </button>
+                                    </div>
+                                    <div class="modal fade" id="staticBackdrop3" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel3" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="staticBackdropLabel3">Top-Up With <span><span><img src="./assets/img/vodafone-cash.png" alt="" width="100px"></span></span>
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                              </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="#">
+                                                        <div class="form-group mt-3">
+                                                            <label> VODAFONE Wallet Number</label>
+                                                            <input type="number" id="momo" name="Wallet Number" class="form-control text-center" placeholder="Wallet Number" required oninvalid="this.setCustomValidity('Enter Wallet Number')" oninput="this.setCustomValidity('')">
+
+                                                        </div>
+                                                        <div class="form-group mt-3">
+                                                            <label>Amount</label>
+                                                            <input type="number" name="Amount" class="form-control text-center" placeholder="Amount" required oninvalid="this.setCustomValidity('Enter the amount')" oninput="this.setCustomValidity('')">
+
+                                                        </div>
+                                                        <div class="form-group mt-3">
+                                                            <label>Campus Ride Pin</label>
+                                                            <input type="password" name="Pin" class="form-control text-center" placeholder="Pin" pattern="[0-9]{4}" maxlength="4" required oninvalid="this.setCustomValidity('Enter your pin')" oninput="this.setCustomValidity('')">
+
+                                                        </div>
+                                                    </form>
+
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                    <button type="button" class="btn btn-danger" style="width: 30%; font-size: 15px ; height: 40px; background-color: #2CA8FF;">Top-Up</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -246,6 +454,81 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6 pb-5">
+                        <div class="card " style="height: 480px;">
+                            <div class="card-header text-center ">
+                                Wallet Acitvity
+                                <hr width="80%">
+                            </div>
+
+                            <div class="card-body ">
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 pb-5">
+                        <div class="card " style="height: 480px;">
+                            <div class="card-header text-center ">
+                                Withdraw From Your Wallet
+                                <hr width="80%">
+                            </div>
+
+                            <div class="card-body ">
+                                <h6 class="text-center">Withdraw cash from your campus ride wallet
+                                </h6>
+                                <div class="container" style="width: 10 rem;">
+                                    <form action="#">
+                                        <div class="form-group mt-3 ">
+                                            <label> Select Network</label>
+                                            <div class="select-box">
+
+                                                <label for="select-box1" class="label select-box1"><span class="label-desc" style="color: #fff;">Please Select</span> </label>
+                                                <select id="select-box1" class="select">
+                                                   
+                                                        <option value="MTN" style="color: #fff; font-size: 14px; background-color: #2CA8FF;"> MTN</option>
+                                                 
+                                                        <option value="AIRTEL TIGO" style="color: #fff;  font-size: 14px;background-color: #2CA8FF;">AIRTEL TIGO</option>
+                                                        
+                                                        <option value="VODAFONE" style="color: #fff; font-size: 14px; background-color: #2CA8FF;">VODAFONE</option>
+                                                    
+                                              
+                                                </select>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group mt-3">
+                                            <label> Mobile Wallet Number</label>
+                                            <input type="number" id="momo" name="Wallet Number" class="form-control text-center" placeholder="Wallet Number" required oninvalid="this.setCustomValidity('Enter Wallet Number')" oninput="this.setCustomValidity('')">
+
+                                        </div>
+                                        <div class="form-group mt-3">
+                                            <label>Amount</label>
+                                            <input type="number" name="Amount" class="form-control text-center" placeholder="Amount" required oninvalid="this.setCustomValidity('Enter the amount')" oninput="this.setCustomValidity('')">
+
+                                        </div>
+                                        <div class="form-group mt-3">
+                                            <label>Campus Ride Pin</label>
+                                            <input type="password" name="Pin" class="form-control text-center" placeholder="Pin" pattern="[0-9]{4}" maxlength="4" required oninvalid="this.setCustomValidity('Enter your pin')" oninput="this.setCustomValidity('')">
+
+                                        </div>
+                                        <input type="Submit" style="border-radius: 50px; font-size: 15px;" value="Withdraw" class="button mt-3">
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
 
             </div>
             <footer class="footer">
@@ -254,13 +537,13 @@
                         <ul>
                             <li>
                                 <a href="#">
-                                Campus Ride
-                            </a>
+                            Campus Ride
+                        </a>
                             </li>
                             <li>
                                 <a href="#">
-                                About Us
-                            </a>
+                            About Us
+                        </a>
                             </li>
 
                         </ul>
@@ -276,18 +559,48 @@
                 </div>
             </footer>
         </div>
-        <script src="./assets/js/core/jquery.min.js"></script>
-        <script src="./assets/js/core/popper.min.js"></script>
-        <script src="./assets/js/core/bootstrap.min.js"></script>
-        <script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-        <script src="https://kit.fontawesome.com/1911436ffb.js" crossorigin="anonymous"></script>
+    </div>
 
-        <!--  Notifications Plugin    -->
-        <script src="./assets/js/plugins/bootstrap-notify.js"></script>
-        <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
-        <script src="./assets/js/now-ui-dashboard.js?v=1.0.1"></script>
-        <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
-        <script src="./assets/demo/demo.js"></script>
+
+    <script src="./assets/js/core/jquery.min.js"></script>
+
+    <script>
+        $("select").on("click", function() {
+
+            $(this).parent(".select-box").toggleClass("open");
+
+        });
+
+        $(document).mouseup(function(e) {
+            var container = $(".select-box");
+
+            if (container.has(e.target).length === 0) {
+                container.removeClass("open");
+            }
+        });
+
+
+        $("select").on("change", function() {
+
+            var selection = $(this).find("option:selected").text(),
+                labelFor = $(this).attr("id"),
+                label = $("[for='" + labelFor + "']");
+
+            label.find(".label-desc").html(selection);
+
+        });
+    </script>
+    <script src="./assets/js/core/popper.min.js"></script>
+    <script src="./assets/js/core/bootstrap.min.js"></script>
+    <script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/1911436ffb.js" crossorigin="anonymous"></script>
+
+    <!--  Notifications Plugin    -->
+    <script src="./assets/js/plugins/bootstrap-notify.js"></script>
+    <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="./assets/js/now-ui-dashboard.js?v=1.0.1"></script>
+    <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
+    <script src="./assets/demo/demo.js"></script>
 </body>
 
 

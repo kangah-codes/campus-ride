@@ -67,15 +67,115 @@
             background-image: -ms-linear-gradient( 122deg, #1F7BBC 30%, #2CA8FF 100%);
             background-image: linear-gradient( 122deg, #1F7BBC 30%, #2CA8FF 100%);
         }
+        
+        .imgcont {
+            display: flex;
+            justify-content: center;
+        }
+        
+        div.item {
+            position: relative;
+            overflow: hidden;
+            margin: 10px 1%;
+            width: 130px;
+            height: 130px;
+            /* background: #000000; */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            padding: 0;
+        }
+        
+        div.item.blue {
+            background-color: #34495e;
+            border-radius: 200px;
+        }
+        
+        div.item img {
+            vertical-align: top;
+            width: 100%;
+            margin: 0;
+        }
+        
+        div.item.blue i {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            color: #34495e;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 40px;
+            line-height: 60px;
+            background-color: aliceblue;
+            transform: translate(-50%, -50%) scale(0);
+        }
+        
+        div.item:hover img {
+            opacity: 0.3;
+            filter: grayscale(100%);
+        }
+        
+        div.item * {
+            transition: all .5s ease-in-out;
+        }
+        
+        div.item:hover i {
+            transform: translate(-50%, -50%) scale(1);
+            transition-delay: 200ms;
+            transition-duration: .5s;
+            transition-timing-function: ease-in-out;
+        }
+        
+        .navbar {
+            box-shadow: none;
+        }
+        
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
     </style>
+    <!-- Start of Async Drift Code -->
+    <script>
+        "use strict";
+
+        ! function() {
+            var t = window.driftt = window.drift = window.driftt || [];
+            if (!t.init) {
+                if (t.invoked) return void(window.console && console.error && console.error("Drift snippet included twice."));
+                t.invoked = !0, t.methods = ["identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on"],
+                    t.factory = function(e) {
+                        return function() {
+                            var n = Array.prototype.slice.call(arguments);
+                            return n.unshift(e), t.push(n), t;
+                        };
+                    }, t.methods.forEach(function(e) {
+                        t[e] = t.factory(e);
+                    }), t.load = function(t) {
+                        var e = 3e5,
+                            n = Math.ceil(new Date() / e) * e,
+                            o = document.createElement("script");
+                        o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
+                        var i = document.getElementsByTagName("script")[0];
+                        i.parentNode.insertBefore(o, i);
+                    };
+            }
+        }();
+        drift.SNIPPET_VERSION = '0.3.1';
+        drift.load('gmgzi36smtbc');
+    </script>
+    <!-- End of Async Drift Code -->
 </head>
 
 <body class="">
     <div class="wrapper ">
         <div class="sidebar" data-color="blue">
-            <!--
-        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
-    -->
+
             <div class="logo">
                 <a href="#" class="simple-text logo-mini">
                     CR
@@ -87,7 +187,7 @@
             <div class="sidebar-wrapper">
                 <ul class="nav">
                     <li>
-                        <a href="./dashboard.html">
+                        <a href="./index.html">
                             <i class="now-ui-icons design_app"></i>
                             <p>Dashboard</p>
                         </a>
@@ -125,7 +225,7 @@
         </div>
         <div class="main-panel ">
             <!-- Navbar -->
-            <nav class="navbar navbar-expand-lg navbar-transparent  navbar-absolute bg-primary fixed-top">
+            <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top py-0" id="mainNavbar">
                 <div class="container-fluid">
                     <div class="navbar-wrapper">
                         <div class="navbar-toggle">
@@ -151,7 +251,7 @@
                                 <a class="nav-link" href="#pablo">
                                     <i class="now-ui-icons users_single-02"></i>
                                     <p>
-                                        <span class="d-lg-none d-md-block">Account</span>
+                                        <span class="d-lg-none d-md-block">Profile</span>
                                     </p>
                                 </a>
                             </li>
@@ -215,7 +315,7 @@
                                         <div class="col-md-6 pl-4">
                                             <div class="form-group">
                                                 <label>Phone Number</label>
-                                                <input type="text" class="form-control" placeholder="Phone" value="">
+                                                <input type="number" class="form-control" placeholder="Phone" value="">
                                             </div>
                                         </div>
                                     </div>
@@ -223,7 +323,7 @@
                                         <div class="col-md-6 px-4">
                                             <div class="form-group">
                                                 <label>Level</label>
-                                                <input type="text" class="form-control" placeholder="Level" value="">
+                                                <input type="number" class="form-control" placeholder="Level" value="">
                                             </div>
                                         </div>
                                         <div class="col-md-6 pl-4">
@@ -242,30 +342,37 @@
                         </div>
                     </div>
                     <div class="col-md-4 mt-5  mt-md-0">
-                        <div class="card card-user pb-md-3  pb-xl-5 ">
+                        <div class="card card-user  ">
 
-                            <div class="card-body">
+                            <div class="card-body pb-0 pb-xl-5">
                                 <div class="author">
+                                    <div class="imgcont">
+                                        <div class="item blue">
+                                            <img class="" src="./assets/img//profilePic.svg" alt="..." width="130px">
+                                            <a href="#"><i class="fa fa-camera"></i></a>
+                                        </div>
 
-                                    <img class="" src="./assets/img//profilePic.svg" alt="..." width="130px">
-                                    <h5 class="title pt-2" style="color: #2CA8FF;">First Name Last Name</h5>
+                                    </div>
 
-                                    <p class="description pb-2">
+                                    <p class="description ">Click on profile pic to edit</p>
+                                    <h5 class="title " style="color: #2CA8FF;">First Name Last Name</h5>
+
+                                    <p class="description pb-1">
                                         Username
                                     </p>
-                                    <p class="description pb-2">
+                                    <p class="description pb-1">
                                         Hall of Residence
                                     </p>
-                                    <p class="description pb-2">
+                                    <p class="description pb-1">
                                         Level
                                     </p>
-                                    <p class="description pb-2">
+                                    <p class="description pb-1">
                                         Course
                                     </p>
-                                    <p class="description pb-2">
+                                    <p class="description pb-1">
                                         Email
                                     </p>
-                                    <p class="description  pb-xl-4 ">
+                                    <p class="description  ">
                                         Phone Number
                                     </p>
                                 </div>
@@ -306,6 +413,12 @@
     </div>
     <script src="./assets/js/core/jquery.min.js"></script>
     <script>
+        $(function() {
+            $(document).scroll(function() {
+                var $nav = $("#mainNavbar");
+                $nav.toggleClass("scrolled", $(this).scrollTop() > $nav.height());
+            });
+        });
     </script>
     <script src="./assets/js/core/popper.min.js"></script>
     <script src="./assets/js/core/bootstrap.min.js"></script>

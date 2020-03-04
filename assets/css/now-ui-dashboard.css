@@ -1377,7 +1377,7 @@ fieldset[disabled] .btn-link.active {
 .has-danger .input-group-addon,
 .has-danger.input-group-focus .input-group-addon {
     border-color: #ffcfcf;
-    color: #FF3636;
+    color: #2CA8FF;
     background-color: rgba(222, 222, 222, 0.1);
 }
 

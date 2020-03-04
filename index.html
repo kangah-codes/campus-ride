@@ -12,7 +12,9 @@
     <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <!-- CSS Files -->
-    <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.14.0/css/mdb.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/bootstrap-grid.min.css">
     <link rel="stylesheet" href="./assets/css/bootstrap-reboot.min.css">
     <link href="./assets/css/now-ui-dashboard.css?v=1.0.1" rel="stylesheet" />
@@ -39,17 +41,41 @@
             overflow-y: scroll;
         }
         
-        .account {
-            height: 300px;
-            overflow-y: auto;
-        }
-        
         .tb2 {
             height: 328px;
             overflow-y: scroll;
         }
     </style>
+    <!-- Start of Async Drift Code -->
+    <script>
+        "use strict";
 
+        ! function() {
+            var t = window.driftt = window.drift = window.driftt || [];
+            if (!t.init) {
+                if (t.invoked) return void(window.console && console.error && console.error("Drift snippet included twice."));
+                t.invoked = !0, t.methods = ["identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on"],
+                    t.factory = function(e) {
+                        return function() {
+                            var n = Array.prototype.slice.call(arguments);
+                            return n.unshift(e), t.push(n), t;
+                        };
+                    }, t.methods.forEach(function(e) {
+                        t[e] = t.factory(e);
+                    }), t.load = function(t) {
+                        var e = 3e5,
+                            n = Math.ceil(new Date() / e) * e,
+                            o = document.createElement("script");
+                        o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
+                        var i = document.getElementsByTagName("script")[0];
+                        i.parentNode.insertBefore(o, i);
+                    };
+            }
+        }();
+        drift.SNIPPET_VERSION = '0.3.1';
+        drift.load('gmgzi36smtbc');
+    </script>
+    <!-- End of Async Drift Code -->
 </head>
 
 <body class="">
@@ -69,7 +95,7 @@
             <div class="sidebar-wrapper">
                 <ul class="nav">
                     <li class="active">
-                        <a href="./dashboard.html">
+                        <a href="./index.html">
                             <i class="now-ui-icons design_app"></i>
                             <p>Dashboard</p>
                         </a>
@@ -133,7 +159,7 @@
                                 <a class="nav-link" href="#pablo">
                                     <i class="now-ui-icons users_single-02"></i>
                                     <p>
-                                        <span class="d-lg-none d-md-block">Account</span>
+                                        <span class="d-lg-none d-md-block">Profile</span>
                                     </p>
                                 </a>
                             </li>
@@ -167,7 +193,7 @@
 
                                     <div class=" col-12 col-md-6 text-center ">Account History
                                         <div class="table-responsive  justify-content-Center  tb2 pt-3">
-                                            <table class="account table">
+                                            <table class="account table ">
                                                 <thead class=" thead" style="color: #2CA8FF;">
                                                     <th class="text-center">
                                                         Date
@@ -177,8 +203,8 @@
                                                     </th>
 
                                                 </thead>
-                                                <tbody>
-                                                    <tr>
+                                                <tbody class="py-5">
+                                                    <tr class="py-5">
                                                         <td class="text-center">
                                                             Monday
                                                         </td>
@@ -223,6 +249,87 @@
                                                         </td>
 
                                                     </tr>
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            Saturday
+                                                        </td>
+                                                        <td class="text-center">
+                                                            GHS 9.00
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            Monday
+                                                        </td>
+                                                        <td class="text-center">
+                                                            GHS 9.00
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            Wednesday
+                                                        </td>
+                                                        <td class="text-center">
+                                                            GHS 9.00
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            Friday
+                                                        </td>
+                                                        <td class="text-center">
+                                                            GHS 9.00
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            Thursday
+                                                        </td>
+                                                        <td class="text-center">
+                                                            GHS 9.00
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            Sunday
+                                                        </td>
+                                                        <td class="text-center">
+                                                            GHS 9.00
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            Tuesday
+                                                        </td>
+                                                        <td class="text-center">
+                                                            GHS 9.00
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            Friday
+                                                        </td>
+                                                        <td class="text-center">
+                                                            GHS 9.00
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            Monday
+                                                        </td>
+                                                        <td class="text-center">
+                                                            GHS 9.00
+                                                        </td>
+
+                                                    </tr>
                                                 </tbody>
 
                                             </table>
@@ -248,6 +355,7 @@
                                 <h4 class="card-title text-center"> Rides History</h4>
                             </div>
                             <div class="card-body">
+
                                 <div class="table-responsive  justify-content-Center  tbl">
                                     <table class="table">
                                         <thead class=" thead" style="color: #2CA8FF;">
@@ -322,6 +430,54 @@
                                                 </td>
 
                                             </tr>
+                                            <tr>
+                                                <td class="text-center">
+                                                    Monday
+                                                </td>
+                                                <td class="text-center">
+                                                    8
+                                                </td>
+                                                <td class="text-center">
+                                                    GHS 8.00
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">
+                                                    Tuesday
+                                                </td>
+                                                <td class="text-center">
+                                                    5
+                                                </td>
+                                                <td class="text-center">
+                                                    GHS 5.00
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">
+                                                    Wednesday
+                                                </td>
+                                                <td class="text-center">
+                                                    11
+                                                </td>
+                                                <td class="text-center">
+                                                    GHS 11.00
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">
+                                                    Thursday
+                                                </td>
+                                                <td class="text-center">
+                                                    8
+                                                </td>
+                                                <td class="text-center">
+                                                    GHS 8.00
+                                                </td>
+
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -361,7 +517,10 @@
     </div>
     <script src="./assets/js/core/jquery.min.js"></script>
     <script src="./assets/js/core/popper.min.js"></script>
-    <script src="./assets/js/core/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.14.0/js/mdb.min.js"></script>
     <script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/1911436ffb.js" crossorigin="anonymous"></script>
 
