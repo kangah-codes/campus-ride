@@ -24,6 +24,21 @@
     <link href="css/style.css" rel="stylesheet">
     <!-- Fontawesome CSS -->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {},
+            Tawk_LoadStart = new Date();
+        (function() {
+            var s1 = document.createElement("script"),
+                s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/5e60b1c68d24fc226585e42d/default';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
 </head>
 
 <body data-spy="scroll" data-target="#navbar" data-offset="30">
@@ -35,14 +50,16 @@
             <div class="row">
                 <div class="col-md-12">
                     <nav class="navbar navbar-dark navbar-expand-lg">
-                        <a class="navbar-brand" href="index.html"><i class="fas fa-bus"></i>Campus Ride</a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+                        <a class="navbar-brand" href="index.html"><i class="fas fa-bus"></i> Campus Ride</a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
                         <div class="collapse navbar-collapse" id="navbar">
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item"> <a class="nav-link active" href="#home">HOME <span class="sr-only">(current)</span></a> </li>
                                 <li class="nav-item"> <a class="nav-link" href="#features">FEATURES</a> </li>
                                 <li class="nav-item"> <a class="nav-link" href="#gallery">GALLERY</a> </li>
                                 <li class="nav-item"> <a class="nav-link" href="#contact">CONTACT</a> </li>
-                                <li class="nav-item"> <a class="nav-link" href="./login form/Login.php" target="_blank">ADMIN LOGIN</a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="#">LOGIN / SIGN UP</a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="./login form/Login.html">ADMIN LOGIN</a> </li>
+
 
                             </ul>
                         </div>
@@ -56,9 +73,9 @@
     <header class="bg-gradient" id="home">
         <div class="container mt-5" id="newcolor">
             <h1>Welcome To Campus Ride</h1>
-            <p class="tagline">The one and only solution for making shuttle services paperless</p>
+            <p class="tagline" style="color: azure;">The one and only solution for making shuttle services paperless</p>
         </div>
-        <div class="img-holder mt-3"><img src="images/iphonex.png" alt="phone" class="img-fluid" style="border: 0;"></div>
+        <div class="img-holder mt-3"><img src="images/iphonex.png" alt="phone" class="img-fluid" style="border: 0; "></div>
     </header>
 
     <div class="section light-bg" id="features">
@@ -68,6 +85,7 @@
 
             <div class="section-title">
                 <small>HIGHLIGHTS</small>
+                <hr style="width: 80%;">
                 <h3>All The Features You Need</h3>
             </div>
 
@@ -80,7 +98,7 @@
                                 <span class="ti-face-smile  ti-3x mr-3"></span>
                                 <div class="media-body">
                                     <h4 class="card-title">Easy To Use</h4>
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer rutrum, urna eu pellentesque </p>
+                                    <p class="card-text">Our app is very easy to use all the features you need are right there in an awesome user interface </p>
                                 </div>
                             </div>
                         </div>
@@ -93,7 +111,7 @@
                                 <span class=" mr-3"><img src="https://img.icons8.com/cotton/64/000000/mobile-payment--v3.png"></span>
                                 <div class="media-body">
                                     <h4 class="card-title">Paperless System</h4>
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer rutrum, urna eu pellentesque </p>
+                                    <p class="card-text">Load your Campus Ride wallet and pay with your card when you board a shuttle. Very Easy!</p>
                                 </div>
                             </div>
                         </div>
@@ -106,7 +124,7 @@
                                 <span class="ti-lock  ti-3x mr-3"></span>
                                 <div class="media-body">
                                     <h4 class="card-title">Secured</h4>
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer rutrum, urna eu pellentesque </p>
+                                    <p class="card-text"> Our app is embedded with State-of-the-art security engine to keep your money safe </p>
                                 </div>
                             </div>
                         </div>
@@ -127,8 +145,8 @@
                 <div class="col-lg-6 offset-lg-6">
                     <div class="box-icon"><span class="ti-mobile gradient-fill ti-3x"></span></div>
                     <h2>Discover our App</h2>
-                    <p class="mb-4"> Our app is available on the Apple appStore and the Google play store. Simply Search for Campus Ride in the search</p>
-                    <a href="#discover" class="btn btn-primary">Read more</a>
+                    <p class="mb-4"> Our app will be available on the Apple appStore and the Google play store soon. Simply Search for Campus Ride in the search</p>
+                    <a href="#discover" class="btn btn-primary disabled">Coming Soon...</a>
                 </div>
             </div>
             <div class="perspective-phone">
@@ -144,12 +162,13 @@
         <div class="container">
             <div class="section-title">
                 <small>FEATURES</small>
+                <hr style="width: 80%;">
                 <h3>Do more with our app</h3>
             </div>
 
             <ul class="nav nav-tabs nav-justified" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#bus_rides">Bus Rides</a>
+                    <a class="nav-link active" data-toggle="tab" href="#bus_rides">Ride</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#payments">Payments</a>
@@ -222,9 +241,9 @@
                 <div class="col-md-6 d-flex align-items-center">
                     <div>
                         <div class="box-icon"><span class="ti-rocket gradient-fill ti-3x"></span></div>
-                        <h2>Launch our App</h2>
-                        <p class="mb-4">After downloading the app on your ios or android device click on the app's icon to launch and display the homepage </p>
-                        <a href="#gallery" class="btn btn-primary">Read more</a></div>
+                        <h2>Access Your Dashboard</h2>
+                        <p class="mb-4">Login to the webApp to view your Account balance Account Info and Your Ride History</p>
+                        <a href="#gallery" class="btn btn-primary">Login</a></div>
                 </div>
             </div>
 
@@ -237,6 +256,11 @@
     <div class="section light-bg">
 
         <div class="container">
+            <div class="section-title">
+                <small>GETTING STARTED</small>
+                <hr style="width: 80%;">
+            </div>
+
             <div class="row">
                 <div class="col-md-8 d-flex align-items-center">
                     <ul class="list-unstyled ui-steps">
@@ -279,6 +303,7 @@
         <div class="container">
             <div class="section-title">
                 <small>TESTIMONIALS</small>
+                <hr style="width: 80%;">
                 <h3>What our Customers Say</h3>
             </div>
 
@@ -313,14 +338,15 @@
         <div class="container">
             <div class="section-title">
                 <small>GALLERY</small>
+                <hr style="width: 80%;">
                 <h3>App Screenshots</h3>
             </div>
 
             <div class="img-gallery owl-carousel owl-theme" id="gallery">
-                <img src="images/screen1.jpg" alt="image">
-                <img src="images/screen2.jpg" alt="image">
-                <img src="images/screen3.jpg" alt="image">
-                <img src="images/screen1.jpg" alt="image">
+                <img src="images/Phone2.jpg" alt="image">
+                <img src="images/Phone3.jpg" alt="image">
+                <img src="images/Phone1.jpg" alt="image">
+                <img src="images/Phone2.jpg" alt="image">
             </div>
 
         </div>
@@ -339,6 +365,7 @@
         <div class="container">
             <div class="section-title">
                 <small>FAQ</small>
+                <hr style="width: 80%;">
                 <h3>Frequently Asked Questions</h3>
             </div>
 
@@ -365,7 +392,7 @@
 
 
 
-    <div class="section bg-gradient">
+    <div class="section bg-gradient" style="display: none;">
         <div class="container" id="discover">
             <div class="call-to-action">
 
@@ -391,12 +418,12 @@
                     <p class="mb-2"> <span class="ti-location-pin mr-2"></span> University of Ghana Computer Science Department</p>
                     <div class=" d-block d-sm-inline-block">
                         <p class="mb-2">
-                            <span class="ti-email mr-2"></span> <a class="mr-4" href="support@campusrides.com">support@campusrides.com</a>
+                            <span class="ti-email mr-2"></span> <a class="mr-4" href="mailto:support@campusrides.com">support@campusrides.com</a>
                         </p>
                     </div>
                     <div class="d-block d-sm-inline-block">
                         <p class="mb-0">
-                            <span class="ti-headphone-alt mr-2"></span> <a href="tel:51836362800">020-330-9255</a>
+                            <span class="ti-headphone-alt mr-2"></span> <a href="tel:0203309255">020-330-9255</a>
                         </p>
                     </div>
 
