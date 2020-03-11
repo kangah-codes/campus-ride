@@ -438,7 +438,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 pb-5">
-                        <div class="card " style="height: 480px;">
+                        <div class="card " style="height: 520px;">
                             <div class="card-header text-center ">
                                 Wallet Acitvity
                                 <hr width="80%">
@@ -453,7 +453,7 @@
                     </div>
 
                     <div class="col-md-6 pb-5">
-                        <div class="card " style="height: 480px;">
+                        <div class="card " style="height: 520px;">
                             <div class="card-header text-center ">
                                 Withdraw From Your Wallet
                                 <hr width="80%">
@@ -462,15 +462,19 @@
                             <div class="card-body ">
                                 <h6 class="text-center">Withdraw cash from your campus ride wallet
                                 </h6>
+                                <div class="text-center" id="error">
+
+                                </div>
                                 <div class="container" style="width: 10 rem;">
-                                    <form action="#">
+                                    <form id="withdrawalForm">
                                         <div class="form-group mt-3 ">
                                             <label> Select Network</label>
-                                            <div class="select-box">
+                                            <div class="form-group select-box">
 
                                                 <label for="select-box1" class="label select-box1"><span class="label-desc" style="color: #fff;">Please Select</span> </label>
+
                                                 <select id="select-box1" class="select">
-                                                   
+                                                       
                                                         <option value="MTN" style="color: #fff; font-size: 14px; background-color: #2CA8FF;"> MTN</option>
                                                  
                                                         <option value="AIRTEL TIGO" style="color: #fff;  font-size: 14px;background-color: #2CA8FF;">AIRTEL TIGO</option>
@@ -485,21 +489,23 @@
                                         </div>
                                         <div class="form-group mt-3">
                                             <label> Mobile Wallet Number</label>
-                                            <input type="number" id="momo" name="Wallet Number" class="form-control text-center" placeholder="Wallet Number" required oninvalid="this.setCustomValidity('Enter Wallet Number')" oninput="this.setCustomValidity('')">
+                                            <input type="number" id="momo" name="Wallet Number" class="form-control text-center" placeholder="Wallet Number">
 
                                         </div>
                                         <div class="form-group mt-3">
                                             <label>Amount</label>
-                                            <input type="number" name="Amount" class="form-control text-center" placeholder="Amount" required oninvalid="this.setCustomValidity('Enter the amount')" oninput="this.setCustomValidity('')">
+                                            <input type="number" id="amount" name="Amount" class="form-control text-center" placeholder="Amount">
 
                                         </div>
                                         <div class="form-group mt-3">
                                             <label>Campus Ride Pin</label>
-                                            <input type="password" name="Pin" class="form-control text-center" placeholder="Pin" pattern="[0-9]{4}" maxlength="4" required oninvalid="this.setCustomValidity('Enter your pin')" oninput="this.setCustomValidity('')">
+                                            <input type="password" id="pin" name="Pin" class="form-control text-center" placeholder="Pin" pattern="[0-9]{4}" maxlength="4">
 
                                         </div>
-                                        <input type="Submit" style="border-radius: 50px; font-size: 15px;" value="Withdraw" class="button mt-3">
+                                        <!-- <input type="Submit" style="border-radius: 50px; font-size: 15px;" value="Withdraw" class="button mt-3" id="withdraw"> -->
+                                        <!-- <button style="border-radius: 50px; font-size: 15px;" class="button mt-3" id="withdraw">Withdraw</button> -->
                                     </form>
+                                    <button style="border-radius: 50px; font-size: 15px;" class="button mt-3" id="withdraw">Withdraw</button>
 
                                 </div>
 
@@ -556,8 +562,61 @@
 
 
     <script src="./assets/js/core/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <script>
+        const momo = $('#momo');
+        const amount = $('#amount');
+        const pin = $('#pin');
+        let choose = $('#select-box1');
+        const errorEL = $('#error');
+        choose.val('')
+
+
+        // $('#withdrawalForm').on('submit', (e) => {
+
+
+
+        //         // if ((choose.val() === " " || choose.val() == null) || (momo.val().length === 0) || (amount.val().length === 0) || (pin.val().length === 0)) {
+
+        //         //     e.preventDefault();
+
+        //         //     swal({
+        //         //         title: "Error",
+        //         //         text: "Check your details and try again",
+        //         //         icon: "warning",
+        //         //         button: "Try Again"
+        //         //     });
+
+        //         //     // errorEL.html('<div class = "text-center py-2" style="background-color: #FEE9ED; color: #D52946; height: 30px; font-size: 12px;"> Error: Check your details to continue</div>');
+
+        //         // }
+        //         // if ((choose.val() === 'MTN' || choose.val() === "AIRTEL TIGO" || choose.val() === "VODAFONE") && (momo.val().length != 0) && (amount.val().length != 0) && (pin.val().length != 0)) {
+
+        //         //     swal({
+        //         //         title: "Success",
+        //         //         text: "Your Withdrawal is Successful",
+        //         //         icon: "success",
+        //         //     });
+
+        //         // }
+
+
+
+
+
+        //     })
+        //     // choose.on('change', () => {
+        //     // if ((choose.val() === 'MTN' || choose.val() === "AIRTEL TIGO" || choose.val() === "VODAFONE") && (momo.val().length != 0) && (amount.val().length != 0) && (pin.val().length != 0)) {
+        //     //         errorEL.html('');
+
+        // //     }
+
+
+        // // })
+
+
+
         $("select").on("click", function() {
 
             $(this).parent(".select-box").toggleClass("open");
@@ -582,6 +641,49 @@
             label.find(".label-desc").html(selection);
 
         });
+
+        // $('#withdraw').on('click', () => {
+
+
+        //     // if ((choose.val() === 'MTN' || choose.val() === "AIRTEL TIGO" || choose.val() === "VODAFONE") && (momo.val().length != 0) && (amount.val().length != 0) && (pin.val().length != 0)) {
+        //     //     swal({
+        //     //         title: "Success",
+        //     //         text: "Your Withdrawal is Successful",
+        //     //         icon: "success",
+        //     //     });
+        //     // } else {
+        //     //     swal({
+        //     //         title: "Error",
+        //     //         text: "Check your details and try again",
+        //     //         icon: "warning",
+        //     //         button: "Try Again"
+        //     //     });
+
+        //     // }
+
+        //     if ((choose.val() === " " || choose.val() == null) || (momo.val().length === 0) || (amount.val().length === 0) || (pin.val().length === 0)) {
+
+
+        //         swal({
+        //             title: "Error",
+        //             text: "Check your details and try again",
+        //             icon: "warning",
+        //             button: "Try Again"
+        //         });
+
+        //         // errorEL.html('<div class = "text-center py-2" style="background-color: #FEE9ED; color: #D52946; height: 30px; font-size: 12px;"> Error: Check your details to continue</div>');
+
+        //     } else {
+
+        //         swal({
+        //             title: "Success",
+        //             text: "Your Withdrawal is Successful",
+        //             icon: "success",
+        //         });
+
+        //     }
+
+        // })
     </script>
     <script src="./assets/js/core/popper.min.js"></script>
     <script src="./assets/js/core/bootstrap.min.js"></script>
