@@ -48,6 +48,38 @@
             background: #f3f3f3;
             z-index: 0;
         }
+        
+        .button {
+            display: block;
+            border-radius: 10px;
+            margin-top: 50px;
+            margin-right: 54%;
+            margin-left: 46%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            position: relative;
+            padding: 7px 7px;
+            outline: none;
+            border: none;
+            letter-spacing: 2px;
+            background-color: #2CA8FF;
+            font-family: 'Rubik', sans-serif;
+            color: #fff;
+            transition: .5s;
+            text-transform: uppercase;
+        }
+        
+        .button:hover {
+            top: 2px;
+            background-position: right;
+        }
+        
+        @media screen and (max-width: 900px) {
+            .button {
+                margin-right: 60%;
+                margin-left: 40%;
+            }
+        }
     </style>
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">
@@ -63,6 +95,7 @@
             s0.parentNode.insertBefore(s1, s0);
         })();
     </script>
+
     <!--End of Tawk.to Script-->
 </head>
 
@@ -95,13 +128,13 @@
                             <p>Wallet</p>
                         </a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="./payment.html">
                             <i class="fas fa-qrcode"></i>
                             <p>Pay</p>
                         </a>
                     </li>
-                    <li class="active">
+                    <li class="">
                         <a href="./notifications.html">
                             <i class="now-ui-icons ui-1_bell-53"></i>
                             <p>Notifications</p>
@@ -136,7 +169,7 @@
                                 <span class="navbar-toggler-bar bar3"></span>
                             </button>
                         </div>
-                        <a class="navbar-brand" href="#pablo">Notifications</a>
+                        <a class="navbar-brand" href="#pablo">PAY</a>
                     </div>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -163,6 +196,7 @@
                                 </a>
                             </li>
 
+
                         </ul>
                     </div>
                 </div>
@@ -170,30 +204,53 @@
             <!-- End Navbar -->
             <div class="panel-header panel-header-lg" id="panel">
                 <div class="header text-center">
-                    <h2 class="title" style="margin-top: 5rem">View Notifications</h2>
+                    <h2 class="title" style="margin-top: 5rem">Make Payment</h2>
 
                 </div>
             </div>
             <div class="content">
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
+                    <div class="col-2"></div>
+                    <div class="col-12 col-md-8">
+                        <div class="card " style="height: 1000px; margin: auto;">
                             <div class="card-body">
                                 <div class="places-buttons">
                                     <div class="row">
                                         <div class="col-md-6 ml-auto mr-auto text-center">
-                                            <h4 class="card-title">
-                                                Notifications Panel
+                                            <h4 class="card-title ">
+                                                Scan to Pay
 
                                             </h4>
                                             <hr>
                                         </div>
+
+
+
                                     </div>
-                                    <!-- Contents Goes Here -->
+                                    <div class="row">
+
+                                        <div class="col-12 col-md-12">
+                                            <div id="div-video-container">
+
+                                            </div>
+
+                                            <button id="btn-show-scanner" class="button">Scan</button>
+
+                                            <h4 class="card-title text-center">Pay With Code Instead </h4>
+                                            <hr style="width: 50%;">
+
+
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-2"></div>
+
+
+
                 </div>
             </div>
             <footer class="footer">
@@ -202,18 +259,18 @@
                         <ul>
                             <li>
                                 <a href="#">
-                            Campus Ride
-                        </a>
+                    Campus Ride
+                </a>
                             </li>
                             <li>
                                 <a href="#">
-                            About Us
-                        </a>
+                    About Us
+                </a>
                             </li>
                             <li>
                                 <a href="mailto:support@campus-ride.com">
-                                    Email Us
-                                </a>
+                            Email Us
+                        </a>
                             </li>
                             <li>
                                 <a href="tel:0203704466">Call Us</a>
@@ -232,30 +289,52 @@
                     </div>
                 </div>
             </footer>
-        </div>
-    </div>
-    <script src="./assets/js/core/jquery.min.js"></script>
-    <script type="text/javascript" src="assets/js/core/jquery.touchSwipe.min.js"></script>
-    <script>
-        $(function() {
-            $('.wrapper').swipe({
-                swipeRight: function(event, direction, distance, fingerCount, fingerCount) {
-                    $('.sidebar').addClass(".navbar-translate")
-                }
-            })
-        })
-    </script>
-    <script src="./assets/js/core/popper.min.js"></script>
-    <script src="./assets/js/core/bootstrap.min.js"></script>
-    <script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-    <script src="https://kit.fontawesome.com/1911436ffb.js" crossorigin="anonymous"></script>
+            <script src="https://unpkg.com/dynamsoft-javascript-barcode@7.3.0-v2/dist/dbr.js" data-productKeys="t0068NQAAAC6c4k3t828LvSdU6+jl84uQelF36iP1W6kZwBe7jt7YRiWpv9vg/L3oHyOr4Y9yqTdDadUXfIzyRGwUMi10cEo="></script>
+            <script>
+                let scanner = null;
+                document.getElementById('btn-show-scanner').addEventListener('click', async() => {
 
-    <!--  Notifications Plugin    -->
-    <script src="./assets/js/plugins/bootstrap-notify.js"></script>
-    <!-- Main JS file-->
-    <script src="./assets/js/campusride.js"></script>
+                    document.querySelector("#div-video-container").innerHTML = '<video class="dbrScanner-video" playsinline="true" style=" height: 300px; width: 100%;"></video>'
+                    try {
+                        scanner = scanner || await Dynamsoft.BarcodeScanner.createInstance();
+                        await scanner.setUIElement(document.getElementById('div-video-container'));
+                        scanner.onFrameRead = results => {
+                            if (results.length) {
+                                console.log(results);
+                            }
+                        };
+                        scanner.onUnduplicatedRead = (txt, result) => {
+                            alert(result.barcodeFormatString + ': ' + txt);
+                        };
+                        await scanner.show();
+                    } catch (ex) {
+                        alert(ex.message);
+                        throw ex;
+                    }
+                });
+            </script>
+            <script src="./assets/js/core/jquery.min.js"></script>
+            <script type="text/javascript" src="assets/js/core/jquery.touchSwipe.min.js"></script>
+            <script>
+                $(function() {
+                    $('.wrapper').swipe({
+                        swipeRight: function(event, direction, distance, fingerCount, fingerCount) {
+                            $('.sidebar').addClass(".navbar-translate")
+                        }
+                    })
+                })
+            </script>
+            <script src="./assets/js/core/popper.min.js"></script>
+            <script src="./assets/js/core/bootstrap.min.js"></script>
+            <script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+            <script src="https://kit.fontawesome.com/1911436ffb.js" crossorigin="anonymous"></script>
 
-    <script src="./assets/demo/demo.js"></script>
+            <!--  Notifications Plugin    -->
+            <script src="./assets/js/plugins/bootstrap-notify.js"></script>
+            <!-- Main JS file-->
+            <script src="./assets/js/campusride.js"></script>
+
+            <script src="./assets/demo/demo.js"></script>
 </body>
 
 </html>

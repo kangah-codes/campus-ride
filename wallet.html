@@ -180,6 +180,12 @@
                         </a>
                     </li>
                     <li>
+                        <a href="./payment.html">
+                            <i class="fas fa-qrcode"></i>
+                            <p>Pay</p>
+                        </a>
+                    </li>
+                    <li>
                         <a href="./notifications.html">
                             <i class="now-ui-icons ui-1_bell-53"></i>
                             <p>Notifications</p>
@@ -229,6 +235,14 @@
                                     <i class="now-ui-icons users_single-02"></i>
                                     <p>
                                         <span class="d-lg-none d-md-block">Profile</span>
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./payment.html">
+                                    <i class="fas fa-qrcode" style="font-size: 18px;"></i>
+                                    <p>
+                                        <span class="d-lg-none d-md-block ml-2" style="font-size: 11px;">Pay</span>
                                     </p>
                                 </a>
                             </li>
@@ -571,6 +585,7 @@
         let choose = $('#select-box1');
         const errorEL = $('#error');
         choose.val('')
+
         momo.val('')
         amount.val('')
         pin.val('')
@@ -581,7 +596,45 @@
 
 
 
+
+        //     if ((choose.val() === " ") || (momo.val().length === 0) || (amount.val().length === 0) || (pin.val().length === 0)) {
+
         //         e.preventDefault();
+
+        //         swal({
+        //             title: "Error",
+        //             text: "Check your details and try again",
+        //             icon: "error",
+        //             button: "Try Again"
+        //         });
+
+
+
+        //     } else {
+
+        //         swal({
+        //             title: "Success",
+        //             text: "Your Withdrawal is Successful",
+        //             icon: "success",
+        //         });
+
+
+
+
+
+        //     }
+
+        //     choose.val('')
+
+
+        //     $(".label-desc").text('Please Select');
+
+        //     momo.val('')
+        //     amount.val('')
+        //     pin.val('')
+
+
+
 
 
 
