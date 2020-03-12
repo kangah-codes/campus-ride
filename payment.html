@@ -287,26 +287,39 @@
                     </div>
                 </div>
             </footer>
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
             <script src="https://unpkg.com/dynamsoft-javascript-barcode@7.3.0-v2/dist/dbr.js" data-productKeys="t0068NQAAAC6c4k3t828LvSdU6+jl84uQelF36iP1W6kZwBe7jt7YRiWpv9vg/L3oHyOr4Y9yqTdDadUXfIzyRGwUMi10cEo="></script>
             <script>
                 let scanner = null;
                 document.getElementById('btn-show-scanner').addEventListener('click', async() => {
 
-                    document.querySelector("#div-video-container").innerHTML = '<video class="dbrScanner-video" playsinline="true" style=" height: 500px; width: 100%;"></video>'
+                    document.querySelector("#div-video-container").innerHTML = '<video class="dbrScanner-video" playsinline="true" style=" height: 500px; width: 100%; margin-left: 0; margin-right:0; "></video>'
                     try {
                         scanner = scanner || await Dynamsoft.BarcodeScanner.createInstance();
                         await scanner.setUIElement(document.getElementById('div-video-container'));
                         scanner.onFrameRead = results => {
+
                             if (results.length) {
                                 console.log(results);
                             }
                         };
                         scanner.onUnduplicatedRead = (txt, result) => {
-                            alert(result.barcodeFormatString + ': ' + txt);
+                            // alert(result.barcodeFormatString + ': ' + txt);
+                            swal({
+                                title: "Success",
+                                text: "Your Payment is Successful",
+                                icon: "success",
+                            });
                         };
                         await scanner.show();
                     } catch (ex) {
-                        alert(ex.message);
+                        // alert(ex.message);
+                        swal({
+                            title: "Success",
+                            text: "Your Payment is Successful",
+                            icon: "success",
+                        });
                         throw ex;
                     }
                 });
