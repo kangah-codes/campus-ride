@@ -52,7 +52,7 @@
         .button {
             display: block;
             border-radius: 10px;
-            margin-top: 50px;
+            margin-top: 40px;
             margin-right: 54%;
             margin-left: 46%;
             font-size: 1.1rem;
@@ -212,7 +212,7 @@
                 <div class="row">
                     <div class="col-2"></div>
                     <div class="col-12 col-md-8">
-                        <div class="card " style="height: 1000px; margin: auto;">
+                        <div class="card " style="height: 850px; margin: auto;">
                             <div class="card-body">
                                 <div class="places-buttons">
                                     <div class="row">
@@ -236,8 +236,6 @@
 
                                             <button id="btn-show-scanner" class="button">Scan</button>
 
-                                            <h4 class="card-title text-center">Pay With Code Instead </h4>
-                                            <hr style="width: 50%;">
 
 
                                         </div>
@@ -294,7 +292,7 @@
                 let scanner = null;
                 document.getElementById('btn-show-scanner').addEventListener('click', async() => {
 
-                    document.querySelector("#div-video-container").innerHTML = '<video class="dbrScanner-video" playsinline="true" style=" height: 300px; width: 100%;"></video>'
+                    document.querySelector("#div-video-container").innerHTML = '<video class="dbrScanner-video" playsinline="true" style=" height: 500px; width: 100%;"></video>'
                     try {
                         scanner = scanner || await Dynamsoft.BarcodeScanner.createInstance();
                         await scanner.setUIElement(document.getElementById('div-video-container'));
