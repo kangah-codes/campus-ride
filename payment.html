@@ -18,6 +18,7 @@
     <!-- Main Css  -->
     <link href="./assets/css/campusride.css" rel="stylesheet" />
     <link href="./assets/demo/demo.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./node_modules/sweetalert2/dist/sweetalert2.min.css">
     <style>
         * {
             font-family: 'Rubik', sans-serif;
@@ -103,15 +104,15 @@
     <div class="wrapper ">
         <div class="sidebar" data-color="blue">
             <!--
-        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
-    -->
+            Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+        -->
             <div class="logo">
                 <a href="#" class="simple-text logo-mini">
-                    CR
-                </a>
+                        CR
+                    </a>
                 <a href="#" class="simple-text logo-normal">
-                    Campus Ride
-                </a>
+                        Campus Ride
+                    </a>
             </div>
             <div class="sidebar-wrapper">
                 <ul class="nav">
@@ -164,18 +165,18 @@
                     <div class="navbar-wrapper">
                         <div class="navbar-toggle">
                             <button type="button" class="navbar-toggler">
-                                <span class="navbar-toggler-bar bar1"></span>
-                                <span class="navbar-toggler-bar bar2"></span>
-                                <span class="navbar-toggler-bar bar3"></span>
-                            </button>
+                                    <span class="navbar-toggler-bar bar1"></span>
+                                    <span class="navbar-toggler-bar bar2"></span>
+                                    <span class="navbar-toggler-bar bar3"></span>
+                                </button>
                         </div>
                         <a class="navbar-brand" href="#pablo">PAY</a>
                     </div>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-bar navbar-kebab"></span>
-                        <span class="navbar-toggler-bar navbar-kebab"></span>
-                        <span class="navbar-toggler-bar navbar-kebab"></span>
-                    </button>
+                            <span class="navbar-toggler-bar navbar-kebab"></span>
+                            <span class="navbar-toggler-bar navbar-kebab"></span>
+                            <span class="navbar-toggler-bar navbar-kebab"></span>
+                        </button>
                     <div class="collapse navbar-collapse justify-content-end" id="navigation">
 
                         <ul class="navbar-nav">
@@ -257,18 +258,18 @@
                         <ul>
                             <li>
                                 <a href="#">
-                    Campus Ride
-                </a>
+                        Campus Ride
+                    </a>
                             </li>
                             <li>
                                 <a href="#">
-                    About Us
-                </a>
+                        About Us
+                    </a>
                             </li>
                             <li>
                                 <a href="mailto:support@campus-ride.com">
-                            Email Us
-                        </a>
+                                Email Us
+                            </a>
                             </li>
                             <li>
                                 <a href="tel:0203704466">Call Us</a>
@@ -287,7 +288,8 @@
                     </div>
                 </div>
             </footer>
-            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+            <script type="text/javascript" src="./node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+
 
             <script src="https://unpkg.com/dynamsoft-javascript-barcode@7.3.0-v2/dist/dbr.js" data-productKeys="t0068NQAAAC6c4k3t828LvSdU6+jl84uQelF36iP1W6kZwBe7jt7YRiWpv9vg/L3oHyOr4Y9yqTdDadUXfIzyRGwUMi10cEo="></script>
             <script>
@@ -305,20 +307,52 @@
                             }
                         };
                         scanner.onUnduplicatedRead = (txt, result) => {
-                            // alert(result.barcodeFormatString + ': ' + txt);
-                            swal({
-                                title: "Success",
-                                text: "Your Payment is Successful",
-                                icon: "success",
-                            });
+                            console.log(result.barcodeFormatString + ': ' + txt);
+
+                            const swalObj = {
+                                icon: "info",
+                                title: 'Authentication Needed',
+                                text: "Enter Your Pin to Continue",
+                                inputPlaceholder: 'Campus Ride Pin',
+                                input: 'password',
+                                inputAttributes: {
+                                    maxlength: 4,
+                                    autocapitalize: 'off',
+                                    autocorrect: 'off'
+                                },
+
+                                showCancelButton: true,
+                                inputValidator: (value) => {
+                                    if (!value) {
+                                        return 'Your pin cant be empty. Try Again!'
+                                    }
+                                    if (value != password) {
+                                        return 'Pin is Incorrect'
+                                    }
+                                    if (value == password) {
+                                        Swal.fire({
+                                            icon: "success",
+                                            title: "Thank You",
+                                            text: "Your Payment Is Successful"
+
+                                        })
+                                    }
+
+                                }
+                            }
+                            let password = "0554";
+                            Swal.fire(swalObj)
+
+
                         };
+
                         await scanner.show();
                     } catch (ex) {
                         // alert(ex.message);
                         swal({
-                            title: "Success",
-                            text: "Your Payment is Successful",
-                            icon: "success",
+                            // title: "Success",
+                            text: ex.message,
+                            icon: "Warning",
                         });
                         throw ex;
                     }

@@ -108,10 +108,10 @@
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            font-size: 35px;
+            font-size: 40px;
             line-height: 60px;
             background-color: aliceblue;
-            transform: translate(-50%, -50%) scale(1);
+            transform: translate(-50%, -50%) scale(0);
         }
         
         div.item:hover img {
@@ -128,15 +128,12 @@
             transition-delay: 200ms;
             transition-duration: .5s;
             transition-timing-function: ease-in-out;
-            color: #fff;
-            background-color: #34495e;
         }
         
         .dropdown-content {
             background: #f1f1f1;
             padding: 0;
             margin-left: -70px;
-            /* transform: translateX(-70px); */
             margin-top: 80px;
             list-style: none;
             z-index: 3000;
@@ -176,7 +173,8 @@
         .fixed {
             transform: translateX(40px);
         }
-        /* #appearImageDiv {
+        
+        #appearImageDiv {
             width: 100vw;
             height: 100vh;
             position: absolute;
@@ -197,7 +195,7 @@
         .wrapper {
             width: 100vw;
             height: 100vh;
-        } */
+        }
     </style>
 
     <!--Start of Tawk.to Script-->
@@ -413,13 +411,13 @@
 
                                             <img class="ppic" src="./assets/img//profilePic.svg" alt="..." width="130px">
 
-                                            <!-- <a class="picon" href="#"><i id="picon" class="fa fa-camera"></i></a> -->
+                                            <a class="picon" href="#"><i id="picon" class="fa fa-camera" onmouseover="showDrop()" onmouseout="hideDrop()"></i></a>
 
 
 
                                         </div>
-                                        <!-- 
-                                        <ul class="dropdown-content">
+
+                                        <ul class="dropdown-content" onmouseover="showDrop()" onmouseout="hideDrop()">
                                             <li>
                                                 <a href="#" id="view" style="text-decoration: none;">View</a>
                                             </li>
@@ -427,11 +425,8 @@
                                             <li>
                                                 <a href="#" id="edit" style="text-decoration: none;">Edit</a>
                                             </li>
-                                            <li>
-                                                <a href="#" id="close" style="text-decoration: none; color: rgba(255, 255, 255, 0.863); background-color: gray; padding: 2px;">close</a>
-                                            </li>
 
-                                        </ul> -->
+                                        </ul>
 
 
 
@@ -506,91 +501,45 @@
     </div>
     <script src="./assets/js/core/jquery.min.js"></script>
     <script>
-        // $('.dropdown-content').css('display', 'none');
-        // $('#picon').mouseover(() => {
+        const showDrop = () => {
+            $('.dropdown-content').css({
+                    display: "block",
+                    transitionDuration: "2s"
 
-        //     $('.imgcont').css({
-        //         display: "flex",
-        //         justifyContent: "center",
-        //         transform: "translateX(0)"
-        //     })
-        //     $('.dropdown-content').css('display', 'block');
-        // })
+                }
 
-        // $('#picon').mouseout(() => {
-        //     if ($('.dropdown-content').hover()) {
-        //         $('.dropdown-content').css('display', 'block');
-        //         $('.imgcont').css({
-        //             display: "flex",
-        //             justifyContent: "center",
-        //             transform: "translateX(0)"
-        //         })
-
-        //         $('#picon').css({
-        //             transform: "scale(1)",
-        //             transform: "translate(-50%, -50%)",
-        //             backgroundColor: "#34495e",
-        //             color: "white"
-        //         })
-        //         $("#blue").css({
-        //             backgroundColor: "#34495e",
-        //             borderRadius: "200px"
-        //         })
-        //         $(".ppic").css({
-        //             opacity: "0.3",
-        //             filter: "grayscale(100%)"
-        //         })
+            )
 
 
 
+        }
+
+        const hideDrop = () => {
+            $('.dropdown-content').css({
+                display: "none"
+            })
 
 
-        //     }
+        }
+
+        jQuery(function($) {
+            $('#view').click(() => {
+                var img = $(".ppic").attr("src");
+                var appearImage = "<div id ='appearImageDiv'  class='wrapper' onclick='closeImage()'><divstyle = 'border: 2px solid white; text-align:center'></div></div>";
+                // appearImage = appearImage.concat("<img style=transform: translate(-50%, -50%); z-index: 20; margin:auto; width:100%; height:100%'class='appearImage'src=''./assets/img//profilePic.svg'alt='...' >")
+                $('body').append(appearImage);
+
+            })
+
+        })
 
 
+        function closeImage() {
+            $('#appearImageDiv').remove();
+            $('#appearImage').remove();
 
 
-        //     $('.imgcont').css({
-        //         display: "flex",
-        //         justifyContent: "center",
-        //         transform: "translateX(0)"
-        //     })
-
-
-        // })
-        // $('#close').click(() => {
-        //         $('.dropdown-content').css('display', 'none');
-        //         $(".ppic").css({
-        //             opacity: "1",
-        //             filter: "grayscale(0)"
-
-        //         })
-        //         $('#picon').css({
-        //             transform: "scale(0)",
-        //             transform: "translate(-50%, -50%)",
-        //             backgroundColor: "white",
-        //             color: "#34495e"
-        //         })
-
-        //     })
-        // jQuery(function($) {
-        //     $('#view').click(() => {
-        //         var img = $(".ppic").attr("src");
-        //         var appearImage = "<div id ='appearImageDiv' class='wrapper' onclick='closeImage()'></div>";
-        //         appearImage = appearImage.concat(' <img class="appearImage" src="./assets/img//profilePic.svg" alt="..." width="200px">')
-        //         $('.wrapper').append(appearImage);
-
-        //     })
-
-        // })
-
-
-        // function closeImage() {
-        //     $('#appearImageDiv').remove();
-        //     $('#appearImage').remove();
-
-
-        // }
+        }
     </script>
 
     <script src="./assets/js/core/popper.min.js"></script>
