@@ -1,0 +1,145 @@
+{% extends 'base_user_dash.html' %}
+
+{% block dashboard_active %}
+active
+{% endblock %}
+
+{% block home %}
+
+<style>
+    * {
+        font-family: 'Rubik', sans-serif;
+    }
+
+    body {
+        font-family: 'Rubik', sans-serif;
+        letter-spacing: 2px;
+    }
+
+    #panel {
+        background-image: -moz-linear-gradient( 122deg, #1F7BBC 30%, #2CA8FF 100%);
+        background-image: -webkit-linear-gradient( 122deg, #1F7BBC 30%, #2CA8FF 100%);
+        background-image: -ms-linear-gradient( 122deg, #1F7BBC 30%, #2CA8FF 100%);
+        background-image: linear-gradient( 122deg, #1F7BBC 30%, #2CA8FF 100%);
+    }
+
+    .tbl {
+        height: 428px;
+        overflow-y: scroll;
+    }
+
+    .tb2 {
+        height: 328px;
+        overflow-y: scroll;
+    }
+
+    .active-pro:hover {
+        color: aliceblue;
+    }
+</style>
+
+<div class="panel-header panel-header-lg" id="panel">
+    <div class="header text-center">
+        <h2 class="title" style="margin-top: 5rem">Welcome NAME</h2>
+    </div>
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card card-tasks">
+                <div class="card-header">
+                    <h4 class="card-title text-center">Account Preview</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-md-6 text-center">
+                            Account Balance
+                            <h1 class="py-5" style="font-size: 60px;">GHS 14.00</h1>
+                        </div>
+
+                        <div class=" col-12 col-md-6 text-center ">
+                            Account History
+                            <div class="table-responsive  justify-content-Center  tb2 pt-3">
+                                <table class="account table ">
+                                    <thead class=" thead" style="color: #2CA8FF;">
+                                        <th class="text-center">
+                                            Date
+                                        </th>
+                                        <th class="text-center">
+                                            Top-Up
+                                        </th>
+
+                                    </thead>
+                                    <tbody class="py-5">
+                                        <tr class="py-5">
+                                            <td class="text-center">
+                                                Monday
+                                            </td>
+                                            <td class="text-center">
+                                                GHS 9.00
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <hr>
+                    <div class="stats">
+                        <i class="now-ui-icons loader_refresh spin"></i> Updated 3 minutes ago
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+
+                    <h4 class="card-title text-center"> Rides History</h4>
+                </div>
+                <div class="card-body">
+
+                    <div class="table-responsive  justify-content-Center  tbl">
+                        <table class="table">
+                            <thead class=" thead" style="color: #2CA8FF;">
+                                <th class="text-center">
+                                    Date
+                                </th>
+                                <th class="text-center">
+                                    Bus
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">
+                                        Monday
+                                    </td>
+                                    <td class="text-center">
+                                        9
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">
+                                        Tuesday
+                                    </td>
+                                    <td class="text-center">
+                                        4
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
