@@ -90,14 +90,7 @@ def wallet():
 
 @mod_auth.route('/profile')
 def user_profile():
-	data = {
-		"name":current_user.full_name,
-		"level":current_user.level,
-		"email":current_user.email,
-		"number":current_user.momo_number,
-		"id":current_user.public_id
-	}
-	return render_template('user.html', **data)
+	return render_template('user.html')
 
 @mod_auth.route('/pay')
 def pay():

@@ -2,6 +2,12 @@ from app import db, flask_bcrypt, login
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import UserMixin
 import json
+import uuid
+import string
+import random
+
+def generate_bus_pin():
+	return ''.join(random.choice(string.ascii_uppercase+string.digits) for i in range(6))
 
 class Admin(db.Model):
 	__tablename__ = "admin"
@@ -48,8 +54,12 @@ class Bus(db.Model):
 	qr_id = db.Column(db.String(), unique=True, nullable=False)
 	alt_id = db.Column(db.Integer, unique=True, nullable=False)
 
+	def __init__(self):
+		self.qr_id = uuid.uuid4()
+		self.alt_id = generate_bus_pin()
+
 	def __repr__(self):
-		return f"<Bus {self.id}>"
+		return f"<Bus {self.id}, QR:{self.qr_id}, PIN:{self.alt_id}>"
 
 
 class Transaction(db.Model):

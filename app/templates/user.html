@@ -1,26 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base_user_dash.html' %}
 
-<head>
-    <meta charset="utf-8" />
+{% block profile_active %}
+    active
+{% endblock %}
 
-
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Campus Ride wallet</title>
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-    <!--     Fonts and icons     -->
-    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500" rel="stylesheet">
-    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-    <!-- CSS Files -->
-    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-grid.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-reboot.min.css') }}">
-    <!-- Main Css  -->
-    <link href="{{ url_for('static', filename='css/campusride.css') }}" rel="stylesheet" />
-    <link href="{{ url_for('static', filename='demo/demo.css') }}" rel="stylesheet" />
+{% block profile %}
     <style>
         * {
             font-family: 'Rubik', sans-serif;
+            padding: 0;
+            margin: 0;
         }
         
         body {
@@ -94,6 +83,7 @@
         div.item img {
             vertical-align: top;
             width: 100%;
+            height: 100%;
             margin: 0;
         }
         
@@ -127,6 +117,32 @@
             transition-timing-function: ease-in-out;
         }
         
+        .dropdown-content {
+            background: #f1f1f1;
+            padding: 0;
+            margin-left: -70px;
+            margin-top: 80px;
+            list-style: none;
+            z-index: 3000;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+        
+        .dropdown-content a {
+            color: #2cabff;
+            text-decoration: none;
+            display: block;
+            padding: 12px 16px;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+        
+        div.item.fa-camera:hover .dropdown-content {
+            display: block;
+        }
+        
         .navbar {
             box-shadow: none;
         }
@@ -140,137 +156,45 @@
         input[type=number] {
             -moz-appearance: textfield;
         }
+        
+        .fixed {
+            transform: translateX(40px);
+        }
+        
+        #appearImageDiv {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            z-index: 10;
+            opacity: 0.7;
+            background-color: #002447;
+            margin: 0;
+            padding: 0;
+        }
+        
+        #appearImage {
+            display: block;
+            position: relative;
+            z-index: 100;
+            transform: translate(-50%, -50%);
+        }
+        
+        .wrapper {
+            width: 100vw;
+            height: 100vh;
+        }
     </style>
-    <!--Start of Tawk.to Script-->
-    <script type="text/javascript">
-        var Tawk_API = Tawk_API || {},
-            Tawk_LoadStart = new Date();
-        (function() {
-            var s1 = document.createElement("script"),
-                s0 = document.getElementsByTagName("script")[0];
-            s1.async = true;
-            s1.src = 'https://embed.tawk.to/5e60b1c68d24fc226585e42d/default';
-            s1.charset = 'UTF-8';
-            s1.setAttribute('crossorigin', '*');
-            s0.parentNode.insertBefore(s1, s0);
-        })();
-    </script>
-    <!--End of Tawk.to Script-->
-</head>
 
-<body class="">
-    <div class="wrapper ">
-        <div class="sidebar" data-color="blue">
-
-            <div class="logo">
-                <a href="#" class="simple-text logo-mini">
-                    CR
-                </a>
-                <a href="#" class="simple-text logo-normal">
-                    Campus Ride
-                </a>
-            </div>
-            <div class="sidebar-wrapper">
-                <ul class="nav">
-                    <li>
-                        <a href="./index.html">
-                            <i class="now-ui-icons design_app"></i>
-                            <p>Dashboard</p>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="./wallet.html">
-                            <i class="fas fa-wallet"></i>
-                            <p>Wallet</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./payment.html">
-                            <i class="fas fa-qrcode"></i>
-                            <p>Pay</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./notifications.html">
-                            <i class="now-ui-icons ui-1_bell-53"></i>
-                            <p>Notifications</p>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="./user.html">
-                            <i class="now-ui-icons users_single-02"></i>
-                            <p>User Profile</p>
-                        </a>`
-                    </li>
-
-                    <li class="active-pro mt-4 mt-lg-5" id="logout">
-                        <a>
-                            <i class="fas fa-sign-out-alt"></i>
-                            <p>Sign out</p>
-
-
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="main-panel ">
-            <!-- Navbar -->
-            <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top py-0" id="mainNavbar">
-                <div class="container-fluid">
-                    <div class="navbar-wrapper">
-                        <div class="navbar-toggle">
-                            <button type="button" class="navbar-toggler">
-                                <span class="navbar-toggler-bar bar1"></span>
-                                <span class="navbar-toggler-bar bar2"></span>
-                                <span class="navbar-toggler-bar bar3"></span>
-                            </button>
-                        </div>
-                        <a class="navbar-brand" href="#pablo">User Profile</a>
-                    </div>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-bar navbar-kebab"></span>
-                        <span class="navbar-toggler-bar navbar-kebab"></span>
-                        <span class="navbar-toggler-bar navbar-kebab"></span>
-                    </button>
-                    <div class="collapse navbar-collapse justify-content-end" id="navigation">
-
-                        <ul class="navbar-nav">
-
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="./user.html">
-                                    <i class="now-ui-icons users_single-02"></i>
-                                    <p>
-                                        <span class="d-lg-none d-md-block">Profile</span>
-                                    </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="./payment.html">
-                                    <i class="fas fa-qrcode" style="font-size: 18px;"></i>
-                                    <p>
-                                        <span class="d-lg-none d-md-block ml-2" style="font-size: 11px;">Pay</span>
-                                    </p>
-                                </a>
-                            </li>
-
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-            <!-- End Navbar -->
             <div class="panel-header panel-header-lg" id="panel">
                 <div class="header text-center">
-                    <h2 class="title " style="margin-top: 5rem;">Check Your Profile</h2>
+                    <h2 class="title cssanimation blurInLeft" style="margin-top: 5rem;">Check Your Profile</h2>
 
                 </div>
             </div>
             <div class="content">
                 <div class="row">
                     <div class="col-md-8">
-                        <div class="card ">
+                        <div class="card cssanimation fadeInBottom ">
                             <div class="card-header ">
                                 <h5 class="title">Edit Profile</h5>
                             </div>
@@ -342,7 +266,7 @@
                         </div>
                     </div>
                     <div class="col-md-4 mt-5  mt-md-0">
-                        <div class="card card-user  ">
+                        <div class="card card-user cssanimation fadeInRight " style="height: 480px;">
 
                             <div class="card-body pb-0 pb-xl-5">
 
@@ -350,22 +274,34 @@
 
                                     <div class="imgcont">
 
-                                        <div class="item blue">
+                                        <div class="item blue" id="blue">
 
-                                            <img class="" src="{{ url_for('static', filename='img//profilePic.svg" alt="..." width="130px">
+                                            <img class="ppic" src="./assets/img//profilePic.svg" alt="..." width="130px">
 
-                                            <a href="#"><i class="fa fa-camera"></i></a>
+                                            <a class="picon" href="#"><i id="picon" class="fa fa-camera" onmouseover="showDrop()" onmouseout="hideDrop()"></i></a>
+
 
 
                                         </div>
+
+                                        <ul class="dropdown-content" onmouseover="showDrop()" onmouseout="hideDrop()">
+                                            <li>
+                                                <a href="#" id="view" style="text-decoration: none;">View</a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#" id="edit" style="text-decoration: none;">Edit</a>
+                                            </li>
+
+                                        </ul>
 
 
 
                                     </div>
 
 
-                                    <p class="description ">Click on profile pic to edit</p>
-                                    <h5 class="title " style="color: #2CA8FF;">First Name Last Name</h5>
+                                    <!-- <p class="description ">Click on profile pic to edit</p> -->
+                                    <h5 class="title px-2" style="color: #2CA8FF;">First Name Last Name</h5>
 
                                     <p class="description pb-1">
                                         Student ID
@@ -392,59 +328,46 @@
                     </div>
                 </div>
             </div>
-            <footer class="footer">
-                <div class="container-fluid">
-                    <nav>
-                        <ul>
-                            <li>
-                                <a href="#">
-                            Campus Ride
-                        </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                            About Us
-                        </a>
-                            </li>
-                            <li>
-                                <a href="mailto:support@campus-ride.com">
-                                    Email Us
-                                </a>
-                            </li>
-                            <li>
-                                <a href="tel:0203704466">Call Us</a>
-                            </li>
+    <script>
+        const showDrop = () => {
+            $('.dropdown-content').css({
+                    display: "block",
+                    transitionDuration: "2s"
 
+                }
 
-                        </ul>
-                    </nav>
-                    <div class="copyright">
-                        &copy;
-                        <script>
-                            document.write(new Date().getFullYear())
-                        </script>, Designed and Coded by
-
-                        <a href="#" target="_blank">AFROHEADS</a>.
-                    </div>
-                </div>
-            </footer>
-        </div>
-    </div>
-    <script src="{{ url_for('static', filename='js/core/jquery.min.js') }}"></script>
-
-    <script src="{{ url_for('static', filename='js/core/popper.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/core/bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/plugins/perfect-scrollbar.jquery.min.js') }}"></script>
-    <script src="https://kit.fontawesome.com/1911436ffb.js" crossorigin="anonymous"></script>
-
-    <!--  Notifications Plugin    -->
-    <script src="{{ url_for('static', filename='js/plugins/bootstrap-notify.js') }}"></script>
-    <!-- Main JS file-->
-    <script src="{{ url_for('static', filename='js/campusride.js') }}"></script>
-
-    <script src="{{ url_for('static', filename='demo/demo.js') }}"></script>
-</body>
+            )
 
 
 
-</html>
+        }
+
+        const hideDrop = () => {
+            $('.dropdown-content').css({
+                display: "none"
+            })
+
+
+        }
+
+        jQuery(function($) {
+            $('#view').click(() => {
+                var img = $(".ppic").attr("src");
+                var appearImage = "<div id ='appearImageDiv'  class='wrapper' onclick='closeImage()'><divstyle = 'border: 2px solid white; text-align:center'></div></div>";
+                // appearImage = appearImage.concat("<img style=transform: translate(-50%, -50%); z-index: 20; margin:auto; width:100%; height:100%'class='appearImage'src=''./assets/img//profilePic.svg'alt='...' >")
+                $('body').append(appearImage);
+
+            })
+
+        })
+
+
+        function closeImage() {
+            $('#appearImageDiv').remove();
+            $('#appearImage').remove();
+
+
+        }
+    </script>
+
+{% endblock %}
