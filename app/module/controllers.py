@@ -20,59 +20,57 @@ mod_auth = Blueprint('app', __name__)
 # custom route to redirect to login page
 @mod_auth.route('/')
 def index():
-    #return redirect('/login')
-    return render_template('user_home.html')
-
+    return render_template('landing_page.html')
 
 # User routes
 # login route
-@mod_auth.route('/user_login', methods=["GET", "POST"])
+@mod_auth.route('/login_user', methods=["GET", "POST"])
 def login():
-	if current_user.is_authenticated:
-		return redirect('/home')
-	if request.method == "POST":
-		email = request.form.get("email")
-		pwd = request.form.get("pwd")
+	# if current_user.is_authenticated:
+	# 	return redirect('/home')
+	# if request.method == "POST":
+	# 	email = request.form.get("email")
+	# 	pwd = request.form.get("pwd")
 
-		search = User.query.filter_by(email=email).first()
+	# 	search = User.query.filter_by(email=email).first()
 
-		if search is None:
-			data['msg'] = "Invalid username/password"
-		else:
-			if search.check_password(pwd):
-				login_user(search)
-				return redirect('/home')
+	# 	if search is None:
+	# 		data['msg'] = "Invalid username/password"
+	# 	else:
+	# 		if search.check_password(pwd):
+	# 			login_user(search)
+	# 			return redirect('/home')
 	return render_template('user_login.html')
 
 @mod_auth.route('/register', methods=["GET", "POST"])
 def register():
-	data = {
+	# data = {
 
-	}
-	if current_user.is_authenticated:
-		return "LEMAO"
+	# }
+	# if current_user.is_authenticated:
+	# 	return "LEMAO"
 
-	if request.method == "POST":
-		name = request.form.get('name')
-		student_id = request.form.get('id')
-		email = request.form.get('email')
-		password = request.form.get('pwd')
-		hall = request.form.get('hall')
-		level = request.form.get('level')
-		course = request.form.get('course')
-		number = request.form.get('number')
-		try:
-			new_user = User(ids=student_id, email=email, registered_on=datetime.datetime.today(),\
-			password_hash=generate_password_hash(password),\
-			full_name=name, level=level, momo_number=number)
-			db.session.add(new_user)
-			db.session.commit()
-			login_user(new_user, remember=True)
-			return redirect('/home')
-		except:
-			data['msg'] = "An account already exists with this ID/Email"
-			return render_template('login.html', **data)
-	return render_template('login.html', **data)
+	# if request.method == "POST":
+	# 	name = request.form.get('name')
+	# 	student_id = request.form.get('id')
+	# 	email = request.form.get('email')
+	# 	password = request.form.get('pwd')
+	# 	hall = request.form.get('hall')
+	# 	level = request.form.get('level')
+	# 	course = request.form.get('course')
+	# 	number = request.form.get('number')
+	# 	try:
+	# 		new_user = User(ids=student_id, email=email, registered_on=datetime.datetime.today(),\
+	# 		password_hash=generate_password_hash(password),\
+	# 		full_name=name, level=level, momo_number=number)
+	# 		db.session.add(new_user)
+	# 		db.session.commit()
+	# 		login_user(new_user, remember=True)
+	# 		return redirect('/home')
+	# 	except:
+	# 		data['msg'] = "An account already exists with this ID/Email"
+	# 		return render_template('login.html', **data)
+	return render_template('user_register.html')
 
 @mod_auth.route('/logout')
 def logout():

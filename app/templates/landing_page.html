@@ -15,13 +15,13 @@
     <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <!-- Themify Icons -->
-    <link rel="stylesheet" href="css/themify-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/themify-icons.css') }}">
     <!-- Owl carousel -->
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.min.css') }}">
     <!-- Main css -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
     <!-- Fontawesome CSS -->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!--Start of Tawk.to Script-->
@@ -59,8 +59,8 @@
                                 <li class="nav-item"> <a class="nav-link" href="#gallery">GALLERY</a> </li>
                                 <li class="nav-item"> <a class="nav-link" href="#contact">CONTACT</a> </li>
 
-                                <li class="nav-item"> <a class="nav-link" href="./login form/user register.html">LOGIN / SIGN UP</a> </li>
-                                <li class="nav-item"> <a class="nav-link" href="./login form/Login.html">ADMIN LOGIN</a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="/login_user">LOGIN / SIGN UP</a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="/login_admin">ADMIN LOGIN</a> </li>
 
 
                             </ul>
@@ -77,7 +77,7 @@
             <h1>Welcome To Campus Ride</h1>
             <p class="tagline" style="color: azure;">The one and only solution for making shuttle services paperless</p>
         </div>
-        <div class="img-holder mt-3"><img src="images/iphonex.png" alt="phone" class="img-fluid" style="border: 0; "></div>
+        <div class="img-holder mt-3"><img src="{{ url_for('static', filename='img/iphonex.png') }}" alt="phone" class="img-fluid" style="border: 0; "></div>
     </header>
 
     <div class="section light-bg" id="features">
@@ -152,7 +152,7 @@
                 </div>
             </div>
             <div class="perspective-phone">
-                <img src="images/perspective.png" alt="perspective phone" class="img-fluid">
+                <img src="{{ url_for('static', filename='img/perspective.png') }}" alt="perspective phone" class="img-fluid">
             </div>
         </div>
 
@@ -182,7 +182,7 @@
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="bus_rides">
                     <div class="d-flex flex-column flex-lg-row">
-                        <img src="images/graphic.png" alt="graphic" class="img-fluid rounded align-self-start mr-lg-5 mb-5 mb-lg-0">
+                        <img src="{{ url_for('static', filename='img/graphic.png') }}" alt="graphic" class="img-fluid rounded align-self-start mr-lg-5 mb-5 mb-lg-0">
                         <div>
                             <h2>Get a bus ride with ease</h2>
                             <p class="lead">Our app will soon be available for android and apple users. </p>
@@ -202,12 +202,12 @@
                             <p> Pay for all your rides on campus without paying with physical cash. Just board the bus scan the payment Qr code and you are good to go.Login to checkout our web wallet and Qr code payment feature
                             </p>
                         </div>
-                        <img src="images/index2.jfif" alt="graphic" class="img-fluid rounded align-self-start mr-lg-5 mb-5 mb-lg-0">
+                        <img src="{{ url_for('static', filename='img/index2.jfif') }}" alt="graphic" class="img-fluid rounded align-self-start mr-lg-5 mb-5 mb-lg-0">
                     </div>
                 </div>
                 <div class="tab-pane fade" id="history">
                     <div class="d-flex flex-column flex-lg-row">
-                        <img src="images/graphic.png" alt="graphic" class="img-fluid rounded align-self-start mr-lg-5 mb-5 mb-lg-0">
+                        <img src="{{ url_for('static', filename='img/graphic.png') }}" alt="graphic" class="img-fluid rounded align-self-start mr-lg-5 mb-5 mb-lg-0">
                         <div>
                             <h2>Get to know your ride history</h2>
                             <p class="lead">Every ride counts, all your rides with us are available from day one till date . </p>
@@ -229,14 +229,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <img src="images/dualphone.png" alt="dual phone" class="img-fluid">
+                    <img src="{{ url_for('static', filename='img/dualphone.png') }}" alt="dual phone" class="img-fluid">
                 </div>
                 <div class="col-md-6 d-flex align-items-center">
                     <div>
                         <div class="box-icon"><span class="ti-rocket gradient-fill ti-3x"></span></div>
                         <h2>Access Your Dashboard</h2>
                         <p class="mb-4">Login to the web App to view your Account balance Account Info and Your Ride History</p>
-                        <a href="./login form/user login.html" class="btn btn-primary">Login</a></div>
+                        <a href="/login_user" class="btn btn-primary">Login</a></div>
                 </div>
             </div>
 
@@ -281,7 +281,7 @@
                     </ul>
                 </div>
                 <div class="col-md-4">
-                    <img src="images/iphonex.png" alt="iphone" class="img-fluid">
+                    <img src="{{ url_for('static', filename='img/iphonex.png') }}" alt="iphone" class="img-fluid">
                 </div>
 
             </div>
@@ -302,7 +302,7 @@
 
             <div class="testimonials owl-carousel">
                 <div class="testimonials-single">
-                    <img src="images/client.png" alt="client" class="client-img">
+                    <img src="{{ url_for('static', filename='img/client.png') }}" alt="client" class="client-img">
                     <blockquote class="blockquote">
                         I live very far from my lecture theatre, with this innovation by Campus Ride, I don't have to worry about missing the bus anymore
 
@@ -311,7 +311,7 @@
                     <p class="text-primary">University Of Ghana</p>
                 </div>
                 <div class="testimonials-single">
-                    <img src="images/client.png" alt="client" class="client-img">
+                    <img src="{{ url_for('static', filename='img/client.png') }}" alt="client" class="client-img">
                     <blockquote class="blockquote">
                         Hurray!!! Good bye to waiting for busses.
                     </blockquote>
@@ -319,7 +319,7 @@
                     <p class="text-primary">University Of Cape Coast</p>
                 </div>
                 <div class="testimonials-single">
-                    <img src="images/client.png" alt="client" class="client-img">
+                    <img src="{{ url_for('static', filename='img/client.png') }}" alt="client" class="client-img">
                     <blockquote class="blockquote">
                         Thanks to Campus Ride credit feature, I don't have to worry about not having enough money for buss rides.
                     </blockquote>
@@ -343,10 +343,10 @@
             </div>
 
             <div class="img-gallery owl-carousel owl-theme" id="gallery">
-                <img src="images/Phone2.jpg" alt="image">
-                <img src="images/Phone3.jpg" alt="image">
-                <img src="images/Phone1.jpg" alt="image">
-                <img src="images/Phone2.jpg" alt="image">
+                <img src="{{ url_for('static', filename='img/Phone2.jpg') }}" alt="image">
+                <img src="{{ url_for('static', filename='img/Phone3.jpg') }}" alt="image">
+                <img src="{{ url_for('static', filename='img/Phone1.jpg') }}" alt="image">
+                <img src="{{ url_for('static', filename='img/Phone2.jpg') }}" alt="image">
             </div>
 
         </div>
@@ -401,8 +401,8 @@
                 <p class="tagline">Available for all major mobile platforms. </p>
                 <div class="my-4">
 
-                    <a href="https://www.apple.com/ios/app-store/" class="btn btn-light"><img src="images/appleicon.png" alt="icon"> App Store</a>
-                    <a href="https://play.google.com/store/apps?hl=en" class="btn btn-light"><img src="images/playicon.png" alt="icon"> Google play</a>
+                    <a href="https://www.apple.com/ios/app-store/" class="btn btn-light"><img src="{{ url_for('static', filename='img/appleicon.png') }}" alt="icon"> App Store</a>
+                    <a href="https://play.google.com/store/apps?hl=en" class="btn btn-light"><img src="{{ url_for('static', filename='img/playicon.png') }}" alt="icon"> Google play</a>
                 </div>
                 <p class="text-primary"><small><i>*Works on iOS 10.0.5+, Android Kitkat and above. </i></small></p>
             </div>
@@ -453,12 +453,12 @@
     </footer>
 
     <!-- jQuery and Bootstrap -->
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
     <!-- Plugins JS -->
-    <script src="js/owl.carousel.min.js"></script>
+    <script src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
     <!-- Custom JS -->
-    <script src="js/script.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     <script src="https://kit.fontawesome.com/1911436ffb.js" crossorigin="anonymous"></script>
 
 

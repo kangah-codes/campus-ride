@@ -51,8 +51,8 @@ class Bus(db.Model):
 	__tablename__ = "buses"
 
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-	qr_id = db.Column(db.String(), unique=True, nullable=False)
-	alt_id = db.Column(db.Integer, unique=True, nullable=False)
+	qr_id = db.Column(db.String(), unique=True, nullable=True)
+	alt_id = db.Column(db.Integer, unique=True, nullable=True)
 
 	def __init__(self):
 		self.qr_id = uuid.uuid4()
