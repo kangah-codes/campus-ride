@@ -6,7 +6,7 @@
 
 {% block wallet %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-    <style type="text/css">.fonts{font-size: 12.5px;}.ipay-btn{background-color: #04448C;border-color: #04448C;border-radius: 17px !important;}.modal{width: 27% !important;}.modal-header{padding-left:48px !important;padding-right: 48px !important;border-bottom: none !important;text-align: center !important;}.modal-footer{height: 120px;padding-left:48px !important;padding-right: 48px !important;margin-bottom: -17px !important;border-top: none !important;}.modal-body{margin-bottom: -25px;padding-right: 48px !important;padding-left: 48px !important;border-bottom: none !important;margin-top: -27px;}#close:hover{text-decoration: none !important;}.logo{width: 65px;height: 65px;}</style>
+    <style type="text/css">.fonts{font-size: 12.5px;}.ipay-btn{background-color: #04448C;border-color: #04448C;border-radius: 17px !important;.modal-header{padding-left:48px !important;padding-right: 48px !important;border-bottom: none !important;text-align: center !important;}.modal-footer{height: 120px;padding-left:48px !important;padding-right: 48px !important;margin-bottom: -17px !important;border-top: none !important;}.modal-body{margin-bottom: -25px;padding-right: 48px !important;padding-left: 48px !important;border-bottom: none !important;margin-top: -27px;}#close:hover{text-decoration: none !important;}.logo{width: 65px;height: 65px;}</style>
     <style>
         * {
             font-family: 'Rubik', sans-serif;
@@ -166,12 +166,28 @@
                                 <h6 class="text-center">Load your Campus Ride wallet with mobile money
                                 </h6>
                                 <div class="row">
+                                    <!-- <DIV class="col-6 pt-3">
+                                        <img src="./assets/img/mtn21.png" alt="" width="100px">
+                                        <p>IpayGH</p>
+                                    </DIV> -->
+                                    <center>
+                                        <div class="col-6 pt-5 justify-content-end">
+                                            <!-- <button class="button" data-toggle="modal" data-target="#ipayModal" style="height:35px; padding: 0;">
+                                                USE
+                                            </button> -->
+                                            <input data-toggle="modal" data-target="#ipayModal" type="image" id="image" alt="Pay" src="{{ url_for('static', filename='img/ipay.png') }}" style="width: 100%">
+
+
+                                        </div>
+                                    </center>
+                                </div>
+                                <!-- <div class="row">
                                         <div class="col-lg-3 col-md-3 col-xs-3 col-sm-5">
                                         <div class="input-group-prepend">
                                             <button type="button" class="btn btn-primary ipay-btn" data-toggle="modal" data-target="#ipayModal">Make Payment</button>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 </div>
                             </div>
                         </div>
