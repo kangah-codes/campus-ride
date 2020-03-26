@@ -124,7 +124,7 @@
 
             <div class="panel-header panel-header-lg" id="panel">
                 <div class="header text-center">
-                    <h2 class="title cssanimation blurInLeft" style="margin-top: 5rem">Check Your Wallet</h2>
+                    <h2 class="title cssanimation blurInLeft" style="margin-top: 5rem">Your Wallet</h2>
 
                 </div>
             </div>
@@ -140,8 +140,12 @@
                             <div class="card-body ">
                                 <div class="row">
                                     <div class="col-12 text-center" style="padding-bottom: 90px;">
-                                        <p class="pt-5">Account Balance</p>
-                                        <h1 class="display-3 pt-3 pb-5">GHS 14.00</h1>
+                                        <p class="display-3 pt-3 pb-5">Account Balance</p>
+                                        {% if bal <= 0 %}
+                                        <h1 class="py-5" style="font-size: 60px;color: red" >GHS {{ bal }}</h1>
+                                        {% else %}
+                                        <h1 class="display-3 pt-3 pb-5" style="font-size: 60px;" >GHS {{ bal }}</h1>
+                                        {% endif %}
                                     </div>
 
                                 </div>

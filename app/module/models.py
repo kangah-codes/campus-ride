@@ -82,16 +82,19 @@ class User(UserMixin, db.Model):
 	registered_on = db.Column(db.DateTime, nullable=False)
 	public_id = db.Column(db.String(100), unique=True)
 	#username = db.Column(db.String(50), unique=True)
+	hall = db.Column(db.String(), unique=False, nullable=True)
 	password_hash = db.Column(db.String(100))
 	full_name = db.Column(db.String(100), unique=False, nullable=False)
 	level = db.Column(db.String(10), unique=False, nullable=False)
-	#course = db.Column(db.String(50), unique=False, nullable=False)
+	course = db.Column(db.String(50), unique=False, nullable=True)
 	account_bal = db.Column(db.Float(), unique=False, nullable=False, default=1.00)
 	momo_number = db.Column(db.String(15), unique=False, nullable=True)
 	notifications = db.Column(db.String(), unique=False, nullable=True)
 	profile_picture = db.Column(db.String(), unique=False, nullable=True, default="TEST_URL")
 	ride_history = db.Column(db.String(), unique=False, nullable=True)
 	payment_history = db.Column(db.String(), unique=False, nullable=True)
+	activation_url = db.Column(db.String, unique=True, nullable=True)
+	is_activated = db.Column(db.Boolean, unique=False, nullable=True, default=False)
 
 	def __init__(self, ids, email, registered_on, password_hash, full_name, level, momo_number):
 		self.public_id = ids
@@ -101,6 +104,8 @@ class User(UserMixin, db.Model):
 		self.full_name = full_name
 		self.level = level
 		self.momo_number = momo_number
+		self.ride_history = json.dumps({})
+		self.payment_history = json.dumps({})
 
 	def check_password(self, password):
 		return check_password_hash(self.password_hash, password)
@@ -108,8 +113,9 @@ class User(UserMixin, db.Model):
 	def add_cash_in(self, txn_id, timestamp, amt):
 		try:
 			curr_history = json.loads(self.payment_history)
-			curr_history[txn_id] = [timestamp, amt]
+			curr_history[str(timestamp)] = ["credit", str(timestamp), amt]
 			self.payment_history = json.dumps(curr_history)
+			self.account_bal += amt
 
 		except Exception as e:
 			return e
@@ -117,11 +123,18 @@ class User(UserMixin, db.Model):
 		else:
 			return True
 
+	def get_notifications(self):
+		return json.loads(self.notifications)
+
 	def add_ride(self, bus_id, timestamp):
 		try:
 			curr_history = json.loads(self.ride_history)
-			curr_history[timestamp] = bus_id
+			curr_history[str(timestamp)] = [bus_id, str(timestamp)]
 			self.ride_history = json.dumps(curr_history)
+			self.subtract_acc(1)
+			payment_history = json.loads(self.payment_history)
+			payment_history[str(timestamp)] = ["debit", str(timestamp), 1]
+			self.payment_history = json.dumps(payment_history)
 
 		except Exception as e:
 			return e
@@ -133,7 +146,7 @@ class User(UserMixin, db.Model):
 		try:
 			amount = int(self.account_bal)
 			if amount - amt >= 0:
-				self.account_bal = amount
+				self.account_bal -= amount
 				return True
 			return False
 

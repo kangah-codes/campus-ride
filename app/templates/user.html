@@ -205,13 +205,13 @@
                                         <div class="col-md-6 px-4">
                                             <div class="form-group">
                                                 <label>Student ID</label>
-                                                <input type="text" class="form-control" disabled="" placeholder="Username" value="Student ID">
+                                                <input type="text" class="form-control" disabled="" placeholder="Username" value="{{ stid }}">
                                             </div>
                                         </div>
                                         <div class="col-md-6 pl-4">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Email address</label>
-                                                <input type="email" class="form-control" disabled="" value="Email">
+                                                <input type="email" class="form-control" disabled="" value="{{ email }}">
                                             </div>
                                         </div>
                                     </div>
@@ -219,13 +219,13 @@
                                         <div class="col-md-6 px-4">
                                             <div class="form-group">
                                                 <label>First Name</label>
-                                                <input type="text" class="form-control" disabled="" value=" First Name">
+                                                <input type="text" class="form-control" disabled="" value="{{ first_name }}">
                                             </div>
                                         </div>
                                         <div class="col-md-6 pl-4">
                                             <div class="form-group">
                                                 <label>Last Name</label>
-                                                <input type="text" class="form-control" disabled="" placeholder="Last Name" value="Last Name">
+                                                <input type="text" class="form-control" disabled="" placeholder="Last Name" value="{{ last_name }}">
                                             </div>
                                         </div>
                                     </div>
@@ -233,13 +233,13 @@
                                         <div class="col-md-6 px-4">
                                             <div class="form-group">
                                                 <label>Hall of Residence</label>
-                                                <input type="text" class="form-control" placeholder="Hall of Residence" value="">
+                                                <input type="text" class="form-control" placeholder="Hall of Residence" value="{{ hall }}">
                                             </div>
                                         </div>
                                         <div class="col-md-6 pl-4">
                                             <div class="form-group">
                                                 <label>Phone Number</label>
-                                                <input type="number" class="form-control" placeholder="Phone" value="">
+                                                <input type="number" class="form-control" placeholder="Phone" value="{{ number }}">
                                             </div>
                                         </div>
                                     </div>
@@ -247,13 +247,13 @@
                                         <div class="col-md-6 px-4">
                                             <div class="form-group">
                                                 <label>Level</label>
-                                                <input type="number" class="form-control" placeholder="Level" value="">
+                                                <input type="number" class="form-control" placeholder="Level" value="{{ level }}">
                                             </div>
                                         </div>
                                         <div class="col-md-6 pl-4">
                                             <div class="form-group">
                                                 <label>Course</label>
-                                                <input type="text" class="form-control" placeholder="Course" value="">
+                                                <input type="text" class="form-control" placeholder="Course" value="{{ course }}">
                                             </div>
                                         </div>
 
@@ -276,7 +276,7 @@
 
                                         <div class="item blue" id="blue">
 
-                                            <img class="ppic" src="./assets/img//profilePic.svg" alt="..." width="130px">
+                                            <img class="ppic" src="{{ url_for('static', filename='img//profilePic.svg') }}" alt="..." width="130px">
 
                                             <a class="picon" href="#"><i id="picon" class="fa fa-camera" onmouseover="showDrop()" onmouseout="hideDrop()"></i></a>
 
@@ -301,25 +301,25 @@
 
 
                                     <!-- <p class="description ">Click on profile pic to edit</p> -->
-                                    <h5 class="title px-2" style="color: #2CA8FF;">First Name Last Name</h5>
+                                    <h5 class="title px-2" style="color: #2CA8FF;">{{ full_name }}</h5>
 
                                     <p class="description pb-1">
-                                        Student ID
+                                        ID: {{ stid }}
                                     </p>
                                     <p class="description pb-1">
-                                        Hall of Residence
+                                        Residence: {{ hall }}
                                     </p>
                                     <p class="description pb-1">
-                                        Level
+                                        Level: {{ level }}
                                     </p>
                                     <p class="description pb-1">
-                                        Course
+                                        Course: {{ course }}
                                     </p>
                                     <p class="description pb-1">
-                                        Email
+                                        Email: {{ email }}
                                     </p>
                                     <p class="description  ">
-                                        Phone Number
+                                        Phone: {{ number }}
                                     </p>
                                 </div>
                             </div>

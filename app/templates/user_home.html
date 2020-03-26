@@ -40,7 +40,7 @@
 <div class="panel-header panel-header-lg" id="panel">
     <div class="header text-center">
 
-        <h2 class="title cssanimation blurInLeft" style="margin-top: 5rem">Welcome To Your Dashboard</h2>
+        <h2 class="title cssanimation blurInLeft" style="margin-top: 5rem">Welcome, {{ first_name }}</h2>
 
     </div>
 </div>
@@ -55,7 +55,11 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12 col-md-6 text-center">Account Balance
-                            <h1 class="py-5" style="font-size: 60px;">GHS 14.00</h1>
+                            {% if bal <= 0 %}
+                            <h1 class="py-5" style="font-size: 60px;color: red" >GHS {{ bal }}</h1>
+                            {% else %}
+                            <h1 class="py-5" style="font-size: 60px;" >GHS {{ bal }}</h1>
+                            {% endif %}
                         </div>
 
                         <div class=" col-12 col-md-6 text-center ">Account History
@@ -66,29 +70,29 @@
                                             Date
                                         </th>
                                         <th class="text-center">
-                                            Top-Up
+                                            TXN
+                                        </th>
+                                        <th class="text-center">
+                                            Amount
                                         </th>
 
                                     </thead>
                                     <tbody class="py-5">
-                                        <tr class="py-5">
-                                            <td class="text-center">
-                                                Monday
-                                            </td>
-                                            <td class="text-center">
-                                                GHS 9.00
-                                            </td>
+                                        {% for i in payment_history %}
+                                            <tr class="py-5">
+                                                <td class="text-center">
 
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">
-                                                Tuesday
-                                            </td>
-                                            <td class="text-center">
-                                                GHS 9.00
-                                            </td>
+                                                    {{ payment_history[i][1] }}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ payment_history[i][0] }}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ payment_history[i][2]|float }}
+                                                </td>
 
-                                        </tr>
+                                            </tr>
+                                        {% endfor %}
                                     </tbody>
 
                                 </table>
@@ -124,10 +128,6 @@
                                 <th class="text-center">
                                     Rides
                                 </th>
-                                <th class="text-center">
-                                    Fare
-                                </th>
-
                             </thead>
                             <tbody>
                                 <tr>
@@ -137,22 +137,6 @@
                                     <td class="text-center">
                                         9
                                     </td>
-                                    <td class="text-center">
-                                        GHS 9.00
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td class="text-center">
-                                        Tuesday
-                                    </td>
-                                    <td class="text-center">
-                                        4
-                                    </td>
-                                    <td class="text-center">
-                                        GHS 4.00
-                                    </td>
-
                                 </tr>
                             </tbody>
                         </table>
