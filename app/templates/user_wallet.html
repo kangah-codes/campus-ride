@@ -142,7 +142,7 @@
                             <div class="card-body ">
                                 <div class="row">
                                     <div class="col-12 text-center" style="padding-bottom: 90px;">
-                                        <p class="display-3 pt-3 pb-5">Account Balance</p>
+                                        <h3 style="padding-bottom: 20%">Account Balance</h3>
                                         {% if bal <= 0 %}
                                         <h1 class="py-5" style="font-size: 60px;color: red" >GHS {{ bal }}</h1>
                                         {% else %}
@@ -166,28 +166,14 @@
                                 <h6 class="text-center">Load your Campus Ride wallet with mobile money
                                 </h6>
                                 <div class="row">
-                                    <!-- <DIV class="col-6 pt-3">
-                                        <img src="./assets/img/mtn21.png" alt="" width="100px">
-                                        <p>IpayGH</p>
-                                    </DIV> -->
                                     <center>
                                         <div class="col-6 pt-5 justify-content-end">
-                                            <!-- <button class="button" data-toggle="modal" data-target="#ipayModal" style="height:35px; padding: 0;">
-                                                USE
-                                            </button> -->
                                             <input data-toggle="modal" data-target="#ipayModal" type="image" id="image" alt="Pay" src="{{ url_for('static', filename='img/ipay.png') }}" style="width: 100%">
 
 
                                         </div>
                                     </center>
                                 </div>
-                                <!-- <div class="row">
-                                        <div class="col-lg-3 col-md-3 col-xs-3 col-sm-5">
-                                        <div class="input-group-prepend">
-                                            <button type="button" class="btn btn-primary ipay-btn" data-toggle="modal" data-target="#ipayModal">Make Payment</button>
-                                        </div>
-                                    </div>
-                                </div> -->
                                 </div>
                             </div>
                         </div>
@@ -278,7 +264,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript">(function(){Date.prototype.today = function () { return  this.getFullYear()+(((this.getMonth()+1) < 10)?"0":"") + (this.getMonth()+1) +((this.getDate() < 10)?"0":"") + this.getDate();};Date.prototype.timeNow = function () { return ((this.getHours() < 10)?"0":"") + this.getHours() +((this.getMinutes() < 10)?"0":"") + this.getMinutes() +((this.getSeconds() < 10)?"0":"") + this.getSeconds();};document.getElementById("invoice_id").value = document.getElementById("merchant_code").value+ new Date().today() + new Date().timeNow();})();</script>
+    <script type="text/javascript">
+        (
+            function(){
+                Date.prototype.today = function () { 
+                    return  this.getFullYear()+(((this.getMonth()+1) < 10)?"0":"") + (this.getMonth()+1) +((this.getDate() < 10)?"0":"") + this.getDate();
+                };
+                Date.prototype.timeNow = function () {
+                    return ((this.getHours() < 10)?"0":"") + this.getHours() +((this.getMinutes() < 10)?"0":"") + this.getMinutes() +((this.getSeconds() < 10)?"0":"") + this.getSeconds();
+                };
+                // document.getElementById("invoice_id").value = document.getElementById("merchant_code").value+ new Date().today() + new Date().timeNow();
+            })();
+    </script>
 
     <div id="ipayModal" class="modal fade m-auto" role="dialog" data-keyboard="true" data-backdrop="true">
                     <div class="modal-dialog">
@@ -286,47 +283,47 @@
                             <div class="modal-header">
                                 <img src="http://fpoimg.com/95x65?text=Logo" class="mx-auto d-block logo">
                             </div>
-                            <form action="https://manage.ipaygh.com/gateway/checkout" id="ipay_checkout" method="post" name="ipay_checkout" target="_blank">
+                            <form action="https://manage.ipaygh.com/gateway/checkout" id="ipay_checkout" method="post" name="ipay_checkout" target="_blank" onsubmit="sendAmt()">
                                 <div class="modal-body">
-                                    <legend class="text-center mt-1">Make Payment</legend>
+                                    <legend class="text-center mt-1">Deposit into you CR Wallet</legend>
                                     <input name="merchant_key" type="hidden" value="tk_f0f2bb56-6f86-11ea-b8e9-f23c9170642f">
                                     <input id="merchant_code" type="hidden" value="TST000000003969">
                                     <input name="source" type="hidden" value="WIDGET">
-                                    <input name="success_url" type="hidden" value="http://ug.campusride.africa/wallet">
+                                    <input name="success_url" type="hidden" value="http://127.0.0.1:5000/payment_success/{{ payment_url }}">
                                     <input name="cancelled_url" type="hidden" value="http://ug.campusride.africa/wallet">
-                                    <input id="invoice_id" name="invoice_id" type="hidden" value="">
+                                    <input id="invoice_id" name="invoice_id" type="hidden" value="{{ invoice }}">
                                     <div class="row">
                                         <div class="col-lg">
                                             <div class="form-group input-group">
-                                                <input type="text" title="Name" name="extra_name" id="name" class="form-control" placeholder="First & Last Name">
+                                                <input type="text" title="Name" name="extra_name" id="name" class="form-control" placeholder="First & Last Name" value="{{ full_name }}">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg">
                                             <div class="form-group input-group">
-                                                <input type="tel" title="Mobile Number" name="extra_mobile" id="number" class="form-control" maxlength="10" placeholder="Contact Number">
+                                                <input type="tel" title="Mobile Number" name="extra_mobile" id="number" class="form-control" maxlength="10" placeholder="Contact Number" value="{{ number }}">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg">
                                             <div class="form-group input-group">
-                                                <input type="email" name="email" id="extra_email" class="form-control" placeholder="Email">
+                                                <input type="email" name="email" id="extra_email" class="form-control" placeholder="Email" value="{{ email }}">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg">
                                             <div class="form-group input-group">
-                                                <input type="text" name="total" class="form-control" id="total" placeholder="Amount(GH₵)">
+                                                <input type="text" name="total" name="amt" class="form-control" id="total" placeholder="Amount(GH₵)">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg">
                                             <div class="form-group input-group">
-                                                <input class="form-control" type="text" name="description" id="description" placeholder="Description of Payment">
+                                                <input class="form-control" type="text" name="description" id="description" placeholder="Description of Payment" value="Deposit into CR wallet">
                                             </div>
                                         </div>
                                     </div>
@@ -352,5 +349,12 @@
                         </div>
                     </div>
                 </div>
+
+                <script type="text/javascript">
+                    function sendAmt(){
+                        console.log($("#total").val())
+                        $.post("/amt", {"amt": $("#total").val()})
+                    }
+                </script>
 
 {% endblock %}

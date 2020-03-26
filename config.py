@@ -16,6 +16,7 @@ class DevelopmentConfig(Config):
 	# Define the database - we are working with
 	# SQLite for this example
 	SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'app.db')
+	SQLALCHEMY_TRACK_MODIFICATIONS = False
 	DATABASE_CONNECT_OPTIONS = {}
 
 	# Application threads. A common general assumption is

@@ -95,6 +95,8 @@ class User(UserMixin, db.Model):
 	payment_history = db.Column(db.String(), unique=False, nullable=True)
 	activation_url = db.Column(db.String, unique=True, nullable=True)
 	is_activated = db.Column(db.Boolean, unique=False, nullable=True, default=False)
+	temp_payment = db.Column(db.Float(), unique=False, nullable=True)
+	payment_url = db.Column(db.String(), unique=True, nullable=True)
 
 	def __init__(self, ids, email, registered_on, password_hash, full_name, level, momo_number):
 		self.public_id = ids
@@ -106,6 +108,7 @@ class User(UserMixin, db.Model):
 		self.momo_number = momo_number
 		self.ride_history = json.dumps({})
 		self.payment_history = json.dumps({})
+		self.payment_url = str(uuid.uuid1())
 
 	def check_password(self, password):
 		return check_password_hash(self.password_hash, password)

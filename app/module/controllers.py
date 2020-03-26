@@ -12,6 +12,8 @@ from app.module.models import User
 import json
 import datetime
 import sqlalchemy
+import string
+import random
 
 """
 tk_f0f2bb56-6f86-11ea-b8e9-f23c9170642f
@@ -25,6 +27,9 @@ mod_auth = Blueprint('app', __name__)
 def comparePass(pwd1, pwd2):
 	return pwd1 == pwd2
 
+def generateInvoice():
+	items = string.ascii_uppercase+string.digits
+	return ''.join(random.choice(items) for i in range(6))
 # Set the route and accepted methods
 
 # custom route to redirect to login page
@@ -85,7 +90,7 @@ def register():
 				new_user.course = course
 				new_user.hall = hall
 				new_user.is_activated = False
-				new_user.notifications = json.dumps('{"New notification":f"Account created at {datetime.datetime.today()}"}')
+				new_user.notifications = json.dumps({f"{datetime.datetime.today()}":f"Account created at {datetime.datetime.today()}"})
 				try:
 					db.session.add(new_user)
 					db.session.commit()
@@ -117,16 +122,57 @@ def home():
 	}
 	return render_template('user_home.html', **data)
 
-@mod_auth.route('/wallet')
+@mod_auth.route('/wallet', methods=["GET", "POST"])
 def wallet():
 	data = {
 		"bal":current_user.account_bal,
+		"payment_url":current_user.payment_url,
+		"number":current_user.momo_number,
+		"full_name":current_user.full_name,
+		"email":current_user.email,
+		"invoice": generateInvoice()
 	}
+
+	if request.method == "POST":
+		print("post")
+		payment = request.form.get("amt")
+		current_user.temp_payment = int(payment)
+		print(payment)
+		try:
+			db.session.add(current_user)
+			db.session.commit()
+		except:
+			db.session.rollback()
+
 	return render_template('user_wallet.html', **data)
+
+@mod_auth.route('/amt', methods=["POST"])
+def amt():
+	current_user.temp_payment = float(request.form['amt'])
+
+	try:
+		db.session.add(current_user)
+		db.session.commit()
+	except:
+		db.session.rollback()
+	else:
+		db.session.close()
+
+	return ""
 
 @mod_auth.route('/user_pay/<bus>')
 def user_pay(bus):
 	return ""
+
+@mod_auth.route('/payment_success/<uid>')
+def success(uid):
+	print(uid)
+	if current_user.payment_url == uid:
+		current_user.account_bal += current_user.temp_payment
+		db.session.add(current_user)
+		db.session.commit()
+		return redirect('/wallet')
+	return "LOL"
 
 @mod_auth.route('/profile', methods=['GET', 'POST'])
 def user_profile():
