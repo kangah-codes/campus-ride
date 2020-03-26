@@ -342,7 +342,7 @@
         <div class="login-container">
             <!-- Sign in -->
             <div id="signInDiv">
-                <form action="#" class="cssanimation fadeInRight" method="POST" id="userLogin">
+                <form action="/login_user" method="post" class="cssanimation fadeInRight" method="POST" id="userLogin">
                     <img class="avatar" src="{{ url_for('static', filename='img/undraw_profile_pic_ic5t(1).svg') }}" alt="img" width="180px">
 
                     <h2 id="formtitle">User Login</h2>
@@ -353,7 +353,7 @@
                         </div>
                         <div>
                             <h5>Student ID</h5>
-                            <input class="input" type="number" oninvalid="this.setCustomValidity('Enter a Your STID')" oninput="this.setCustomValidity('')">
+                            <input class="input" type="number" name="id" oninvalid="this.setCustomValidity('Enter a Your STID')" oninput="this.setCustomValidity('')">
                         </div>
 
                     </div>
@@ -365,12 +365,12 @@
                         </div>
                         <div>
                             <h5>Password</h5>
-                            <input class="input" type="password" oninvalid="this.setCustomValidity('Enter a Valid Password')" oninput="this.setCustomValidity('')">
+                            <input class="input" type="password" name="pwd" oninvalid="this.setCustomValidity('Enter a Valid Password')" oninput="this.setCustomValidity('')">
                         </div>
                     </div>
 
 
-                    <input type="checkbox" id="checkbo">
+                    <input type="checkbox" id="checkbo" name="rem">
                     <span id="userlogin3">Remember My device</span>
                     <br /><a class="forgot-pass-p" onclick="hideLogin()">Forgot Password?</a>
 

@@ -160,7 +160,8 @@
                                         Swal.fire({
                                             icon: "success",
                                             title: "Thank You",
-                                            text: "Your Payment Is Successful"
+                                            text: "Your Payment Is Successful",
+                                            html: '<a style = "color:#195F90;" href = "#" >View Receipt<a>'
 
                                         })
                                     }
@@ -184,6 +185,17 @@
                         throw ex;
                     }
                 });
+            </script>
+            <script src="{{ url_for('static', filename='js/core/jquery.min.js') }}"></script>
+            <script type="text/javascript" src="{{ url_for('static', filename='js/core/jquery.touchSwipe.min.js') }}"></script>
+            <script>
+                $(function() {
+                    $('.wrapper').swipe({
+                        swipeRight: function(event, direction, distance, fingerCount, fingerCount) {
+                            $('.sidebar').addClass(".navbar-translate")
+                        }
+                    })
+                })
             </script>
             <script>
                 $(function() {

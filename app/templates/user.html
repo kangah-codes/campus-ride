@@ -184,6 +184,20 @@
             height: 100vh;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+
+    {% if error %}
+        <script type="text/javascript">
+            swal({
+                title: "Error!",
+                text: "{{ error }}",
+                type: "error",
+                confirmButtonText: "Ok"
+               });
+        </script>
+    {% endif %}
+    
 
             <div class="panel-header panel-header-lg" id="panel">
                 <div class="header text-center">
@@ -199,7 +213,7 @@
                                 <h5 class="title">Edit Profile</h5>
                             </div>
                             <div class="card-body pb-4 pb-lg-4 pb-xl-5 ">
-                                <form>
+                                <form method="post" action="/profile">
                                     <div class="row">
 
                                         <div class="col-md-6 px-4">
@@ -233,13 +247,13 @@
                                         <div class="col-md-6 px-4">
                                             <div class="form-group">
                                                 <label>Hall of Residence</label>
-                                                <input type="text" class="form-control" placeholder="Hall of Residence" value="{{ hall }}">
+                                                <input type="text" class="form-control" placeholder="Hall of Residence" value="{{ hall }}" name="hall">
                                             </div>
                                         </div>
                                         <div class="col-md-6 pl-4">
                                             <div class="form-group">
                                                 <label>Phone Number</label>
-                                                <input type="number" class="form-control" placeholder="Phone" value="{{ number }}">
+                                                <input type="number" class="form-control" placeholder="Phone" value="{{ number }}" name="number">
                                             </div>
                                         </div>
                                     </div>
@@ -247,13 +261,13 @@
                                         <div class="col-md-6 px-4">
                                             <div class="form-group">
                                                 <label>Level</label>
-                                                <input type="number" class="form-control" placeholder="Level" value="{{ level }}">
+                                                <input type="number" class="form-control" placeholder="Level" value="{{ level }}" name="level">
                                             </div>
                                         </div>
                                         <div class="col-md-6 pl-4">
                                             <div class="form-group">
                                                 <label>Course</label>
-                                                <input type="text" class="form-control" placeholder="Course" value="{{ course }}">
+                                                <input type="text" class="form-control" placeholder="Course" value="{{ course }}" name="course">
                                             </div>
                                         </div>
 

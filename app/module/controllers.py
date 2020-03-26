@@ -32,20 +32,26 @@ def index():
 # login route
 @mod_auth.route('/login_user', methods=["GET", "POST"])
 def login():
-	# if current_user.is_authenticated:
-	# 	return redirect('/home')
-	# if request.method == "POST":
-	# 	email = request.form.get("email")
-	# 	pwd = request.form.get("pwd")
+	if current_user.is_authenticated:
+		return redirect('/home')
+	if request.method == "POST":
+		stid = request.form.get("id")
+		pwd = request.form.get("pwd")
+		rem = request.form.get("rem")
+		search = User.query.filter_by(public_id=stid).first()
 
-	# 	search = User.query.filter_by(email=email).first()
-
-	# 	if search is None:
-	# 		data['msg'] = "Invalid username/password"
-	# 	else:
-	# 		if search.check_password(pwd):
-	# 			login_user(search)
-	# 			return redirect('/home')
+		if rem == None:
+			login_user(search, remember=False)
+			return redirect('/home')
+		login_user(search, remember=True)
+		return redirect('/home')
+		print(search)
+		# if search is None:
+		# 	data['msg'] = "Invalid username/password"
+		# else:
+		# 	if search.check_password(pwd):
+		# 		login_user(search)
+		# 		return redirect('/home')
 	return render_template('user_login.html')
 
 @mod_auth.route('/register', methods=["GET", "POST"])
@@ -72,6 +78,8 @@ def register():
 				new_user = User(ids=student_id, email=email, registered_on=datetime.datetime.today(),\
 				password_hash=generate_password_hash(password),\
 				full_name=name, level=level, momo_number=number)
+				new_user.course = course
+				new_user.hall = hall
 				new_user.is_activated = False
 				new_user.notifications = json.dumps('{"New notification":f"Account created at {datetime.datetime.today()}"}')
 				try:
@@ -93,13 +101,10 @@ def register():
 @mod_auth.route('/logout')
 def logout():
 	logout_user()
-	return redirect('/login')
+	return redirect('/login_user')
 
 @mod_auth.route('/home')
 def home():
-	# print(current_user.add_ride('LMAO', datetime.datetime.today()))
-	# db.session.add(current_user)
-	# db.session.commit()
 	data = {
 		"first_name":current_user.full_name.split(' ')[0],
 		"bal":current_user.account_bal,
@@ -115,8 +120,13 @@ def wallet():
 	}
 	return render_template('user_wallet.html', **data)
 
-@mod_auth.route('/profile')
+@mod_auth.route('/user_pay/<bus>')
+def user_pay(bus):
+	return ""
+
+@mod_auth.route('/profile', methods=['GET', 'POST'])
 def user_profile():
+	error = None
 	data = {
 		"first_name":current_user.full_name.split(' ')[0],
 		"last_name":current_user.full_name.split(' ')[-1],
@@ -128,6 +138,30 @@ def user_profile():
 		"course":current_user.course,
 		"full_name":current_user.full_name,
 	}
+
+	if request.method == "POST":
+		print(current_user.level)
+		hall = request.form.get("hall")
+		number = request.form.get("number")
+		level = request.form.get("level")
+		course = request.form.get("course")
+
+		current_user.hall = hall
+		current_user.momo_number = number
+		current_user.level = level
+		current_user.course = course
+
+		print(current_user.level)
+
+		try:
+			db.session.add(current_user)
+			db.session.commit()
+		except:
+			error = "Server error, please try later"
+			db.session.rollback()
+		
+		return redirect('/profile')	
+
 	return render_template('user.html', **data)
 
 @mod_auth.route('/pay')
