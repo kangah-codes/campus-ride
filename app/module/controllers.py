@@ -15,6 +15,12 @@ import sqlalchemy
 import string
 import random
 
+production = True
+
+if not production:
+	url = '127.0.0.1:5000'
+else:
+	url = 'http://ug.campusride.africa'
 """
 tk_f0f2bb56-6f86-11ea-b8e9-f23c9170642f
 """
@@ -155,7 +161,8 @@ def wallet():
 		"invoice": invoice,
 		"pay":payed,
 		"amt":pay_amt,
-		"cancelled":cancel
+		"cancelled":cancel,
+		"url":url
 	}
 
 	payed = False
