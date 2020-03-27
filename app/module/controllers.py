@@ -19,6 +19,10 @@ import random
 tk_f0f2bb56-6f86-11ea-b8e9-f23c9170642f
 """
 
+payed = False
+cancel = False
+pay_amt = 0
+invoice = None
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_auth = Blueprint('app', __name__)
@@ -70,6 +74,7 @@ def register():
 
 	error = None
 
+
 	if request.method == "POST":
 		name = request.form.get('full_name')
 		student_id = request.form.get('st_id')
@@ -84,24 +89,27 @@ def register():
 			if not comparePass(password, password_compare):
 				error = "Passwords must match"
 			else:
-				new_user = User(ids=student_id, email=email, registered_on=datetime.datetime.today(),\
-				password_hash=generate_password_hash(password),\
-				full_name=name, level=level, momo_number=number)
-				new_user.course = course
-				new_user.hall = hall
-				new_user.is_activated = False
-				new_user.notifications = json.dumps({f"{datetime.datetime.today()}":f"Account created at {datetime.datetime.today()}"})
-				try:
-					db.session.add(new_user)
-					db.session.commit()
-					login_user(new_user, remember=True)
-					flash("Logged in")
-					return redirect('/home')
-				except:
-					error = "Sorry, there has been a server error, please try later"
-					db.session.rollback()
-				finally:
-					db.session.close()
+				if email.split('@')[-1] == 'st.ug.edu.gh':
+					new_user = User(ids=student_id, email=email, registered_on=datetime.datetime.today(),\
+					password_hash=generate_password_hash(password),\
+					full_name=name, level=level, momo_number=number)
+					new_user.course = course
+					new_user.hall = hall
+					new_user.is_activated = False
+					new_user.notifications = json.dumps({f"{datetime.datetime.today()}":f"Account created at {datetime.datetime.today()}"})
+					try:
+						db.session.add(new_user)
+						db.session.commit()
+						login_user(new_user, remember=True)
+						flash("Logged in")
+						return redirect('/home')
+					except:
+						error = "Sorry, there has been a server error, please try later"
+						db.session.rollback()
+					finally:
+						db.session.close()
+				else:
+					error = "You must use your student mail to have access to this platform"
 		except:
 			error = "An account already exists with this email/ID"
 			return render_template('user_register.html')
@@ -122,22 +130,41 @@ def home():
 	}
 	return render_template('user_home.html', **data)
 
+@mod_auth.route('/notifications')
+def notifications():
+	data = {
+		"ride_history":current_user.ride_history,
+		"payment_history":json.loads(current_user.payment_history),
+	}
+	return render_template('user_notifications.html', **data)
+
 @mod_auth.route('/wallet', methods=["GET", "POST"])
 def wallet():
+	global payed
+	global pay_amt
+	global cancel
+	global invoice
+	invoice = generateInvoice()
+
 	data = {
 		"bal":current_user.account_bal,
 		"payment_url":current_user.payment_url,
 		"number":current_user.momo_number,
 		"full_name":current_user.full_name,
 		"email":current_user.email,
-		"invoice": generateInvoice()
+		"invoice": invoice,
+		"pay":payed,
+		"amt":pay_amt,
+		"cancelled":cancel
 	}
 
+	payed = False
+	amt = 0
+	cancel = False
+
 	if request.method == "POST":
-		print("post")
 		payment = request.form.get("amt")
 		current_user.temp_payment = int(payment)
-		print(payment)
 		try:
 			db.session.add(current_user)
 			db.session.commit()
@@ -149,6 +176,8 @@ def wallet():
 @mod_auth.route('/amt', methods=["POST"])
 def amt():
 	current_user.temp_payment = float(request.form['amt'])
+	global pay_amt
+	pay_amt = current_user.temp_payment
 
 	try:
 		db.session.add(current_user)
@@ -166,13 +195,28 @@ def user_pay(bus):
 
 @mod_auth.route('/payment_success/<uid>')
 def success(uid):
-	print(uid)
 	if current_user.payment_url == uid:
-		current_user.account_bal += current_user.temp_payment
-		db.session.add(current_user)
-		db.session.commit()
+		global invoice
+		current_user.add_cash_in(invoice, datetime.datetime.today(), current_user.temp_payment)
+		try:
+			db.session.add(current_user)
+			db.session.commit()
+		except:
+			db.session.rollback()
+		else:
+			db.session.close()
+		global payed
+		payed = True
 		return redirect('/wallet')
 	return "LOL"
+
+@mod_auth.route('/payment_cancelled/<uid>')
+def cancelled(uid):
+	if current_user.payment_url == uid:
+		global cancel
+		cancel = True
+		return redirect('/wallet')
+	return "LOl"
 
 @mod_auth.route('/profile', methods=['GET', 'POST'])
 def user_profile():

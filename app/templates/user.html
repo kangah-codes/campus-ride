@@ -197,7 +197,7 @@
                });
         </script>
     {% endif %}
-    
+
 
             <div class="panel-header panel-header-lg" id="panel">
                 <div class="header text-center">
@@ -290,15 +290,15 @@
 
                                         <div class="item blue" id="blue">
 
-                                            <img class="ppic" src="{{ url_for('static', filename='img//profilePic.svg') }}" alt="..." width="130px">
+                                            <img class="ppic" src="../static/img/{{ first_name[0]|lower }}.png" alt="..." width="130px">
 
-                                            <a class="picon" href="#"><i id="picon" class="fa fa-camera" onmouseover="showDrop()" onmouseout="hideDrop()"></i></a>
+                                            <!-- <a class="picon" href="#"><i id="picon" class="fa fa-camera" onmouseover="showDrop()" onmouseout="hideDrop()"></i></a> -->
 
 
 
                                         </div>
 
-                                        <ul class="dropdown-content" onmouseover="showDrop()" onmouseout="hideDrop()">
+                                        <!-- <ul class="dropdown-content" onmouseover="showDrop()" onmouseout="hideDrop()">
                                             <li>
                                                 <a href="#" id="view" style="text-decoration: none;">View</a>
                                             </li>
@@ -307,7 +307,7 @@
                                                 <a href="#" id="edit" style="text-decoration: none;">Edit</a>
                                             </li>
 
-                                        </ul>
+                                        </ul> -->
 
 
 

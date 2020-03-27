@@ -5,6 +5,9 @@
 {% endblock %}
 
 {% block wallet %}
+
+    
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
     <style type="text/css">.fonts{font-size: 12.5px;}.ipay-btn{background-color: #04448C;border-color: #04448C;border-radius: 17px !important;.modal-header{padding-left:48px !important;padding-right: 48px !important;border-bottom: none !important;text-align: center !important;}.modal-footer{height: 120px;padding-left:48px !important;padding-right: 48px !important;margin-bottom: -17px !important;border-top: none !important;}.modal-body{margin-bottom: -25px;padding-right: 48px !important;padding-left: 48px !important;border-bottom: none !important;margin-top: -27px;}#close:hover{text-decoration: none !important;}.logo{width: 65px;height: 65px;}</style>
     <style>
@@ -144,7 +147,7 @@
                                     <div class="col-12 text-center" style="padding-bottom: 90px;">
                                         <h3 style="padding-bottom: 20%">Account Balance</h3>
                                         {% if bal <= 0 %}
-                                        <h1 class="py-5" style="font-size: 60px;color: red" >GHS {{ bal }}</h1>
+                                        <h1 class="py-5" style="font-size: 60px;color: red" >GH₵ {{ bal }}</h1>
                                         {% else %}
                                         <h1 class="display-3 pt-3 pb-5" style="font-size: 60px;" >GHS {{ bal }}</h1>
                                         {% endif %}
@@ -276,6 +279,8 @@
                 // document.getElementById("invoice_id").value = document.getElementById("merchant_code").value+ new Date().today() + new Date().timeNow();
             })();
     </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 
     <div id="ipayModal" class="modal fade m-auto" role="dialog" data-keyboard="true" data-backdrop="true">
                     <div class="modal-dialog">
@@ -289,8 +294,8 @@
                                     <input name="merchant_key" type="hidden" value="tk_f0f2bb56-6f86-11ea-b8e9-f23c9170642f">
                                     <input id="merchant_code" type="hidden" value="TST000000003969">
                                     <input name="source" type="hidden" value="WIDGET">
-                                    <input name="success_url" type="hidden" value="http://ug.campusride.africa/payment_success/{{ payment_url }}">
-                                    <input name="cancelled_url" type="hidden" value="http://ug.campusride.africa/wallet">
+                                    <input name="success_url" type="hidden" value="http://127.0.0.1:5000/payment_success/{{ payment_url }}">
+                                    <input name="cancelled_url" type="hidden" value="http://127.0.0.1:5000/payment_cancelled/{{ payment_url }}">
                                     <input id="invoice_id" name="invoice_id" type="hidden" value="{{ invoice }}">
                                     <div class="row">
                                         <div class="col-lg">
@@ -356,5 +361,28 @@
                         $.post("/amt", {"amt": $("#total").val()})
                     }
                 </script>
+
+                {{pay}}
+
+                {% if pay %}
+                    <script type="text/javascript">
+                        swal({
+                            title: "Payment Successful",
+                            text: "Deposited GH₵ {{ amt }} into account",
+                            type: "success",
+                            confirmButtonText: "Ok"
+                           });
+                    </script>
+                {% endif %}
+                {% if cancelled %}
+                    <script type="text/javascript">
+                        swal({
+                            title: "Payment cancelled",
+                            text: "The transaction was not completed",
+                            type: "error",
+                            confirmButtonText: "Ok"
+                           });
+                    </script>
+                {% endif %}
 
 {% endblock %}
