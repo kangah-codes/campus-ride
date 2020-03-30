@@ -17,6 +17,13 @@ import random
 
 production = True
 
+"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"
+
+"""
+d-f06b610e0a034324bdfa30f17c6738dc 
+
+"""
+
 if not production:
 	url = '127.0.0.1:5000'
 else:
@@ -60,18 +67,11 @@ def login():
 		rem = request.form.get("rem")
 		search = User.query.filter_by(public_id=stid).first()
 
-		if rem == None:
+		if check_password_hash(pwd, search.password_hash):
+			error = "Invalid ID/Password"
 			login_user(search, remember=False)
 			return redirect('/home')
-		login_user(search, remember=True)
-		return redirect('/home')
-		print(search)
-		# if search is None:
-		# 	data['msg'] = "Invalid username/password"
-		# else:
-		# 	if search.check_password(pwd):
-		# 		login_user(search)
-		# 		return redirect('/home')
+		return render_template('user_login.html', error="Invalid Username/Password")
 	return render_template('user_login.html')
 
 @mod_auth.route('/login_admin')
@@ -85,6 +85,7 @@ def register():
 		return redirect('/home')
 
 	if request.method == "POST":
+		error = None
 		name = request.form.get('full_name')
 		student_id = request.form.get('st_id')
 		email = request.form.get('st_mail')
