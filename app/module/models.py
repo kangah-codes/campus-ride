@@ -5,32 +5,10 @@ import json
 import uuid
 import string
 import random
+import datetime
 
 def generate_bus_pin():
 	return ''.join(random.choice(string.ascii_uppercase+string.digits) for i in range(6))
-
-class Admin(db.Model):
-	__tablename__ = "admin"
-
-	id = db.Column(db.Integer, primary_key=True)
-	full_name = db.Column(db.String(255), nullable=False)
-	username = db.Column(db.String(20), nullable=False)
-	password_hash = db.Column(db.String(20), nullable=False)
-	profile_picture = db.Column(db.String(255), nullable=False)
-
-	@property
-	def password_hash(self):
-		raise AttributeError("View only")
-
-	@password_hash.setter
-	def password(self, password):
-		self.password_hash = flask_bcrypt.generate_password_hash(password).decode('utf-8')
-
-	def check_password(self, password):
-		return flask_bcrypt.check_password_hash(self.password_hash, password)
-	
-	def __repr__(self):
-		return f"<Admin {self.id}>"
 
 class Driver(db.Model):
 	"""
@@ -47,11 +25,114 @@ class Driver(db.Model):
 	def __repr__(self):
 		return f"<Driver {self.id}>"
 
+class RideStats(db.Model):
+	__tablename__ = "rides"
+
+	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+	stats = db.Column(db.String(), unique=False, nullable=True)
+
+	def __init__(self):
+		self.stats = json.dumps(
+			{
+				str(datetime.date.today()):0
+			}
+		)
+
+	def add_amount(self, amount):
+		stats = json.loads(self.stats)
+		today = str(datetime.date.today())
+		for i in stats.keys():
+			if today == i:
+				stats[i] += amount
+			else:
+				stats[today] = amount
+		self.stats = json.dumps(stats)
+
+	def get_stats(self):
+		return json.loads(self.stats).items()
+
+class RegisterStats(db.Model):
+	__tablename__ = "register"
+
+	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+	stats = db.Column(db.String(), unique=False, nullable=True)
+
+	def __init__(self):
+		self.stats = json.dumps(
+			{
+				str(datetime.date.today()):0
+			}
+		)
+
+	def add_register(self, date):
+		stats = json.loads(self.stats)
+		today = str(datetime.date.today())
+		for i in stats.keys():
+			if today == i:
+				stats[i] += 1
+			else:
+				stats[today] = 1
+		self.stats = json.dumps(stats)
+
+	def get_register(self):
+		return json.loads(self.stats).items()
+
+class PaymentStats(db.Model):
+	__tablename__ = "payment"
+
+	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+	stats = db.Column(db.String(), unique=False, nullable=True)
+
+	def __init__(self):
+		self.stats = json.dumps(
+			{
+				str(datetime.date.today()):0
+			}
+		)
+
+	def add_payment(self, amount):
+		stats = json.loads(self.stats)
+		today = str(datetime.date.today())
+		for i in stats.keys():
+			if today == i:
+				stats[i] += 1
+			else:
+				stats[today] = amount
+		self.stats = json.dumps(stats)
+
+	def get_payment(self):
+		return json.loads(self.stats).items()
+
+class Notifications(db.Model):
+	__tablename__ = 'notifications'
+
+	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+	notifications = db.Column(db.String(), unique=False, nullable=True)
+
+	def __init__(self):
+		self.stats = json.dumps(
+			{
+				str(datetime.date.today()):None
+			}
+		)
+
+	def add_notification(self, date, text):
+		notifications = json.loads(self.notifications)
+
+		notifications[str(date)] = f"{text} at {date}"
+
+		self.notifications = json.dumps(notifications)
+
+	def get_notifications(self):
+		return json.loads(self.notifications).items()
+
+
 class Bus(db.Model):
 	__tablename__ = "buses"
 
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 	qr_id = db.Column(db.String(), unique=True, nullable=True)
+	is_active = db.Column(db.Boolean, unique=False, nullable=True)
 	alt_id = db.Column(db.Integer, unique=True, nullable=True)
 
 	def __init__(self):
@@ -78,16 +159,15 @@ class User(UserMixin, db.Model):
 	__tablename__ = "user"
 
 	id = db.Column(db.Integer, primary_key=True)
-	email = db.Column(db.String(255), unique=True, nullable=False, default="None")
-	registered_on = db.Column(db.DateTime, nullable=False)
+	email = db.Column(db.String(255), unique=True, nullable=True, default="None")
+	registered_on = db.Column(db.String(), nullable=True)
 	public_id = db.Column(db.String(100), unique=True)
-	#username = db.Column(db.String(50), unique=True)
 	hall = db.Column(db.String(), unique=False, nullable=True)
 	password_hash = db.Column(db.String(100))
-	full_name = db.Column(db.String(100), unique=False, nullable=False)
-	level = db.Column(db.String(10), unique=False, nullable=False)
+	full_name = db.Column(db.String(100), unique=False, nullable=True)
+	level = db.Column(db.String(10), unique=False, nullable=True)
 	course = db.Column(db.String(50), unique=False, nullable=True)
-	account_bal = db.Column(db.Float(), unique=False, nullable=False, default=1.00)
+	account_bal = db.Column(db.Float(), unique=False, nullable=True, default=1.00)
 	momo_number = db.Column(db.String(15), unique=False, nullable=True)
 	notifications = db.Column(db.String(), unique=False, nullable=True)
 	profile_picture = db.Column(db.String(), unique=False, nullable=True, default="TEST_URL")
@@ -97,11 +177,13 @@ class User(UserMixin, db.Model):
 	is_activated = db.Column(db.Boolean, unique=False, nullable=True, default=False)
 	temp_payment = db.Column(db.Float(), unique=False, nullable=True)
 	payment_url = db.Column(db.String(), unique=True, nullable=True)
+	is_admin = db.Column(db.Boolean, unique=False, nullable=True)
+	admin_id = db.Column(db.String(), unique=True, nullable=True)
 
 	def __init__(self, ids, email, registered_on, password_hash, full_name, level, momo_number):
 		self.public_id = ids
 		self.email = email
-		self.registered_on = registered_on
+		self.registered_on = str(datetime.date.today())
 		self.password_hash = password_hash
 		self.full_name = full_name
 		self.level = level

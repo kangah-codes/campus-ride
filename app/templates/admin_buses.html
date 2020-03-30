@@ -1,0 +1,91 @@
+{% extends 'base_admin_dash.html' %}
+{% block bus %}active{% endblock %}
+{% block buses %}
+
+  <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">Buses</h4>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead class=" text-primary">
+                        <th>
+                          ID
+                        </th>
+                        <th>
+                          Number Plate
+                        </th>
+                        <th>
+                          Seats
+                        </th>
+                        <th>
+                          Date Registered
+                        </th>
+                        <th>
+                          In Service
+                        </th>
+                        <th>
+                        	Action
+                        </th>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            1
+                          </td>
+                          <td>
+                            Dakota Rice
+                          </td>
+                          <td>
+                            Niger
+                          </td>
+                          <td>
+                            Oud-Turnhout
+                          </td>
+                          <td class="text-primary">
+                            $36,738
+                          </td>
+                          <td class="text-primary">
+                            <button class="btn btn-danger">Decomission</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="card" style="margin-top: 10%">
+            	<div class="card-header card-header-primary">
+                  <h4 class="card-title ">Register a bus</h4>
+                </div>
+            	<div class="card-body">
+            		<form>
+					  <div class="form-group row">
+					    <label for="inputPassword" class="col-sm-2 col-form-label">Number Plate</label>
+					    <div class="col-sm-10">
+					      <input type="text" class="form-control" id="inputPassword" placeholder="Plate">
+					    </div>
+					  </div>
+					  <div class="form-group row">
+					    <label for="staticEmail" class="col-sm-2 col-form-label">Seats</label>
+					    <div class="col-sm-10">
+					      <input type="text" class="form-control" id="staticEmail">
+					    </div>
+					  </div>
+					  <center>
+					  	<button class="btn btn-success" type="submit">Register</button>
+					  </center>
+					</form>
+            	</div>
+            </div>
+            </div>
+
+            
+          </div>
+
+
+{% endblock %}
+

@@ -286,7 +286,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <img src="http://fpoimg.com/95x65?text=Logo" class="mx-auto d-block logo">
+                                <img src="{{ url_for('static', filename='img/logo.png') }}" class="mx-auto d-block logo" style="width: 50%">
                             </div>
                             <form action="https://manage.ipaygh.com/gateway/checkout" id="ipay_checkout" method="post" name="ipay_checkout" target="_blank" onsubmit="sendAmt()">
                                 <div class="modal-body">
@@ -361,8 +361,6 @@
                         $.post("/amt", {"amt": $("#total").val()})
                     }
                 </script>
-
-                {{pay}}
 
                 {% if pay %}
                     <script type="text/javascript">

@@ -15,7 +15,7 @@ import sqlalchemy
 import string
 import random
 
-production = True
+production = False
 
 if not production:
 	url = '127.0.0.1:5000'
@@ -29,6 +29,7 @@ payed = False
 cancel = False
 pay_amt = 0
 invoice = None
+error = None
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_auth = Blueprint('app', __name__)
@@ -73,13 +74,15 @@ def login():
 		# 		return redirect('/home')
 	return render_template('user_login.html')
 
+@mod_auth.route('/login_admin')
+def login_admin():
+	return render_template('admin_login.html')
+
 @mod_auth.route('/register', methods=["GET", "POST"])
 def register():
+	global error
 	if current_user.is_authenticated:
 		return redirect('/home')
-
-	error = None
-
 
 	if request.method == "POST":
 		name = request.form.get('full_name')
@@ -91,34 +94,32 @@ def register():
 		level = request.form.get('level')
 		course = request.form.get('course')
 		number = request.form.get('phone')
-		try:
-			if not comparePass(password, password_compare):
-				error = "Passwords must match"
+
+		if not comparePass(password, password_compare):
+			error = "Passwords must match"
+		else:
+			if email.split('@')[-1] == 'st.ug.edu.gh':
+				new_user = User(ids=student_id, email=email, registered_on=datetime.datetime.today(),\
+				password_hash=generate_password_hash(password),\
+				full_name=name, level=level, momo_number=number)
+				new_user.course = course
+				new_user.hall = hall
+				new_user.is_activated = False
+				new_user.notifications = json.dumps({f"{datetime.datetime.today()}":f"Account created at {datetime.datetime.today()}"})
+				try:
+					db.session.add(new_user)
+					db.session.commit()
+					login_user(new_user, remember=True)
+					return redirect('/home')
+				except Exception as e:
+					print(e)
+					error = "Sorry, there has been a server error, please try later"
+					db.session.rollback()
+				finally:
+					db.session.close()
 			else:
-				if email.split('@')[-1] == 'st.ug.edu.gh':
-					new_user = User(ids=student_id, email=email, registered_on=datetime.datetime.today(),\
-					password_hash=generate_password_hash(password),\
-					full_name=name, level=level, momo_number=number)
-					new_user.course = course
-					new_user.hall = hall
-					new_user.is_activated = False
-					new_user.notifications = json.dumps({f"{datetime.datetime.today()}":f"Account created at {datetime.datetime.today()}"})
-					try:
-						db.session.add(new_user)
-						db.session.commit()
-						login_user(new_user, remember=True)
-						flash("Logged in")
-						return redirect('/home')
-					except:
-						error = "Sorry, there has been a server error, please try later"
-						db.session.rollback()
-					finally:
-						db.session.close()
-				else:
-					error = "You must use your student mail to have access to this platform"
-		except:
-			error = "An account already exists with this email/ID"
-			return render_template('user_register.html')
+				error = "You must use your student mail to have access to this platform"
+
 	return render_template('user_register.html', error=error)
 
 @mod_auth.route('/logout')
@@ -268,3 +269,23 @@ def user_profile():
 @mod_auth.route('/pay')
 def pay():
 	return render_template('user_payment.html')
+
+@mod_auth.route('/admin_home')
+def admin_home():
+	return render_template('admin_dashboard.html')
+
+@mod_auth.route('/admin_students')
+def admin_students():
+	return render_template('admin_user.html')
+
+@mod_auth.route('/admin_buses')
+def admin_buses():
+	return render_template('admin_buses.html')
+
+@mod_auth.route('/admin_admin')
+def admin_admin():
+	return render_template('admin_admin.html')
+
+@mod_auth.route('/admin_notifications')
+def admin_notifications():
+	return render_template('admin_notifications.html')

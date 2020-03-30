@@ -14,6 +14,8 @@
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500" rel="stylesheet">
     <link rel="stylesheet" href="css/cssanimation.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
     <!-- Bootstrap -->
 
 
@@ -270,16 +272,27 @@
 
 <body>
 
+    {% if error %}
+        <script type="text/javascript">
+            swal({
+                title: "Error!",
+                text: "{{ error }}",
+                type: "error",
+                confirmButtonText: "Ok"
+               });
+        </script>
+    {% endif %}
+
     <div class="container " id="#container">
         <div class="img">
-            <img id="aimg" src="img/undraw_charts_jj6t.svg" alt="img" class="cssanimation fadeInLeft">
+            <img id="aimg" src="{{ url_for('static', filename='img/undraw_dashboard_nklg.svg') }}" alt="img" class="cssanimation fadeInLeft">
         </div>
 
 
 
         <div class="login-container">
             <form action="#" method="POST" class="cssanimation fadeInTop">
-                <img class="avatar " src="img/undraw_male_avatar_323b.svg" alt="img">
+                <img class="avatar " src="{{ url_for('static', filename='img/undraw_male_avatar_323b.svg') }}" alt="img">
                 <h2>Admin Login</h2>
                 <div class="input-div one ">
                     <div class="i">
@@ -287,7 +300,7 @@
                     </div>
                     <div>
                         <h5>Email</h5>
-                        <input class="input" type="email" oninvalid="this.setCustomValidity('Enter an Admin email')" oninput="this.setCustomValidity('')">
+                        <input class="input" name="email" type="email" oninvalid="this.setCustomValidity('Enter an Admin email')" oninput="this.setCustomValidity('')">
                     </div>
 
                 </div>
@@ -299,7 +312,7 @@
                     </div>
                     <div>
                         <h5>Password</h5>
-                        <input class="input" type="password" oninvalid="this.setCustomValidity('Enter a Valid Password')" oninput="this.setCustomValidity('')">
+                        <input class="input" name="pwd" type="password" oninvalid="this.setCustomValidity('Enter a Valid Password')" oninput="this.setCustomValidity('')">
                     </div>
                 </div>
 

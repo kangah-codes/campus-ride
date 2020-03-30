@@ -1,0 +1,94 @@
+{% extends 'base_admin_dash.html' %}
+{% block admin %}active{% endblock %}
+{% block admins %}
+<div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">Admins</h4>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead class=" text-primary">
+                        <th>
+                          ID
+                        </th>
+                        <th>
+                          Name
+                        </th>
+                        <th>
+                          Email
+                        </th>
+                        <th>
+                          Permissions
+                        </th>
+                        <th>
+                          Date registered
+                        </th>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            1
+                          </td>
+                          <td>
+                            Dakota Rice
+                          </td>
+                          <td>
+                            Niger
+                          </td>
+                          <td>
+                            Oud-Turnhout
+                          </td>
+                          <td class="text-primary">
+                            $36,738
+                          </td>
+                          <td class="text-primary">
+                            <button class="btn btn-danger">Decomission</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="card" style="margin-top: 10%">
+            	<div class="card-header card-header-primary">
+                  <h4 class="card-title ">Register an admin</h4>
+                </div>
+            	<div class="card-body">
+            		<form>
+					  <div class="form-group row">
+					    <label for="inputPassword" class="col-sm-2 col-form-label">Name</label>
+					    <div class="col-sm-10">
+					      <input type="text" class="form-control" id="inputPassword" placeholder="Plate">
+					    </div>
+					  </div>
+					  <div class="form-group row">
+					    <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+					    <div class="col-sm-10">
+					      <input type="text" class="form-control" id="staticEmail">
+					    </div>
+					  </div>
+					  <div class="form-group row">
+					    <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">Permissions</label>
+					    <div class="col-sm-10">
+						    <select class="form-control" id="exampleFormControlSelect1">
+						      <option>Level 1</option>
+						      <option>Level 2</option>
+						    </select>
+					   	</div>
+					  </div>
+					  <center>
+					  	<button class="btn btn-success" type="submit">Register</button>
+					  </center>
+					</form>
+            	</div>
+            </div>
+            </div>
+
+            
+          </div>
+
+{% endblock %}

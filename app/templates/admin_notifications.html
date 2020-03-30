@@ -1,0 +1,22 @@
+{% extends 'base_admin_dash.html' %}
+{% block notification %}active{% endblock %}
+{% block notif %}
+  <div class="card">
+    <div class="card-header card-header-primary">
+      <h3 class="card-title">Notifications</h3>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <div class="alert alert-info alert-with-icon alert-success" data-notify="container">
+            <i class="material-icons" data-notify="icon">add_alert</i>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <i class="material-icons">close</i>
+            </button>
+            <span data-notify="message">This is a notification with close button and icon.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
