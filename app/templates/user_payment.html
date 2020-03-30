@@ -129,81 +129,81 @@
                 let scanner = null;
                 document.getElementById('btn-show-scanner').addEventListener('click', async() => {
 
-                    // document.querySelector("#div-video-container").innerHTML = '<video class="dbrScanner-video" playsinline="true" style=" height: 500px; width: 100%; margin-left: 0; margin-right:0; "></video>'
-                    // try {
-                    //     scanner = scanner || await Dynamsoft.BarcodeScanner.createInstance();
-                    //     await scanner.setUIElement(document.getElementById('div-video-container'));
-                    //     scanner.onFrameRead = results => {
+                    document.querySelector("#div-video-container").innerHTML = '<video class="dbrScanner-video" playsinline="true" style=" height: 500px; width: 100%; margin-left: 0; margin-right:0; "></video>'
+                    try {
+                        scanner = scanner || await Dynamsoft.BarcodeScanner.createInstance();
+                        await scanner.setUIElement(document.getElementById('div-video-container'));
+                        scanner.onFrameRead = results => {
 
-                    //         if (results.length) {
-                    //             console.log(results);
-                    //         }
-                    //     };
-                    //     scanner.onUnduplicatedRead = (txt, result) => {
-                    //         console.log(result.barcodeFormatString + ': ' + txt);
+                            if (results.length) {
+                                console.log(results);
+                            }
+                        };
+                        scanner.onUnduplicatedRead = (txt, result) => {
+                            console.log(result.barcodeFormatString + ': ' + txt);
 
-                    //         const swalObj = {
-                    //             icon: "info",
-                    //             title: 'Authentication Needed',
-                    //             text: "Enter Your Pin to Continue",
-                    //             inputPlaceholder: 'Campus Ride Pin',
-                    //             input: 'password',
-                    //             inputAttributes: {
-                    //                 maxlength: 4,
-                    //                 autocapitalize: 'off',
-                    //                 autocorrect: 'off'
-                    //             },
+                            const swalObj = {
+                                icon: "info",
+                                title: 'Authentication Needed',
+                                text: "Enter Your Pin to Continue",
+                                inputPlaceholder: 'Campus Ride Pin',
+                                input: 'password',
+                                inputAttributes: {
+                                    maxlength: 4,
+                                    autocapitalize: 'off',
+                                    autocorrect: 'off'
+                                },
 
-                    //             showCancelButton: true,
-                    //             inputValidator: (value) => {
-                    //                 if (!value) {
-                    //                     return 'Your pin cant be empty. Try Again!'
-                    //                 }
-                    //                 if (value != password) {
-                    //                     return 'Pin is Incorrect'
-                    //                 }
-                    //                 if (value == password) {
-                    //                     Swal.fire({
-                    //                         icon: "success",
-                    //                         title: "Thank You",
-                    //                         text: "Your Payment Is Successful",
-                    //                         html: '<a style = "color:#195F90;" href = "#" >View Receipt<a>'
+                                showCancelButton: true,
+                                inputValidator: (value) => {
+                                    if (!value) {
+                                        return 'Your pin cant be empty. Try Again!'
+                                    }
+                                    if (value != password) {
+                                        return 'Pin is Incorrect'
+                                    }
+                                    if (value == password) {
+                                        Swal.fire({
+                                            icon: "success",
+                                            title: "Thank You",
+                                            text: "Your Payment Is Successful",
+                                            html: '<a style = "color:#195F90;" href = "#" >View Receipt<a>'
 
-                    //                     })
-                    //                 }
+                                        })
+                                    }
 
-                    //             }
-                    //         }
-                    //         let password = "0554";
-                    //         Swal.fire(swalObj)
+                                }
+                            }
+                            let password = "0554";
+                            Swal.fire(swalObj)
 
 
-                    //     };
+                        };
 
-                    //     await scanner.show();
-                    // } catch (ex) {
-                    //     // alert(ex.message);
-                    //     swal({
-                    //         // title: "Success",
-                    //         text: ex.message,
-                    //         icon: "Warning",
-                    //     });
-                    //     throw ex;
-                    // }
+                        await scanner.show();
+                    } catch (ex) {
+                        // alert(ex.message);
+                        swal({
+                            // title: "Success",
+                            text: ex.message,
+                            icon: "Warning",
+                        });
+                        throw ex;
+                    }
 
-                    let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
-                      scanner.addListener('scan', function (content) {
-                        console.log(content);
-                      });
-                      Instascan.Camera.getCameras().then(function (cameras) {
-                        if (cameras.length > 0) {
-                          scanner.start(cameras[0]);
-                        } else {
-                          console.error('No cameras found.');
-                        }
-                      }).catch(function (e) {
-                        console.error(e);
-                      });
+                    // let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+                    //   scanner.addListener('scan', function (content) {
+                    //     console.log(content);
+                    //   });
+                    //   Instascan.Camera.getCameras().then(function (cameras) {
+                    //     if (cameras.length > 0) {
+                    //       scanner.start(cameras[0]);
+                    //     } else {
+                    //       console.error('No cameras found.');
+                    //     }
+                    //   }).catch(function (e) {
+                    //     console.error(e);
+                    //   });
                 });
             </script>
             <script src="{{ url_for('static', filename='js/core/jquery.min.js') }}"></script>
