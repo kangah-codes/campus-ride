@@ -67,8 +67,7 @@ def login():
 		rem = request.form.get("rem")
 		search = User.query.filter_by(public_id=stid).first()
 
-		if check_password_hash(pwd, search.password_hash):
-			error = "Invalid ID/Password"
+		if check_password_hash(search.password_hash, pwd):
 			login_user(search, remember=False)
 			return redirect('/home')
 		return render_template('user_login.html', error="Invalid Username/Password")
