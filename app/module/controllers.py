@@ -15,7 +15,7 @@ import sqlalchemy
 import string
 import random
 
-production = False
+production = True
 
 if not production:
 	url = '127.0.0.1:5000'
