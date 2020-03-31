@@ -149,7 +149,7 @@
                                         {% if bal <= 0 %}
                                         <h1 class="py-5" style="font-size: 60px;color: red" >GH₵ {{ bal }}</h1>
                                         {% else %}
-                                        <h1 class="display-3 pt-3 pb-5" style="font-size: 60px;" >GHS {{ bal }}</h1>
+                                        <h1 class="display-3 pt-3 pb-5" style="font-size: 60px;" >GH₵ {{ bal }}</h1>
                                         {% endif %}
                                     </div>
 
@@ -184,86 +184,6 @@
                 </div>
             </div>
 
-    <script>
-        const momo = $('#momo');
-        const amount = $('#amount');
-        const pin = $('#pin');
-        let choose = $('#select-box1');
-        const errorEL = $('#error');
-        choose.val('')
-
-        momo.val('')
-        amount.val('')
-        pin.val('')
-
-
-
-
-
-        $("select").on("click", function() {
-
-            $(this).parent(".select-box").toggleClass("selectOpen");
-
-        });
-
-        $(document).mouseup(function(e) {
-            var container = $(".select-box");
-
-            if (container.has(e.target).length === 0) {
-                container.removeClass("selectOpen");
-            }
-        });
-
-
-        $("select").on("change", function() {
-
-            var selection = $(this).find("option:selected").text(),
-                labelFor = $(this).attr("id"),
-                label = $("[for='" + labelFor + "']");
-
-            label.find(".label-desc").html(selection);
-
-        });
-
-        $('#withdraw').on('click', () => {
-
-
-
-
-            if ((choose.val() === " ") || (momo.val().length === 0) || (amount.val().length === 0) || (pin.val().length === 0)) {
-
-
-                swal({
-                    title: "Error",
-                    text: "Check your details and try again",
-                    icon: "error",
-                    button: "Try Again"
-                });
-
-
-
-            } else {
-
-                swal({
-                    title: "Success",
-                    text: "Your Withdrawal is Successful",
-                    icon: "success",
-                });
-
-            }
-            choose.val('')
-
-
-            $(".label-desc").text('Please Select');
-
-            momo.val('')
-            amount.val('')
-            pin.val('')
-
-
-
-        })
-    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
@@ -357,7 +277,6 @@
 
                 <script type="text/javascript">
                     function sendAmt(){
-                        console.log($("#total").val())
                         $.post("/amt", {"amt": $("#total").val()})
                     }
                 </script>

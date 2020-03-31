@@ -1,5 +1,13 @@
 {% extends 'base_admin_dash.html' %}
 {% block notification %}active{% endblock %}
+{% block num_notif %}{{ notif_count }}{% endblock %}
+{% block notifs %}
+  {% for i in notifications %}
+          {% for j in i.get_notifications() %}
+            <a class="dropdown-item" href="#">{{ j }}</a>
+          {% endfor %}
+        {% endfor %}
+{% endblock %}
 {% block notif %}
   <div class="card">
     <div class="card-header card-header-primary">
@@ -7,15 +15,37 @@
     </div>
     <div class="card-body">
       <div class="row">
+        {% for i in notifications %}
         <div class="col">
-          <div class="alert alert-info alert-with-icon alert-success" data-notify="container">
-            <i class="material-icons" data-notify="icon">add_alert</i>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <i class="material-icons">close</i>
-            </button>
-            <span data-notify="message">This is a notification with close button and icon.</span>
-          </div>
+          {% for j in i.get_notifications() %}
+              {% if 'decomissioned' in j %}
+                <div class="alert-with-icon alert alert-danger" data-notify="container">
+                  <i class="material-icons" data-notify="icon">add_alert</i>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <i class="material-icons">close</i>
+                  </button>
+                  <span data-notify="message">{{ j }}</span>
+                </div>
+              {% elif 'recomissioned' in j %}
+                  <div class="alert-with-icon alert alert-success" data-notify="container">
+                  <i class="material-icons" data-notify="icon">add_alert</i>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <i class="material-icons">close</i>
+                  </button>
+                  <span data-notify="message">{{ j }}</span>
+                </div>
+              {% else %}
+                <div class="alert-with-icon alert alert-info" data-notify="container">
+                  <i class="material-icons" data-notify="icon">add_alert</i>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <i class="material-icons">close</i>
+                  </button>
+                  <span data-notify="message">{{ j }}</span>
+                </div>
+              {% endif %}
+          {% endfor %}
         </div>
+        {% endfor %}
       </div>
     </div>
   </div>

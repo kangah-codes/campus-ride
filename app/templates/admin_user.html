@@ -1,5 +1,13 @@
 {% extends 'base_admin_dash.html' %}
 {% block user %}active{% endblock %}
+{% block num_notif %}{{ notif_count }}{% endblock %}
+{% block notifs %}
+  {% for i in notifications %}
+          {% for j in i.get_notifications() %}
+            <a class="dropdown-item" href="#">{{ j }}</a>
+          {% endfor %}
+        {% endfor %}
+{% endblock %}
 {% block users %}
   <div class="row">
             <div class="col-md-12">
@@ -32,110 +40,56 @@
                         <th>
                           is Activated
                         </th>
+                        <th>
+                          Action
+                        </th>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>
-                            1
-                          </td>
-                          <td>
-                            Dakota Rice
-                          </td>
-                          <td>
-                            Niger
-                          </td>
-                          <td>
-                            Oud-Turnhout
-                          </td>
-                          <td class="text-primary">
-                            $36,738
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            2
-                          </td>
-                          <td>
-                            Minerva Hooper
-                          </td>
-                          <td>
-                            Curaçao
-                          </td>
-                          <td>
-                            Sinaai-Waas
-                          </td>
-                          <td class="text-primary">
-                            $23,789
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            3
-                          </td>
-                          <td>
-                            Sage Rodriguez
-                          </td>
-                          <td>
-                            Netherlands
-                          </td>
-                          <td>
-                            Baileux
-                          </td>
-                          <td class="text-primary">
-                            $56,142
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            4
-                          </td>
-                          <td>
-                            Philip Chaney
-                          </td>
-                          <td>
-                            Korea, South
-                          </td>
-                          <td>
-                            Overland Park
-                          </td>
-                          <td class="text-primary">
-                            $38,735
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            5
-                          </td>
-                          <td>
-                            Doris Greene
-                          </td>
-                          <td>
-                            Malawi
-                          </td>
-                          <td>
-                            Feldkirchen in Kärnten
-                          </td>
-                          <td class="text-primary">
-                            $63,542
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            6
-                          </td>
-                          <td>
-                            Mason Porter
-                          </td>
-                          <td>
-                            Chile
-                          </td>
-                          <td>
-                            Gloucester
-                          </td>
-                          <td class="text-primary">
-                            $78,615
-                          </td>
-                        </tr>
+                        {% for i in students %}
+                          <tr>
+                            <td>
+                              {{ i.public_id }}
+                            </td>
+                            <td>
+                              {{ i.full_name }}
+                            </td>
+                            <td>
+                              {{ i.course }}
+                            </td>
+                            <td>
+                              {{ i.registered_on }}
+                            </td>
+                            <td>
+                              {{ i.account_bal }}
+                            </td>
+                            <td>
+                              {{ i.momo_number }}
+                            </td>
+                            <td>
+                              {{ i.is_activated }}
+                            </td>
+                            <td>
+                              <button class="btn btn-danger" onclick="{{ i.full_name|replace(' ', '') }}()">Delete account</button>
+                              <script type="text/javascript">
+                                function {{ i.full_name|replace(' ', '') }}() {
+                                  swal({
+                                    type: "error",
+                                    title: "Delete Account",
+                                    text:"Are you sure you want to delete this account?",
+                                  }).then(function() {
+                                    $.ajax({
+                                          data : {'bus': []},
+                                          type : 'POST',
+                                          url : '/del_user/{{ i.public_id }}'
+                                      });
+                                    window.location.href='/admin_students'
+                                  });
+                                  // body...
+                                }
+                              </script>
+                            </td>
+                          </tr>
+                        {% endfor %}
                       </tbody>
                     </table>
                   </div>

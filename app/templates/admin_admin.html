@@ -1,5 +1,13 @@
 {% extends 'base_admin_dash.html' %}
 {% block admin %}active{% endblock %}
+{% block num_notif %}{{ notif_count }}{% endblock %}
+{% block notifs %}
+  {% for i in notifications %}
+          {% for j in i.get_notifications() %}
+            <a class="dropdown-item" href="#">{{ j }}</a>
+          {% endfor %}
+        {% endfor %}
+{% endblock %}
 {% block admins %}
 <div class="row">
             <div class="col-md-12">
@@ -28,26 +36,25 @@
                         </th>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>
-                            1
-                          </td>
-                          <td>
-                            Dakota Rice
-                          </td>
-                          <td>
-                            Niger
-                          </td>
-                          <td>
-                            Oud-Turnhout
-                          </td>
-                          <td class="text-primary">
-                            $36,738
-                          </td>
-                          <td class="text-primary">
-                            <button class="btn btn-danger">Decomission</button>
-                          </td>
-                        </tr>
+                        {% for i in admins %}
+                          <tr>
+                            <td>
+                              {{ i.admin_id }}
+                            </td>
+                            <td>
+                              {{ i.full_name }}
+                            </td>
+                            <td>
+                              {{ i.email }}
+                            </td>
+                            <td>
+                              {{ i.permission }}
+                            </td>
+                            <td>
+                              {{ i.registered_on }}
+                            </td>
+                          </tr>
+                        {% endfor %}
                       </tbody>
                     </table>
                   </div>
@@ -58,25 +65,25 @@
                   <h4 class="card-title ">Register an admin</h4>
                 </div>
             	<div class="card-body">
-            		<form>
+            		<form method="post" action="/reg_admin">
 					  <div class="form-group row">
 					    <label for="inputPassword" class="col-sm-2 col-form-label">Name</label>
 					    <div class="col-sm-10">
-					      <input type="text" class="form-control" id="inputPassword" placeholder="Plate">
+					      <input type="text" name="name" class="form-control" id="inputPassword" placeholder="Name">
 					    </div>
 					  </div>
 					  <div class="form-group row">
 					    <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
 					    <div class="col-sm-10">
-					      <input type="text" class="form-control" id="staticEmail">
+					      <input type="email" name="email" class="form-control" id="staticEmail">
 					    </div>
 					  </div>
 					  <div class="form-group row">
 					    <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">Permissions</label>
 					    <div class="col-sm-10">
-						    <select class="form-control" id="exampleFormControlSelect1">
-						      <option>Level 1</option>
-						      <option>Level 2</option>
+						    <select class="form-control" name="level" id="exampleFormControlSelect1">
+						      <option>Basic</option>
+						      <option>Full</option>
 						    </select>
 					   	</div>
 					  </div>

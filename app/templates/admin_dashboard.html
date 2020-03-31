@@ -1,5 +1,13 @@
 {% extends 'base_admin_dash.html' %}
 {% block home_act %}active{% endblock %}
+{% block num_notif %}{{ notif_count }}{% endblock %}
+{% block notifs %}
+  {% for i in notifications %}
+          {% for j in i.get_notifications() %}
+            <a class="dropdown-item" href="#">{{ j }}</a>
+          {% endfor %}
+        {% endfor %}
+{% endblock %}
 {% block home %}
           <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6">
@@ -9,7 +17,7 @@
                     <i class="fa fa-id-card"></i>
                   </div>
                   <p class="card-category">Users</p>
-                  <h3 class="card-title">15</h3>
+                  <h3 class="card-title">{{ students }}</h3>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
@@ -25,7 +33,7 @@
                     <i class="material-icons">money</i>
                   </div>
                   <p class="card-category">Revenue</p>
-                  <h3 class="card-title">₵34,245</h3>
+                  <h3 class="card-title">₵ {{ total }}</h3>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
@@ -41,11 +49,11 @@
                     <i class="fa fa-bus"></i>
                   </div>
                   <p class="card-category">Buses</p>
-                  <h3 class="card-title">75</h3>
+                  <h3 class="card-title">{{ bus }}</h3>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
-                    <i class="material-icons">local_offer</i> Tracked from Github
+                    <i class="material-icons">local_offer</i> On the platform
                   </div>
                 </div>
               </div>
@@ -57,11 +65,11 @@
                     <i class="fa fa-dollar"></i>
                   </div>
                   <p class="card-category">Revenue</p>
-                  <h3 class="card-title">₵245</h3>
+                  <h3 class="card-title">₵ {{ total_day }}</h3>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
-                    <i class="material-icons">date_range</i> Today - 0/3/2
+                    <i class="material-icons">date_range</i> Today - {{ today }}
                   </div>
                 </div>
               </div>
@@ -72,7 +80,7 @@
               <div class="card">
                 <div class="card-header card-header-warning">
                   <h4 class="card-title">Student Stats</h4>
-                  <p class="card-category">New students on 9/2/12</p>
+                  <p class="card-category">New students on {{ today }}</p>
                 </div>
                 <div class="card-body table-responsive">
                   <table class="table table-hover">
@@ -83,30 +91,14 @@
                       <th>Programme</th>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>Dakota Rice</td>
-                        <td>$36,738</td>
-                        <td>Niger</td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>Minerva Hooper</td>
-                        <td>$23,789</td>
-                        <td>Curaçao</td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td>Sage Rodriguez</td>
-                        <td>$56,142</td>
-                        <td>Netherlands</td>
-                      </tr>
-                      <tr>
-                        <td>4</td>
-                        <td>Philip Chaney</td>
-                        <td>$38,735</td>
-                        <td>Korea, South</td>
-                      </tr>
+                      {% for i in students_today %}
+                        <tr>
+                          <td>{{ i.public_id }}</td>
+                          <td>{{ i.full_name }}</td>
+                          <td>{{ i.email }}</td>
+                          <td>{{ i.course }}</td>
+                        </tr>
+                      {% endfor %}
                     </tbody>
                   </table>
                 </div>

@@ -77,54 +77,63 @@ class RegisterStats(db.Model):
 	def get_register(self):
 		return json.loads(self.stats).items()
 
+
 class PaymentStats(db.Model):
 	__tablename__ = "payment"
 
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-	stats = db.Column(db.String(), unique=False, nullable=True)
+	daily = db.Column(db.String(), unique=False, nullable=True)
+	date = db.Column(db.String(), unique=True, nullable=True)
 
 	def __init__(self):
-		self.stats = json.dumps(
-			{
-				str(datetime.date.today()):0
-			}
-		)
+		self.daily = json.dumps({})
+		self.date = str(datetime.date.today())
 
 	def add_payment(self, amount):
-		stats = json.loads(self.stats)
+		daily = json.loads(self.daily)
 		today = str(datetime.date.today())
-		for i in stats.keys():
-			if today == i:
-				stats[i] += 1
-			else:
-				stats[today] = amount
-		self.stats = json.dumps(stats)
+
+		if today in stats.keys():
+			daily[today] += amount
+
+		self.daily = json.dumps(daily)
 
 	def get_payment(self):
-		return json.loads(self.stats).items()
+		daily = json.loads(self.daily)
+		try:
+			return daily[str(datetime.date.today())]
+		except:
+			return 0
+
+	def get_total_payment(self):
+		count = json.loads(self.daily)
+		sum_all = 0
+		for _ in count.values():
+			sum_all += _
+		return sum_all
+
 
 class Notifications(db.Model):
 	__tablename__ = 'notifications'
 
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+	date = db.Column(db.String, unique=True, nullable=True)
 	notifications = db.Column(db.String(), unique=False, nullable=True)
 
 	def __init__(self):
-		self.stats = json.dumps(
-			{
-				str(datetime.date.today()):None
-			}
-		)
+		self.notifications = json.dumps([])
+		self.date = str(datetime.date.today())
 
 	def add_notification(self, date, text):
-		notifications = json.loads(self.notifications)
-
-		notifications[str(date)] = f"{text} at {date}"
-
-		self.notifications = json.dumps(notifications)
+		temp = json.loads(self.notifications)
+		temp.append(f"{text} at {date}")
+		self.notifications = json.dumps(temp)
 
 	def get_notifications(self):
-		return json.loads(self.notifications).items()
+		return json.loads(self.notifications)
+
+	def __repr__(self):
+		return f"<Notifications {self.notifications}>"
 
 
 class Bus(db.Model):
@@ -134,10 +143,15 @@ class Bus(db.Model):
 	qr_id = db.Column(db.String(), unique=True, nullable=True)
 	is_active = db.Column(db.Boolean, unique=False, nullable=True)
 	alt_id = db.Column(db.Integer, unique=True, nullable=True)
+	seats = db.Column(db.Integer, unique=False, nullable=True)
+	number_plate = db.Column(db.String(), unique=False, nullable=True)
+	registered_on = db.Column(db.String(), unique=False, nullable=True)
 
 	def __init__(self):
-		self.qr_id = uuid.uuid4()
+		self.qr_id = str(uuid.uuid4())
 		self.alt_id = generate_bus_pin()
+		self.registered_on = str(datetime.date.today())
+		self.is_active = True
 
 	def __repr__(self):
 		return f"<Bus {self.id}, QR:{self.qr_id}, PIN:{self.alt_id}>"
@@ -230,8 +244,8 @@ class User(UserMixin, db.Model):
 	def subtract_acc(self, amt):
 		try:
 			amount = int(self.account_bal)
-			if amount - amt >= 0:
-				self.account_bal -= amount
+			if (amount - amt) >= 0:
+				self.account_bal -= amt
 				return True
 			return False
 
