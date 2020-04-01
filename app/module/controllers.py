@@ -393,7 +393,7 @@ def admin_home():
 		"today": str(datetime.date.today()),
 		"students": db.session.query(User).count(),
 		"bus": db.session.query(Bus).count(),
-		"students_today": User.query.filter_by(registered_on=str(datetime.date.today())).all(),
+		"students_today": User.query.filter_by(registered_on=str(datetime.date.today()), is_admin=False).all(),
 		"notifications":Notifications.query.filter_by(date=str(datetime.date.today())),
 		"notif_count":len(today.get_notifications()),
 		"admin":current_user.is_admin,
