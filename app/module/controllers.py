@@ -171,7 +171,7 @@ def register():
 					db.session.commit()
 					message = Mail(From('info@ug.campusride.africa', 'Campus Ride'),to_emails=email)
 					message.dynamic_template_data = {
-					    'link': f'{url}/{new_user.activation_url}'
+					    'link': f'{url}/activate/{new_user.activation_url}'
 					}
 					message.template_id = 'd-f06b610e0a034324bdfa30f17c6738dc'
 					try:
