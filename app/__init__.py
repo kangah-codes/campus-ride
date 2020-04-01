@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from config import config_by_name
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 from flask_login import LoginManager, current_user, login_user
 
 # Define the WSGI application object
@@ -22,6 +22,10 @@ app.config.from_object(config_by_name['dev'])
 @app.errorhandler(404)
 def not_found(error):
     return "NOT FOUND"
+
+@app.login_manager.unauthorized_handler
+def unauth_handler():
+	return redirect('/')
 
 # Import a module / component using its blueprint handler variable (mod_auth)
 from app.module.controllers import mod_auth as auth_module

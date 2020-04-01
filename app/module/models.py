@@ -193,6 +193,7 @@ class User(UserMixin, db.Model):
 	payment_url = db.Column(db.String(), unique=True, nullable=True)
 	is_admin = db.Column(db.Boolean, unique=False, nullable=True)
 	admin_id = db.Column(db.String(), unique=True, nullable=True)
+	permission = db.Column(db.Integer, unique=False, nullable=True)
 
 	def __init__(self, ids, email, registered_on, password_hash, full_name, level, momo_number):
 		self.public_id = ids

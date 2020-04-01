@@ -4,7 +4,7 @@ from flask import Blueprint, request, render_template, flash, g, session, redire
 from werkzeug.security import check_password_hash, generate_password_hash
 
 # Import the database object from the main app module
-from app import db
+from app import db, login
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 
 from sendgrid import SendGridAPIClient
@@ -22,7 +22,7 @@ import shutil
 import os
 import uuid
 
-production = False
+production = True
 
 "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"
 
@@ -88,6 +88,8 @@ def generatePassword():
 	return ''.join(random.choice(items) for i in range(8))
 
 # Set the route and accepted methods
+
+
 
 # custom route to redirect to login page
 @mod_auth.route('/')
@@ -167,9 +169,9 @@ def register():
 					db.session.add(new_user)
 					db.session.add(admin_notifications)
 					db.session.commit()
-					message = Mail(From('campus.ride.gh.com', 'Campus Ride'),to_emails=email)
+					message = Mail(From('info@ug.campusride.africa', 'Campus Ride'),to_emails=email)
 					message.dynamic_template_data = {
-					    'link': new_user.activation_url
+					    'link': f'{url}/{new_user.activation_url}'
 					}
 					message.template_id = 'd-f06b610e0a034324bdfa30f17c6738dc'
 					try:
@@ -178,10 +180,12 @@ def register():
 					except Exception as e:
 						raise Exception("Error")
 					#login_user(new_user, remember=True)
-					return redirect('/')
+					#return redirect('/')
+					return render_template('landing_page.html', success=True)
 				except Exception as e:
+					print(e)
 					db.session.rollback()
-					return render_template('user_register.html', error="Server error, please try again")
+					return render_template('user_register.html', error="An account already exists with these credentials")
 				finally:
 					db.session.close()
 			else:
@@ -199,11 +203,13 @@ def activate(url):
 		return redirect('/')
 
 @mod_auth.route('/logout')
+@login_required
 def logout():
 	logout_user()
 	return redirect('/login_user')
 
 @mod_auth.route('/home')
+@login_required
 def home():
 	data = {
 		"first_name":current_user.full_name.split(' ')[0],
@@ -214,6 +220,7 @@ def home():
 	return render_template('user_home.html', **data)
 
 @mod_auth.route('/notifications')
+@login_required
 def notifications():
 	data = {
 		"ride_history":current_user.ride_history,
@@ -222,6 +229,7 @@ def notifications():
 	return render_template('user_notifications.html', **data)
 
 @mod_auth.route('/wallet', methods=["GET", "POST"])
+@login_required
 def wallet():
 	global payed
 	global pay_amt
@@ -258,6 +266,7 @@ def wallet():
 	return render_template('user_wallet.html', **data)
 
 @mod_auth.route('/amt', methods=["POST"])
+@login_required
 def amt():
 	current_user.temp_payment = float(request.form['amt'])
 	global pay_amt
@@ -274,6 +283,7 @@ def amt():
 	return ""
 
 @mod_auth.route('/user_pay/<bus>', methods=["POST"])
+@login_required
 def user_pay(bus):
 	if request.method == "POST":
 		if current_user.add_ride(bus, datetime.datetime.now()):
@@ -290,6 +300,7 @@ def user_pay(bus):
 	return redirect('/user_wallet')
 
 @mod_auth.route('/payment_success/<uid>')
+@login_required
 def success(uid):
 	if current_user.payment_url == uid:
 		global invoice
@@ -312,6 +323,7 @@ def success(uid):
 	return "LOL"
 
 @mod_auth.route('/payment_cancelled/<uid>')
+@login_required
 def cancelled(uid):
 	if current_user.payment_url == uid:
 		global cancel
@@ -323,6 +335,7 @@ def cancelled(uid):
 	return "LOl"
 
 @mod_auth.route('/profile', methods=['GET', 'POST'])
+@login_required
 def user_profile():
 	error = None
 	data = {
@@ -361,6 +374,7 @@ def user_profile():
 	return render_template('user.html', **data)
 
 @mod_auth.route('/pay')
+@login_required
 def pay():
 	data = {
 		"buses": Bus.query.all(),
@@ -369,6 +383,7 @@ def pay():
 	return render_template('user_payment.html', **data)
 
 @mod_auth.route('/admin_home')
+@login_required
 def admin_home():
 	pay = PaymentStats.query.filter_by(date=str(datetime.date.today())).first()
 	today = Notifications.query.filter_by(date=str(datetime.date.today())).first()
@@ -379,53 +394,64 @@ def admin_home():
 		"students": db.session.query(User).count(),
 		"bus": db.session.query(Bus).count(),
 		"students_today": User.query.filter_by(registered_on=str(datetime.date.today())).all(),
-		"notifications":Notifications.query.all(),
+		"notifications":Notifications.query.filter_by(date=str(datetime.date.today())),
 		"notif_count":len(today.get_notifications()),
-		"admin":current_user.is_admin
+		"admin":current_user.is_admin,
+		"has_permission":current_user.permission
 	}
 	return render_template('admin_dashboard.html', **data)
 
 @mod_auth.route('/admin_students')
+@login_required
 def admin_students():
 	today = Notifications.query.filter_by(date=str(datetime.date.today())).first()
 	data = {
 		"students": User.query.all(),
 		"notifications":Notifications.query.all(),
 		"notif_count":len(today.get_notifications()),
-		"admin":current_user.is_admin
+		"admin":current_user.is_admin,
+		"has_permission":current_user.permission
+
 	}
 	return render_template('admin_user.html', **data)
 
 @mod_auth.route('/admin_buses')
+@login_required
 def admin_buses():
 	today = Notifications.query.filter_by(date=str(datetime.date.today())).first()
 	data = {
 		"buses": Bus.query.all(),
-		"notifications":Notifications.query.all(),
+		"notifications":Notifications.query.filter_by(date=str(datetime.date.today())),
 		"notif_count":len(today.get_notifications()),
-		"admin":current_user.is_admin
+		"admin":current_user.is_admin,
+		"has_permission":current_user.permission
 	}
 	return render_template('admin_buses.html', **data)
 
 @mod_auth.route('/admin_admin')
+@login_required
 def admin_admin():
 	today = Notifications.query.filter_by(date=str(datetime.date.today())).first()
 	data = {
-		"admins":User.query.filter_by(is_admin=True).all()
+		"admins":User.query.filter_by(is_admin=True).all(),
+		"has_permission":current_user.permission
 	}
 	return render_template('admin_admin.html',**data)
 
 @mod_auth.route('/admin_notifications')
+@login_required
 def admin_notification():
 	today = Notifications.query.filter_by(date=str(datetime.date.today())).first()
 	data = {
 		"notifications":Notifications.query.all(),
 		"notif_count":len(today.get_notifications()),
-		"admin":current_user.is_admin
+		"admin":current_user.is_admin,
+		"has_permission":current_user.permission
 	}
 	return render_template('admin_notifications.html', **data)
 
 @mod_auth.route('/reg_bus', methods=["POST"])
+@login_required
 def admin_reg_bus():
 	plate = request.form.get("plate")
 	seats = request.form.get("seats")
@@ -443,6 +469,8 @@ def admin_reg_bus():
 	return render_template('qr.html', code=new_bus.qr_id, bus=plate)
 
 @mod_auth.route('/dec_bus/<bus>', methods=["POST"])
+@login_required
+@login_required
 def dec_bus(bus):
 	bus_qr = Bus.query.filter_by(qr_id=bus).first()
 	admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
@@ -453,6 +481,7 @@ def dec_bus(bus):
 	return redirect('/admin_buses')
 
 @mod_auth.route('/rec_bus/<bus>', methods=["POST"])
+@login_required
 def rec_bus(bus):
 	bus_qr = Bus.query.filter_by(qr_id=bus).first()
 	admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
@@ -463,6 +492,7 @@ def rec_bus(bus):
 	return redirect('/admin_buses')
 
 @mod_auth.route('/del_user/<ids>', methods=["POST"])
+@login_required
 def del_user(ids):
 	user = User.query.filter_by(public_id=ids).first()
 	admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
@@ -473,9 +503,11 @@ def del_user(ids):
 	return redirect('/admin_students')
 
 @mod_auth.route('/reg_admin', methods=["POST"])
+@login_required
 def add_admin():
 	name = request.form.get("name")
 	email = request.form.get("email")
+	print(email)
 	level = request.form.get('level')
 	pwd = generatePassword()
 	pwd_hash = generate_password_hash(pwd)
@@ -483,6 +515,7 @@ def add_admin():
 	new_admin = User(ids=gid, email=email, registered_on=str(datetime.date.today())\
 		, password_hash=pwd_hash, full_name=name, level=0, momo_number=0)
 	new_admin.admin_id = gid
+	new_admin.is_admin = True
 	if level == "Basic":
 		new_admin.permission = 1
 	else:
@@ -492,7 +525,7 @@ def add_admin():
 	db.session.add_all([new_admin, admin_notifications])
 	db.session.commit()
 
-	message = Mail(From('campus.ride.gh@gmail.com', 'Campus Ride'),to_emails=email)
+	message = Mail(From('info@ug.campusride.africa', 'Campus Ride'),to_emails=email)
 	message.dynamic_template_data = {
 	    'id':gid,
 	    'password':pwd
@@ -501,6 +534,7 @@ def add_admin():
 	try:
 		sendgrid_client = SendGridAPIClient('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')
 		response = sendgrid_client.send(message)
+		print(response)
 	except Exception as e:
 		raise Exception("Error")
 	#login_user(new_user, remember=True)
