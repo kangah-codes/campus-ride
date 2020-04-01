@@ -109,11 +109,13 @@ def login():
 		pwd = request.form.get("pwd")
 		rem = request.form.get("rem")
 		search = User.query.filter_by(public_id=stid).first()
-
-		if check_password_hash(search.password_hash, pwd):
-			login_user(search, remember=False)
-			return redirect('/home')
-		return render_template('user_login.html', error="Invalid Username/Password")
+		try:
+			if check_password_hash(search.password_hash, pwd):
+				login_user(search, remember=False)
+				return redirect('/home')
+			return render_template('user_login.html', error="Invalid Username/Password")
+		except:
+			return render_template('user_login.html', error="No account exists for these credentials")
 	return render_template('user_login.html')
 
 @mod_auth.route('/login_admin', methods=["GET", "POST"])
@@ -127,10 +129,13 @@ def login_admin():
 
 		search = User.query.filter_by(admin_id=aid).first()
 
-		if check_password_hash(search.password_hash, pwd):
-			login_user(search, remember=True)
-			return redirect('/admin_home')
-		return render_template('admin_login.html', error="Invalid username/password")
+		try:
+			if check_password_hash(search.password_hash, pwd):
+				login_user(search, remember=True)
+				return redirect('/admin_home')
+			return render_template('admin_login.html', error="Invalid username/password")
+		except:
+			return render_template('admin_login.html', error="No account exists for these credentials")
 	return render_template('admin_login.html')
 
 @mod_auth.route('/register', methods=["GET", "POST"])
