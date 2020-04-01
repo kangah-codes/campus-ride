@@ -406,7 +406,7 @@ def admin_home():
 def admin_students():
 	today = Notifications.query.filter_by(date=str(datetime.date.today())).first()
 	data = {
-		"students": User.query.all(),
+		"students": User.query.filter_by(is_admin=False),
 		"notifications":Notifications.query.all(),
 		"notif_count":len(today.get_notifications()),
 		"admin":current_user.is_admin,
