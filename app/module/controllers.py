@@ -24,7 +24,9 @@ import uuid
 
 production = True
 
-"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"
+# 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 
+
+# t0068NQAAALeOt7tCNQDb0VohyHCIeuVhrnEXjppyoyqJg+LX9k3xsxt2l3G5S/p4i1pfWmj5vgKwMxBjFgvFG/X4fXy2FAs= SCANNER
 
 """
 d-f06b610e0a034324bdfa30f17c6738dc 
@@ -111,8 +113,11 @@ def login():
 		search = User.query.filter_by(public_id=stid).first()
 		try:
 			if check_password_hash(search.password_hash, pwd):
-				login_user(search, remember=False)
-				return redirect('/home')
+				if search.is_authenticated:
+					login_user(search, remember=False)
+					return redirect('/home')
+				else:
+					return render_template('user_login.html', error="Activate your account before you attempt a login")
 			return render_template('user_login.html', error="Invalid Username/Password")
 		except:
 			return render_template('user_login.html', error="No account exists for these credentials")
@@ -202,6 +207,12 @@ def register():
 def activate(url):
 	user = User.query.filter_by(activation_url=url).first()
 	if user is not None:
+		user.activation_url = ""
+		try:
+			db.session.add(user)
+			db.session.commit()
+		except:
+			db.session.rollback()
 		login_user(user)
 		return redirect('/home')
 	else:
