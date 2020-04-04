@@ -34,7 +34,7 @@ d-f06b610e0a034324bdfa30f17c6738dc
 if not production:
 	url = 'http://127.0.0.1:5000'
 else:
-	url = 'http://ug.campusride.africa'
+	url = 'http://www.campusride.africa'
 """
 tk_f0f2bb56-6f86-11ea-b8e9-f23c9170642f
 """
@@ -94,7 +94,7 @@ def generatePassword():
 # custom route to redirect to login page
 @mod_auth.route('/')
 def index():
-    return render_template('landing_page.html')
+    return render_template('landing_page.html',success=True)
 
 # User routes
 # login route
