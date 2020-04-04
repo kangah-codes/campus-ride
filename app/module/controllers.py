@@ -94,7 +94,7 @@ def generatePassword():
 # custom route to redirect to login page
 @mod_auth.route('/')
 def index():
-    return render_template('landing_page.html',success=True)
+    return render_template('landing_page.html')
 
 # User routes
 # login route

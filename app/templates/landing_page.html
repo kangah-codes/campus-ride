@@ -57,9 +57,9 @@
     {% if success %}
         <script type="text/javascript">
             swal({
-                title: "Sucess",
+                title: "Account created successfully",
                 text: "Please check your spam folder in your email for an activation link",
-                type: "sucess",
+                type: "success",
                 confirmButtonText: "Ok"
                });
         </script>
@@ -121,7 +121,7 @@
                                 <span class="ti-face-smile  ti-3x mr-3"></span>
                                 <div class="media-body">
                                     <h4 class="card-title">Easy To Use</h4>
-                                    <p class="card-text">Our app is very easy to use all the features you need are right there in an awesome user interface </p>
+                                    <p class="card-text">Our app is very easy to use, with all the features you need right here in an awesome user interface </p>
                                 </div>
                             </div>
                         </div>
@@ -147,7 +147,7 @@
                                 <span class="ti-lock  ti-3x mr-3"></span>
                                 <div class="media-body">
                                     <h4 class="card-title">Secured</h4>
-                                    <p class="card-text"> Our app is embedded with State-of-the-art security engine to keep your money safe </p>
+                                    <p class="card-text"> Secure systems to keep your money safe! </p>
                                 </div>
                             </div>
                         </div>
@@ -168,7 +168,7 @@
                 <div class="col-lg-6 offset-lg-6">
                     <div class="box-icon"><span class="ti-mobile gradient-fill ti-3x"></span></div>
                     <h2>Discover our App</h2>
-                    <p class="mb-4"> Our app will be available on the Apple appStore and the Google play store soon. Simply Search for Campus Ride in the search</p>
+                    <p class="mb-4"> Our mobile app will be available on the AppStore and the Google Play soon.</p>
                     <a href="#discover" class="btn btn-primary disabled">Coming Soon...</a>
                 </div>
             </div>
@@ -233,7 +233,7 @@
                             <h2>Get to know your ride history</h2>
                             <p class="lead">Every ride counts, all your rides with us are available from day one till date . </p>
                             <p> Get to know your Ride History</p>
-                            <a href="./login form/user login.html" class="btn btn-primary">Login</a></div>
+                            <a href="/login_user" class="btn btn-primary">Login</a></div>
 
                     </div>
                 </div>
@@ -318,34 +318,33 @@
             <div class="section-title">
                 <small>TESTIMONIALS</small>
                 <hr style="width: 80%;">
-                <h3>What our Customers Say</h3>
+                <h3>What our Users Say</h3>
             </div>
 
             <div class="testimonials owl-carousel">
                 <div class="testimonials-single">
-                    <img src="{{ url_for('static', filename='img/client.png') }}" alt="client" class="client-img">
+                    <img src="{{ url_for('static', filename='img/faces/1.jpg') }}" alt="client" class="client-img">
                     <blockquote class="blockquote">
-                        I live very far from my lecture theatre, with this innovation by Campus Ride, I don't have to worry about missing the bus anymore
-
+                        Getting change for the shuttle was always a problem, now with CampusRide I don't have to carry anything when boarding a shuttle.
                     </blockquote>
-                    <h5 class="mt-4 mb-2">Abigail Asiedu</h5>
+                    <h5 class="mt-4 mb-2">Richmond Nketiah</h5>
                     <p class="text-primary">University Of Ghana</p>
                 </div>
                 <div class="testimonials-single">
-                    <img src="{{ url_for('static', filename='img/client.png') }}" alt="client" class="client-img">
+                    <img src="{{ url_for('static', filename='img/faces/2.jpg') }}" alt="client" class="client-img">
                     <blockquote class="blockquote">
-                        Hurray!!! Good bye to waiting for busses.
+                        No time wasting, just scan and pay!
                     </blockquote>
-                    <h5 class="mt-4 mb-2">Michael Eghan</h5>
-                    <p class="text-primary">University Of Cape Coast</p>
+                    <h5 class="mt-4 mb-2">Issah Wubontow</h5>
+                    <p class="text-primary">University Of Ghana</p>
                 </div>
                 <div class="testimonials-single">
-                    <img src="{{ url_for('static', filename='img/client.png') }}" alt="client" class="client-img">
+                    <img src="{{ url_for('static', filename='img/faces/3.jpg') }}" alt="client" class="client-img">
                     <blockquote class="blockquote">
-                        Thanks to Campus Ride credit feature, I don't have to worry about not having enough money for buss rides.
+                        With the integrated payment system, I can topup my account from any network!
                     </blockquote>
                     <h5 class="mt-4 mb-2">Geoffery Debrah Darko</h5>
-                    <p class="text-primary">Accra Central University</p>
+                    <p class="text-primary">University of Ghana</p>
                 </div>
             </div>
 
@@ -402,7 +401,7 @@
                     <h4 class="mb-3">Are there discounts or savings available?</h4>
                     <p class="light-font mb-5">We believe in providing great value every day rather than high rates and frequent discounting. However, we do occasionally have specials available so check the app often! </p>
                     <h4 class="mb-3">I want to share my feedback where should i contact you?</h4>
-                    <p class="light-font mb-5">Drop us a note at <a href="mailto:support@campusrides.com">support@campusrides.com</a>. We love to hear from our users, both positive and negative feedback is welcome </p>
+                    <p class="light-font mb-5">Drop us a note at <a href="mailto:info@campusride.africa">support@campusrides.com</a>. We love to hear from our users, both positive and negative feedback is welcome </p>
 
                 </div>
             </div>
@@ -439,7 +438,7 @@
                     <p class="mb-2"> <span class="ti-location-pin mr-2"></span> University of Ghana Computer Science Department</p>
                     <div class=" d-block d-sm-inline-block">
                         <p class="mb-2">
-                            <span class="ti-email mr-2"></span> <a class="mr-4" href="mailto:support@campusrides.com">support@campusrides.com</a>
+                            <span class="ti-email mr-2"></span> <a class="mr-4" href="mailto:info@campusride.africa">info@campusride.africa</a>
                         </p>
                     </div>
                     <div class="d-block d-sm-inline-block">
