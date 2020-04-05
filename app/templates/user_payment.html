@@ -124,32 +124,32 @@
             <div class="sidebar-wrapper">
                 <ul class="nav">
                     <li>
-                        <a href="./index.html">
+                        <a href="/home">
                             <i class="now-ui-icons design_app"></i>
                             <p>Dashboard</p>
                         </a>
                     </li>
 
                     <li>
-                        <a href="./wallet.html">
+                        <a href="/wallet">
                             <i class="fas fa-wallet"></i>
                             <p>Wallet</p>
                         </a>
                     </li>
                     <li class="active">
-                        <a href="./payment.html">
+                        <a href="/pay">
                             <i class="fas fa-qrcode"></i>
                             <p>Pay</p>
                         </a>
                     </li>
                     <li class="">
-                        <a href="./notifications.html">
+                        <a href="/notifications">
                             <i class="now-ui-icons ui-1_bell-53"></i>
                             <p>Notifications</p>
                         </a>
                     </li>
                     <li>
-                        <a href="./user.html">
+                        <a href="/profile">
                             <i class="now-ui-icons users_single-02"></i>
                             <p>User Profile</p>
                         </a>
@@ -298,7 +298,7 @@
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 
-            <script src="https://unpkg.com/dynamsoft-javascript-barcode@7.3.0-v2/dist/dbr.js" data-productKeys="t0068NQAAAC6c4k3t828LvSdU6+jl84uQelF36iP1W6kZwBe7jt7YRiWpv9vg/L3oHyOr4Y9yqTdDadUXfIzyRGwUMi10cEo="></script>
+            <script src="https://unpkg.com/dynamsoft-javascript-barcode@7.3.0-v2/dist/dbr.js" data-productKeys="t0068NQAAALeOt7tCNQDb0VohyHCIeuVhrnEXjppyoyqJg+LX9k3xsxt2l3G5S/p4i1pfWmj5vgKwMxBjFgvFG/X4fXy2FAs="></script>
             <script>
                 let scanner = null;
                 document.getElementById('btn-show-scanner').addEventListener('click', async() => {
@@ -314,6 +314,7 @@
                             }
                         };
                         scanner.onUnduplicatedRead = (txt, result) => {
+                            console.log(txt)
                             {% for i in buses %}
                                 if (txt === "{{ i.qr_id }}"){
                                     if ({{ amount }} > 0){

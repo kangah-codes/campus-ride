@@ -130,14 +130,17 @@
                                 </th>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="text-center">
-                                        0/32/30
-                                    </td>
-                                    <td class="text-center">
-                                        BI765
-                                    </td>
-                                </tr>
+                                {% for i in ride_history %}
+                                    <tr class="py-5">
+                                        <td class="text-center">
+
+                                            {{ ride_history[i][1] }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ ride_history[i][0] }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>

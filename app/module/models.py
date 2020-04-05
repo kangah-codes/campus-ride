@@ -77,6 +77,17 @@ class RegisterStats(db.Model):
 	def get_register(self):
 		return json.loads(self.stats).items()
 
+class Payment(db.Model):
+	__tablename__ = "pay"
+	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+	amt = db.Column(db.Integer, unique=False, nullable=True)
+
+	def __init__(self):
+		self.amt = 0
+
+	def update(self, amt):
+		self.amt += amt
+
 
 class PaymentStats(db.Model):
 	__tablename__ = "payment"
@@ -88,12 +99,15 @@ class PaymentStats(db.Model):
 	def __init__(self):
 		self.daily = json.dumps({})
 		self.date = str(datetime.date.today())
+		dl = json.loads(self.daily)
+		dl[self.date] = 0
+		self.daily = json.dumps(dl)
 
 	def add_payment(self, amount):
 		daily = json.loads(self.daily)
 		today = str(datetime.date.today())
 
-		if today in stats.keys():
+		if today in daily.keys():
 			daily[today] += amount
 
 		self.daily = json.dumps(daily)

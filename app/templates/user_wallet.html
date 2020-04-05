@@ -290,6 +290,15 @@
                             confirmButtonText: "Ok"
                            });
                     </script>
+                {% else %}
+                    <script type="text/javascript">
+                        swal({
+                            title: "Payment Error",
+                            text: "Payment was not successfull",
+                            type: "error",
+                            confirmButtonText: "Ok"
+                           });
+                    </script>
                 {% endif %}
                 {% if cancelled %}
                     <script type="text/javascript">

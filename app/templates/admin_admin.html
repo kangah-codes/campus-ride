@@ -47,9 +47,15 @@
                             <td>
                               {{ i.email }}
                             </td>
+                            {% if i.permission == 1 %}
+                              <td>
+                                Basic
+                              </td>
+                            {% else %}
                             <td>
-                              {{ i.permission }}
-                            </td>
+                                Full
+                              </td>
+                            {% endif %}
                             <td>
                               {{ i.registered_on }}
                             </td>

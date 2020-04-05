@@ -42,7 +42,7 @@
                       <tbody>
                         {% for i in buses %}
                           <tr>
-                            <td>{{ i.qr_id }}</td>
+                            <td><a href="/bus/{{ i.qr_id }}">{{ i.qr_id }}</a></td>
                             <td>{{ i.number_plate }}</td>
                             <td>{{ i.seats }}</td>
                             <td>{{ i.registered_on }}</td>

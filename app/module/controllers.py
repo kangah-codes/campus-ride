@@ -24,12 +24,18 @@ import uuid
 
 production = True
 
-# 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 
-
-# t0068NQAAALeOt7tCNQDb0VohyHCIeuVhrnEXjppyoyqJg+LX9k3xsxt2l3G5S/p4i1pfWmj5vgKwMxBjFgvFG/X4fXy2FAs= SCANNER
-
 """
+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 
+
+t0068NQAAALeOt7tCNQDb0VohyHCIeuVhrnEXjppyoyqJg+LX9k3xsxt2l3G5S/p4i1pfWmj5vgKwMxBjFgvFG/X4fXy2FAs= SCANNER
+
+
 d-f06b610e0a034324bdfa30f17c6738dc 
+
+ADM-000000 campusridegh11
+
+tk_f0f2bb56-6f86-11ea-b8e9-f23c9170642f
+
 
 """
 
@@ -38,7 +44,6 @@ if not production:
 else:
 	url = 'http://www.campusride.africa'
 """
-tk_f0f2bb56-6f86-11ea-b8e9-f23c9170642f
 """
 
 try:
@@ -46,16 +51,22 @@ try:
 	db.session.add(nota)
 	db.session.commit()
 except:
-	pass
+	db.session.rollback()
 
 try:
-	if PaymentStats.query.filter_by(date=str(datetime.date.today())).first() is None:
-		pay = PaymentStats()
-		db.session.add(pay)
-		db.session.commit()
-except:
-	pass
+	pay = PaymentStats()
+	db.session.add(pay)
+	db.session.commit()
+except Exception as e:
+	db.session.rollback()
 
+try:
+	payment = Payment()
+	db.session.add(payment)
+	db.session.commit()
+
+except Exception as e:
+	db.session.rollback()
 
 
 payed = False
@@ -63,6 +74,8 @@ cancel = False
 pay_amt = 0
 invoice = None
 error = None
+
+
 
 
 # if Notifications.query.filter_by(date=str(datetime.date.today())).first() is None:
@@ -113,7 +126,7 @@ def login():
 		search = User.query.filter_by(public_id=stid).first()
 		try:
 			if check_password_hash(search.password_hash, pwd):
-				if search.is_authenticated:
+				if search.is_activated:
 					login_user(search, remember=False)
 					return redirect('/home')
 				else:
@@ -172,6 +185,7 @@ def register():
 					new_user.course = course
 					new_user.hall = hall
 					new_user.is_activated = False
+					new_user.is_admin = 0
 					new_user.activation_url = str(uuid.uuid1())
 					new_user.notifications = json.dumps({f"{datetime.datetime.today()}":f"Account created at {datetime.datetime.today()}"})
 					admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
@@ -189,8 +203,8 @@ def register():
 						response = sendgrid_client.send(message)
 					except Exception as e:
 						raise Exception("Error")
-					#login_user(new_user, remember=True)
-					#return redirect('/')
+					login_user(new_user, remember=True)
+					return redirect('/')
 					return render_template('landing_page.html', success=True)
 				except Exception as e:
 					print(e)
@@ -222,7 +236,7 @@ def activate(url):
 @login_required
 def logout():
 	logout_user()
-	return redirect('/login_user')
+	return redirect('/')
 
 @mod_auth.route('/home')
 @login_required
@@ -230,7 +244,7 @@ def home():
 	data = {
 		"first_name":current_user.full_name.split(' ')[0],
 		"bal":current_user.account_bal,
-		"ride_history":current_user.ride_history,
+		"ride_history":json.loads(current_user.ride_history),
 		"payment_history":json.loads(current_user.payment_history),
 	}
 	return render_template('user_home.html', **data)
@@ -309,7 +323,7 @@ def user_pay(bus):
 				db.session.add_all([current_user, admin_notifications])
 				db.session.commit()
 			except Exception as e:
-				print(e)
+				db.session.rollback()
 			finally:
 				return redirect('/user_wallet')
 		return redirect('/user_wallet')
@@ -318,25 +332,32 @@ def user_pay(bus):
 @mod_auth.route('/payment_success/<uid>')
 @login_required
 def success(uid):
+	global payed
 	if current_user.payment_url == uid:
 		global invoice
 		current_user.add_cash_in(invoice, datetime.datetime.today(), current_user.temp_payment)
 		try:
 			admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
-			pay = PaymentStats.query.filter_by(date=str(datetime.date.today())).first()
+			if PaymentStats.query.filter_by(date=str(datetime.date.today())).first() is None:
+				pay = PaymentStats()
+			else:
+				pay = PaymentStats.query.filter_by(date=str(datetime.date.today())).first()
+			payments = Payment.query.filter_by(id=1).first()
+			payments.update(current_user.temp_payment)
 			pay.add_payment(current_user.temp_payment)
 			admin_notifications.add_notification(datetime.date.today(), f"User {current_user.public_id} credited account with {current_user.temp_payment}")
 			current_user.temp_payment = 0
-			db.session.add([current_user, admin_notifications, pay])
+			db.session.add_all([current_user, admin_notifications, pay, payments])
 			db.session.commit()
-		except:
+		except Exception as e:
+			print(e)
+			payed = False
 			db.session.rollback()
 		else:
 			db.session.close()
-		global payed
-		payed = True
+			payed = True
 		return redirect('/wallet')
-	return "LOL"
+	return redirect('/pay')
 
 @mod_auth.route('/payment_cancelled/<uid>')
 @login_required
@@ -367,7 +388,6 @@ def user_profile():
 	}
 
 	if request.method == "POST":
-		print(current_user.level)
 		hall = request.form.get("hall")
 		number = request.form.get("number")
 		level = request.form.get("level")
@@ -401,158 +421,185 @@ def pay():
 @mod_auth.route('/admin_home')
 @login_required
 def admin_home():
-	pay = PaymentStats.query.filter_by(date=str(datetime.date.today())).first()
-	today = Notifications.query.filter_by(date=str(datetime.date.today())).first()
-	data = {
-		"total_day": pay.get_payment(),
-		"total": pay.get_total_payment(),
-		"today": str(datetime.date.today()),
-		"students": db.session.query(User).count(),
-		"bus": db.session.query(Bus).count(),
-		"students_today": User.query.filter_by(registered_on=str(datetime.date.today()), is_admin=False).all(),
-		"notifications":Notifications.query.filter_by(date=str(datetime.date.today())),
-		"notif_count":len(today.get_notifications()),
-		"admin":current_user.is_admin,
-		"has_permission":current_user.permission
-	}
-	return render_template('admin_dashboard.html', **data)
+	if current_user.is_admin:
+		if PaymentStats.query.filter_by(date=str(datetime.date.today())).first() is None:
+			pay = PaymentStats()
+		else:
+			pay = PaymentStats.query.filter_by(date=str(datetime.date.today())).first()
+		today = Notifications.query.filter_by(date=str(datetime.date.today())).first()
+		data = {
+			"total_day": pay.get_payment(),
+			"total": Payment.query.filter_by(id=1).first().amt,
+			"today": str(datetime.date.today()),
+			"students": db.session.query(User).filter_by(is_admin=0).count(),
+			"bus": db.session.query(Bus).count(),
+			"students_today": User.query.filter_by(registered_on=str(datetime.date.today()), is_admin=False).all(),
+			"notifications":Notifications.query.filter_by(date=str(datetime.date.today()))[:-5:-1],
+			"notif_count":len(today.get_notifications()),
+			"admin":current_user.is_admin,
+			"has_permission":current_user.permission == 2
+		}
+		return render_template('admin_dashboard.html', **data)
+	return redirect('/')
 
 @mod_auth.route('/admin_students')
 @login_required
 def admin_students():
-	today = Notifications.query.filter_by(date=str(datetime.date.today())).first()
-	data = {
-		"students": User.query.filter_by(is_admin=False),
-		"notifications":Notifications.query.all(),
-		"notif_count":len(today.get_notifications()),
-		"admin":current_user.is_admin,
-		"has_permission":current_user.permission
+	if current_user.is_admin:
+		today = Notifications.query.filter_by(date=str(datetime.date.today())).first()
+		data = {
+			"students": User.query.filter_by(is_admin=False),
+			"notifications":Notifications.query.filter_by(date=str(datetime.date.today()))[:-5:-1],
+			"notif_count":len(today.get_notifications()),
+			"admin":current_user.is_admin,
+			"has_permission":current_user.permission == 2
 
-	}
-	return render_template('admin_user.html', **data)
+		}
+		return render_template('admin_user.html', **data)
+	return redirect('/')
 
 @mod_auth.route('/admin_buses')
 @login_required
 def admin_buses():
-	today = Notifications.query.filter_by(date=str(datetime.date.today())).first()
-	data = {
-		"buses": Bus.query.all(),
-		"notifications":Notifications.query.filter_by(date=str(datetime.date.today())),
-		"notif_count":len(today.get_notifications()),
-		"admin":current_user.is_admin,
-		"has_permission":current_user.permission
-	}
-	return render_template('admin_buses.html', **data)
+	if current_user.is_admin:
+		today = Notifications.query.filter_by(date=str(datetime.date.today())).first()
+		data = {
+			"buses": Bus.query.all(),
+			"notifications":Notifications.query.filter_by(date=str(datetime.date.today())),
+			"notif_count":len(today.get_notifications()),
+			"admin":current_user.is_admin,
+			"has_permission":current_user.permission == 2
+		}
+		return render_template('admin_buses.html', **data)
+	return redirect('/')
 
 @mod_auth.route('/admin_admin')
 @login_required
 def admin_admin():
-	today = Notifications.query.filter_by(date=str(datetime.date.today())).first()
-	data = {
-		"admins":User.query.filter_by(is_admin=True).all(),
-		"has_permission":current_user.permission
-	}
-	return render_template('admin_admin.html',**data)
+	if current_user.is_admin:
+		today = Notifications.query.filter_by(date=str(datetime.date.today())).first()
+		data = {
+			"admins":User.query.filter_by(is_admin=True).all(),
+			"has_permission":current_user.permission == 2
+		}
+		return render_template('admin_admin.html',**data)
+	return redirect('/')
 
 @mod_auth.route('/admin_notifications')
 @login_required
 def admin_notification():
-	today = Notifications.query.filter_by(date=str(datetime.date.today())).first()
-	data = {
-		"notifications":Notifications.query.all(),
-		"notif_count":len(today.get_notifications()),
-		"admin":current_user.is_admin,
-		"has_permission":current_user.permission
-	}
-	return render_template('admin_notifications.html', **data)
+	if current_user.is_admin:
+		today = Notifications.query.filter_by(date=str(datetime.date.today())).first()
+		data = {
+			"notifications":Notifications.query.filter_by(date=str(datetime.date.today()))[:-5:-1],
+			"notif_count":len(today.get_notifications()),
+			"admin":current_user.is_admin,
+			"has_permission":current_user.permission == 2
+		}
+		return render_template('admin_notifications.html', **data)
+	return redirect('/')
 
 @mod_auth.route('/reg_bus', methods=["POST"])
 @login_required
 def admin_reg_bus():
-	plate = request.form.get("plate")
-	seats = request.form.get("seats")
+	if current_user.is_admin:
+		plate = request.form.get("plate")
+		seats = request.form.get("seats")
 
-	new_bus = Bus()
-	new_bus.number_plate = plate
-	new_bus.seats = seats
-	admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
-	admin_notifications.add_notification(datetime.date.today(), f"Admin registered bus {plate}")
+		new_bus = Bus()
+		new_bus.number_plate = plate
+		new_bus.seats = seats
+		admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
+		admin_notifications.add_notification(datetime.date.today(), f"Admin registered bus {plate}")
 
-	db.session.add_all([new_bus, admin_notifications])
-	db.session.commit()
+		db.session.add_all([new_bus, admin_notifications])
+		db.session.commit()
 
-	#return redirect('/admin_buses')
-	return render_template('qr.html', code=new_bus.qr_id, bus=plate)
+		return redirect('/admin_buses')
+	return redirect('/')
+	#return render_template('qr.html', code=new_bus.qr_id, bus=plate)
 
 @mod_auth.route('/dec_bus/<bus>', methods=["POST"])
 @login_required
-@login_required
 def dec_bus(bus):
-	bus_qr = Bus.query.filter_by(qr_id=bus).first()
-	admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
-	admin_notifications.add_notification(datetime.date.today(), f"Admin decomissioned bus {bus}")
-	bus_qr.is_active = False
-	db.session.add_all([bus_qr,admin_notifications])
-	db.session.commit()
-	return redirect('/admin_buses')
+	if current_user.is_admin:
+		bus_qr = Bus.query.filter_by(qr_id=bus).first()
+		admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
+		admin_notifications.add_notification(datetime.date.today(), f"Admin decomissioned bus {bus}")
+		bus_qr.is_active = False
+		db.session.add_all([bus_qr,admin_notifications])
+		db.session.commit()
+		return redirect('/admin_buses')
+	return redirect('/')
 
 @mod_auth.route('/rec_bus/<bus>', methods=["POST"])
 @login_required
 def rec_bus(bus):
-	bus_qr = Bus.query.filter_by(qr_id=bus).first()
-	admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
-	admin_notifications.add_notification(datetime.date.today(), f"Admin recomissioned bus {bus}")
-	bus_qr.is_active = True
-	db.session.add_all([bus_qr,admin_notifications])
-	db.session.commit()
-	return redirect('/admin_buses')
+	if current_user.is_admin:
+		bus_qr = Bus.query.filter_by(qr_id=bus).first()
+		admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
+		admin_notifications.add_notification(datetime.date.today(), f"Admin recomissioned bus {bus}")
+		bus_qr.is_active = True
+		db.session.add_all([bus_qr,admin_notifications])
+		db.session.commit()
+		return redirect('/admin_buses')
+	return redirect('/')
 
 @mod_auth.route('/del_user/<ids>', methods=["POST"])
 @login_required
 def del_user(ids):
-	user = User.query.filter_by(public_id=ids).first()
-	admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
-	admin_notifications.add_notification(datetime.date.today(), f"Admin deleted user {user.public_id}")
-	db.session.add(admin_notifications)
-	db.session.delete(user)
-	db.session.commit()
-	return redirect('/admin_students')
+	if current_user.is_admin:
+		user = User.query.filter_by(public_id=ids).first()
+		admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
+		admin_notifications.add_notification(datetime.date.today(), f"Admin deleted user {user.public_id}")
+		db.session.add(admin_notifications)
+		db.session.delete(user)
+		db.session.commit()
+		return redirect('/admin_students')
+	return redirect('/')
 
 @mod_auth.route('/reg_admin', methods=["POST"])
 @login_required
 def add_admin():
-	name = request.form.get("name")
-	email = request.form.get("email")
-	print(email)
-	level = request.form.get('level')
-	pwd = generatePassword()
-	pwd_hash = generate_password_hash(pwd)
-	gid = generateAdmin()
-	new_admin = User(ids=gid, email=email, registered_on=str(datetime.date.today())\
-		, password_hash=pwd_hash, full_name=name, level=0, momo_number=0)
-	new_admin.admin_id = gid
-	new_admin.is_admin = True
-	if level == "Basic":
-		new_admin.permission = 1
-	else:
-		new_admin.permission = 2
-	admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
-	admin_notifications.add_notification(datetime.date.today(), f"Admin registered {name}")
-	db.session.add_all([new_admin, admin_notifications])
-	db.session.commit()
+	if current_user.is_admin:
+		name = request.form.get("name")
+		email = request.form.get("email")
+		level = request.form.get('level')
+		pwd = generatePassword()
+		pwd_hash = generate_password_hash(pwd)
+		gid = generateAdmin()
+		new_admin = User(ids=gid, email=email, registered_on=str(datetime.date.today())\
+			, password_hash=pwd_hash, full_name=name, level=0, momo_number=0)
+		new_admin.admin_id = gid
+		new_admin.is_admin = True
+		if level == "Basic":
+			new_admin.permission = 1
+		else:
+			new_admin.permission = 2
+		admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
+		admin_notifications.add_notification(datetime.date.today(), f"Admin registered {name}")
+		db.session.add_all([new_admin, admin_notifications])
+		db.session.commit()
+		message = Mail(
+	    from_email='info@campusride.africa',
+	    to_emails=email,
+	    subject='Account Details',
+	    html_content=f"<strong>Username: {gid}<br>Password: {pwd}</strong>")
+		try:
+			sg = SendGridAPIClient('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')
+			response = sg.send(message)
+		except Exception as e:
+			pass
+		#login_user(new_user, remember=True)
+		return redirect('/admin_admin')
+	return redirect('/')
 
-	message = Mail(From('info@ug.campusride.africa', 'Campus Ride'),to_emails=email)
-	message.dynamic_template_data = {
-	    'id':gid,
-	    'password':pwd
-	}
-	message.template_id = 'd-7646b3e26ee746a8b0673f2a89b456cc'
-	try:
-		sendgrid_client = SendGridAPIClient('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')
-		response = sendgrid_client.send(message)
-		print(response)
-	except Exception as e:
-		raise Exception("Error")
-	#login_user(new_user, remember=True)
-	return redirect('/admin_admin')
-
+@mod_auth.route('/bus/<qr>')
+@login_required
+def bus(qr):
+	if current_user.is_admin:
+		data = {
+			"src":qr
+		}
+		return render_template("qr.html", **data)
+	return redirect('/')
