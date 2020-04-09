@@ -281,7 +281,7 @@
                     }
                 </script>
 
-                {% if pay %}
+                {% if pay == True %}
                     <script type="text/javascript">
                         swal({
                             title: "Payment Successful",
@@ -290,7 +290,7 @@
                             confirmButtonText: "Ok"
                            });
                     </script>
-                {% else %}
+                {% elif pay == False %}
                     <script type="text/javascript">
                         swal({
                             title: "Payment Error",

@@ -109,7 +109,7 @@ def generatePassword():
 # custom route to redirect to login page
 @mod_auth.route('/')
 def index():
-    return render_template('landing_page.html')
+	return render_template('landing_page.html')
 
 # User routes
 # login route
@@ -280,7 +280,7 @@ def wallet():
 		"url":url
 	}
 
-	payed = False
+	#payed = False
 	amt = 0
 	cancel = False
 
@@ -315,19 +315,17 @@ def amt():
 @mod_auth.route('/user_pay/<bus>', methods=["POST"])
 @login_required
 def user_pay(bus):
-	if request.method == "POST":
-		if current_user.add_ride(bus, datetime.datetime.now()):
-			try:
-				admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
-				admin_notifications.add_notification(datetime.date.today(), f"User {current_user.public_id} boarded bus {bus}")
-				db.session.add_all([current_user, admin_notifications])
-				db.session.commit()
-			except Exception as e:
-				db.session.rollback()
-			finally:
-				return redirect('/user_wallet')
-		return redirect('/user_wallet')
-	return redirect('/user_wallet')
+	global payed
+	if current_user.add_ride(bus, datetime.datetime.now()):
+		try:
+			admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
+			admin_notifications.add_notification(datetime.date.today(), f"User {current_user.public_id} boarded bus {bus}")
+			db.session.add_all([current_user, admin_notifications])
+			db.session.commit()
+			payed = True
+		except Exception as e:
+			db.session.rollback()
+	return redirect('/wallet')
 
 @mod_auth.route('/payment_success/<uid>')
 @login_required
@@ -431,7 +429,7 @@ def admin_home():
 			"total_day": pay.get_payment(),
 			"total": Payment.query.filter_by(id=1).first().amt,
 			"today": str(datetime.date.today()),
-			"students": db.session.query(User).filter_by(is_admin=0).count(),
+			"students": db.session.query(User).filter_by(is_admin=False).count(),
 			"bus": db.session.query(Bus).count(),
 			"students_today": User.query.filter_by(registered_on=str(datetime.date.today()), is_admin=False).all(),
 			"notifications":Notifications.query.filter_by(date=str(datetime.date.today()))[:-5:-1],
@@ -461,7 +459,6 @@ def admin_students():
 			data['notif_count'] = len(today.get_notifications())
 		except:
 			data['notif_count'] = 0
-		return render_template('admin_dashboard.html', **data)
 		return render_template('admin_user.html', **data)
 	return redirect('/')
 
@@ -480,7 +477,6 @@ def admin_buses():
 			data['notif_count'] = len(today.get_notifications())
 		except:
 			data['notif_count'] = 0
-		return render_template('admin_dashboard.html', **data)
 		return render_template('admin_buses.html', **data)
 	return redirect('/')
 
@@ -510,7 +506,6 @@ def admin_notification():
 			data['notif_count'] = len(today.get_notifications())
 		except:
 			data['notif_count'] = 0
-		return render_template('admin_dashboard.html', **data)
 		return render_template('admin_notifications.html', **data)
 	return redirect('/')
 

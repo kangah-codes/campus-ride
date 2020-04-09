@@ -251,6 +251,7 @@ class User(UserMixin, db.Model):
 			self.payment_history = json.dumps(payment_history)
 
 		except Exception as e:
+			print(e)
 			return e
 
 		else:
