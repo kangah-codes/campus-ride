@@ -42,7 +42,7 @@ tk_f0f2bb56-6f86-11ea-b8e9-f23c9170642f
 if not production:
 	url = 'http://127.0.0.1:5000'
 else:
-	url = 'http://www.campusride.africa'
+	url = 'https://www.campusride.africa'
 """
 """
 
@@ -435,10 +435,13 @@ def admin_home():
 			"bus": db.session.query(Bus).count(),
 			"students_today": User.query.filter_by(registered_on=str(datetime.date.today()), is_admin=False).all(),
 			"notifications":Notifications.query.filter_by(date=str(datetime.date.today()))[:-5:-1],
-			"notif_count":len(today.get_notifications()),
 			"admin":current_user.is_admin,
 			"has_permission":current_user.permission == 2
 		}
+		try:
+			data['notif_count'] = len(today.get_notifications())
+		except:
+			data['notif_count'] = 0
 		return render_template('admin_dashboard.html', **data)
 	return redirect('/')
 
@@ -450,11 +453,15 @@ def admin_students():
 		data = {
 			"students": User.query.filter_by(is_admin=False),
 			"notifications":Notifications.query.filter_by(date=str(datetime.date.today()))[:-5:-1],
-			"notif_count":len(today.get_notifications()),
 			"admin":current_user.is_admin,
 			"has_permission":current_user.permission == 2
 
 		}
+		try:
+			data['notif_count'] = len(today.get_notifications())
+		except:
+			data['notif_count'] = 0
+		return render_template('admin_dashboard.html', **data)
 		return render_template('admin_user.html', **data)
 	return redirect('/')
 
@@ -466,10 +473,14 @@ def admin_buses():
 		data = {
 			"buses": Bus.query.all(),
 			"notifications":Notifications.query.filter_by(date=str(datetime.date.today())),
-			"notif_count":len(today.get_notifications()),
 			"admin":current_user.is_admin,
 			"has_permission":current_user.permission == 2
 		}
+		try:
+			data['notif_count'] = len(today.get_notifications())
+		except:
+			data['notif_count'] = 0
+		return render_template('admin_dashboard.html', **data)
 		return render_template('admin_buses.html', **data)
 	return redirect('/')
 
@@ -492,10 +503,14 @@ def admin_notification():
 		today = Notifications.query.filter_by(date=str(datetime.date.today())).first()
 		data = {
 			"notifications":Notifications.query.filter_by(date=str(datetime.date.today()))[:-5:-1],
-			"notif_count":len(today.get_notifications()),
 			"admin":current_user.is_admin,
 			"has_permission":current_user.permission == 2
 		}
+		try:
+			data['notif_count'] = len(today.get_notifications())
+		except:
+			data['notif_count'] = 0
+		return render_template('admin_dashboard.html', **data)
 		return render_template('admin_notifications.html', **data)
 	return redirect('/')
 
