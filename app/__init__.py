@@ -23,6 +23,10 @@ app.config.from_object(config_by_name['dev'])
 def not_found(error):
     return "NOT FOUND"
 
+@app.errorhandler(500)
+def not_found(error):
+	return "<center><h1>Sorry, there has been a server error, please contact sys admin</h1></center>"
+
 @app.login_manager.unauthorized_handler
 def unauth_handler():
 	return redirect('/')

@@ -8,8 +8,8 @@ import random
 import datetime
 
 def generate_bus_pin():
-	return ''.join(random.choice(string.ascii_uppercase+string.digits) for i in range(6))
-
+	return int(''.join(random.choice(string.digits) for i in range(6)))
+	
 class Driver(db.Model):
 	"""
 	Driver model for storing driver related details
@@ -156,7 +156,7 @@ class Bus(db.Model):
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 	qr_id = db.Column(db.String(), unique=True, nullable=True)
 	is_active = db.Column(db.Boolean, unique=False, nullable=True)
-	alt_id = db.Column(db.Integer, unique=True, nullable=True)
+	alt_id = db.Column(db.String(), unique=True, nullable=True)
 	seats = db.Column(db.Integer, unique=False, nullable=True)
 	number_plate = db.Column(db.String(), unique=False, nullable=True)
 	registered_on = db.Column(db.String(), unique=False, nullable=True)
