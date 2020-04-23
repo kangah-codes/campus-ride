@@ -222,6 +222,7 @@ def activate(url):
 	user = User.query.filter_by(activation_url=url).first()
 	if user is not None:
 		user.activation_url = ""
+		user.is_activated = True
 		try:
 			db.session.add(user)
 			db.session.commit()
