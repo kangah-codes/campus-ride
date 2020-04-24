@@ -319,11 +319,24 @@ def user_pay(bus):
 	global payed
 	if current_user.add_ride(bus, datetime.datetime.now()):
 		try:
+			data = {
+				"bal":current_user.account_bal,
+				"payment_url":current_user.payment_url,
+				"number":current_user.momo_number,
+				"full_name":current_user.full_name,
+				"email":current_user.email,
+				"invoice": invoice,
+				"pay":payed,
+				# "amt":pay_amt,
+				# "cancelled":cancel,
+				"url":url
+			}
 			admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
 			admin_notifications.add_notification(datetime.date.today(), f"User {current_user.public_id} boarded bus {bus}")
 			db.session.add_all([current_user, admin_notifications])
 			db.session.commit()
-			payed = True
+			#payed = True
+			return render_template('user_wallet.html', **data)
 		except Exception as e:
 			db.session.rollback()
 	return redirect('/wallet')
@@ -336,6 +349,15 @@ def success(uid):
 		global invoice
 		current_user.add_cash_in(invoice, datetime.datetime.today(), current_user.temp_payment)
 		try:
+			data = {
+				"bal":current_user.account_bal,
+				"payment_url":current_user.payment_url,
+				"number":current_user.momo_number,
+				"full_name":current_user.full_name,
+				"email":current_user.email,
+				"invoice": invoice,
+				"url":url
+			}
 			admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
 			if PaymentStats.query.filter_by(date=str(datetime.date.today())).first() is None:
 				pay = PaymentStats()
@@ -349,12 +371,16 @@ def success(uid):
 			db.session.add_all([current_user, admin_notifications, pay, payments])
 			db.session.commit()
 		except Exception as e:
-			print(e)
-			payed = False
+			#print(e)
+			#payed = False
+			data['pay'] = False
+			return render_template('user_wallet.html', **data)
 			db.session.rollback()
 		else:
 			db.session.close()
-			payed = True
+			# payed = True
+			data['pay'] = True
+			return render_template('user_wallet.html', **data)
 		return redirect('/wallet')
 	return redirect('/pay')
 
@@ -362,13 +388,22 @@ def success(uid):
 @login_required
 def cancelled(uid):
 	if current_user.payment_url == uid:
-		global cancel
-		cancel = True
+		data = {
+			"bal":current_user.account_bal,
+			"payment_url":current_user.payment_url,
+			"number":current_user.momo_number,
+			"full_name":current_user.full_name,
+			"email":current_user.email,
+			"invoice": invoice,
+			"cancelled":True,
+			"url":url
+		}
+		
 		current_user.temp_payment = 0
 		db.session.add(current_user)
 		db.session.commit()
-		return redirect('/wallet')
-	return "LOl"
+		return render_template('user_wallet.html', **data)
+	return redirect('/')
 
 @mod_auth.route('/profile', methods=['GET', 'POST'])
 @login_required
