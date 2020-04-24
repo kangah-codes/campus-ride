@@ -203,7 +203,7 @@ def register():
 						response = sendgrid_client.send(message)
 					except Exception as e:
 						raise Exception("Error")
-					login_user(new_user, remember=True)
+					#login_user(new_user, remember=True)
 					#return redirect('/')
 					return render_template('landing_page.html', success=True)
 				except Exception as e:
