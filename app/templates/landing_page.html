@@ -481,6 +481,34 @@
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     <script src="https://kit.fontawesome.com/1911436ffb.js" crossorigin="anonymous"></script>
 
+    <script src="{{ url_for('static', filename='js/plugins/bootstrap-notify.js') }}"></script>
+    <script>
+            const covidTips =[
+                'Don’t touch your eyes, nose or mouth.',
+                'Stay home if you feel unwell.',
+                'Clean your hands often. Use soap and water, or an alcohol-based hand rub.',
+                'Maintain a safe distance from anyone who is coughing or sneezing.',
+                'Wear your nose mask regularly',
+                'If you have a fever, a cough, and difficulty breathing, seek medical attention. Call in advance.',
+                'Please leave spaces in-between in the shuttle',
+                'Avoid using paper money to pay for the shuttle, scan instead!',
+
+            ]
+            let randomTip = Math.floor(Math.random()*covidTips.length);
+            
+            const tips = covidTips[randomTip];
+            $.notify({
+                    
+                    message: '<strong>Covid-19 Tips:</strong> ' + tips
+                }, {
+                    // settings
+                    type: 'info',
+                    allow_dismiss:true,
+                    mouse_over: 'pause',
+                   
+                });
+    </script>
+
 
 </body>
 
