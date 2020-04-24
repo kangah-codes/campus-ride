@@ -275,9 +275,9 @@ def wallet():
 		"full_name":current_user.full_name,
 		"email":current_user.email,
 		"invoice": invoice,
-		"pay":payed,
-		"amt":pay_amt,
-		"cancelled":cancel,
+		# "pay":payed,
+		# "amt":pay_amt,
+		# "cancelled":cancel,
 		"url":url
 	}
 

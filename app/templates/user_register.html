@@ -494,7 +494,7 @@
                         <a href="#" class="btn" id="next" style="width: 39%; padding: 7px; font-size: 20px; margin-left: 60%; font-weight: 100; text-align: center; ">
                             Next <i class="fas fa-long-arrow-alt-right"></i>
                         </a>
-                        <a href="./user login.html" class="signInsted" style="margin-right: 250px; width: 120px; ">Sign In Instead <span><i class="fas fa-long-arrow-alt-right "></i></span></a>
+                        <a href="/login_user" class="signInsted" style="margin-right: 250px; width: 120px; ">Sign In Instead <span><i class="fas fa-long-arrow-alt-right "></i></span></a>
 
 
                     </section>
@@ -512,7 +512,28 @@
                             </div>
                             <div>
                                 <h5>Hall of Residence</h5>
-                                <input class="input " type="text" name="hall" required oninvalid="this.setCustomValidity( 'Enter your Hall of Residence') " oninput="this.setCustomValidity( '') ">
+                                <!-- <input class="input " type="text" name="hall" required oninvalid="this.setCustomValidity( 'Enter your Hall of Residence') " oninput="this.setCustomValidity( '') "> -->
+                                <select name="level">
+                                  <option value="Commonwealth">Commonwealth</option>
+                                  <option value="Legon">Legon</option>
+                                  <option value="Mensah">Mensah Sarbah</option>
+                                  <option value="Volta">Volta</option>
+                                  <option value="Akuafo">Akuafo</option>
+                                  <option value="Jubilee">Jubilee</option>
+                                  <option value="Alexander">Alexander Kwapong</option>
+                                  <option value="Jean">Jean< Nelson</option>
+                                  <option value="Hilla">Hilla Limann</option>
+                                  <option value="Elizabeth">Elizabeth Sey</option>
+                                  <option value="Pent">Pent (African Union)</option>
+                                  <option value="TF">TF (James Topp Nelson)</option>
+                                  <option value="Bani">Bani</option>
+                                  <option value="Evandy">Evandy</option>
+                                  <option value="Other">Other>*</option>
+                                  <option value="Not Resident">Not Resident</option>
+                                </select>
+
+
+
                             </div>
                         </div>
                         <div class="input-div one ">
@@ -521,7 +542,14 @@
                             </div>
                             <div>
                                 <h5>Level</h5>
-                                <input class="input " type="number" name="level" required oninvalid="this.setCustomValidity( 'Enter your Level') " oninput="this.setCustomValidity( '') ">
+                                <!-- <input class="input " type="number" name="level" required oninvalid="this.setCustomValidity( 'Enter your Level') " oninput="this.setCustomValidity( '') ">
+                                <input class="input " type="number" name="level" required oninvalid="this.setCustomValidity( 'Enter your Level') " oninput="this.setCustomValidity( '') "> -->
+                                <select name="level">
+                                  <option value="100">100</option>
+                                  <option value="200">200</option>
+                                  <option value="300">300</option>
+                                  <option value="400">400</option>
+                                </select>
                             </div>
                         </div>
                         <div class="input-div one ">
@@ -529,7 +557,7 @@
                                 <i class="fas fa-university "></i>
                             </div>
                             <div>
-                                <h5>Course</h5>
+                                <h5>Programme</h5>
                                 <input class="input " type="text" name="course" required oninvalid="this.setCustomValidity( 'Enter your Course') " oninput="this.setCustomValidity( '') ">
                             </div>
                         </div>
