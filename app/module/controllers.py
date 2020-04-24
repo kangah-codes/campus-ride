@@ -356,6 +356,7 @@ def success(uid):
 				"full_name":current_user.full_name,
 				"email":current_user.email,
 				"invoice": invoice,
+				"amt":current_user.temp_payment,
 				"url":url
 			}
 			admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
