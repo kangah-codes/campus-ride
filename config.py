@@ -47,7 +47,28 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
 	DEBUG = False
+	TESTING = False
+	SQLALCHEMY_DATABASE_URI = 'postgres://tdcllfsruioqbz:1f4779fba92ae0091b89353a3b74167af2732839d7cc5da0552e54032023cdea@ec2-52-207-25-133.compute-1.amazonaws.com:5432/d6nemaka83c6sq'
+	PRESERVE_CONTEXT_ON_EXCEPTION = False
+	SQLALCHEMY_TRACK_MODIFICATIONS = True
+	DATABASE_CONNECT_OPTIONS = {}
+
+	# Application threads. A common general assumption is
+	# using 2 per available processor cores - to handle
+	# incoming requests using one and performing background
+	# operations using the other.
+	THREADS_PER_PAGE = 2
+
+	# Enable protection agains *Cross-site Request Forgery (CSRF)*
+	CSRF_ENABLED     = True
+
+	# Use a secure, unique and absolutely secret key for
+	# signing the data. 
+	CSRF_SESSION_KEY = "secret"
+
+	# Secret key for signing cookies
+	SECRET_KEY = "secret"
 
 config_by_name = dict(
-    dev=DevelopmentConfig,
+    dev=ProductionConfig,
     )
