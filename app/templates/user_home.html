@@ -136,7 +136,7 @@
                                             {{ ride_history[i][1] }}
                                         </td>
                                         <td class="text-center">
-                                            <button onclick="{{ ride_history[i][0]|replace('-', '') }}">{{ ride_history[i][0] }}</button>
+                                            <button onclick="{{ ride_history[i][0]|replace('-', '') }}()">{{ ride_history[i][0] }}</button>
                                         </td>
                                         <script type="text/javascript">
                                             function {{ ride_history[i][0]|replace('-', '') }}() {
