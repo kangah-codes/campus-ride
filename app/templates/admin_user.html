@@ -28,23 +28,26 @@
                           Name
                         </th>
                         <th>
-                          Programme
+                          Email
                         </th>
                         <th>
-                          Date Registered
+                          Registered
                         </th>
                         <th>
-                          Account Balance
+                          Balance
                         </th>
                         <th>
                           Number
                         </th>
                         <th>
-                          is Activated
+                          Active
                         </th>
-                        <th>
-                          Action
-                        </th>
+                        {% if has_permission %}
+                          <th>
+                            Del
+                          </th>
+                        {% endif %}
+                        
                       </thead>
                       <tbody>
                         {% for i in students %}
@@ -56,7 +59,7 @@
                               {{ i.full_name }}
                             </td>
                             <td>
-                              {{ i.course }}
+                              {{ i.email }}
                             </td>
                             <td>
                               {{ i.registered_on }}
@@ -70,7 +73,8 @@
                             <td>
                               {{ i.is_activated }}
                             </td>
-                            <td>
+                            {% if has_permission %}
+                              <td>
                               <button class="btn btn-danger" onclick="{{ (i.full_name|replace(' ', ''))|replace('-', '') }}()">Delete account</button>
                               <script type="text/javascript">
                                 function {{ (i.full_name|replace(' ', ''))|replace('-', '') }}() {
@@ -90,6 +94,7 @@
                                 }
                               </script>
                             </td>
+                            {% endif %}
                           </tr>
                         {% endfor %}
                       </tbody>

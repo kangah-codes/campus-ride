@@ -490,7 +490,6 @@ def admin_students():
 			"notifications":Notifications.query.filter_by(date=str(datetime.date.today()))[:-5:-1],
 			"admin":current_user.is_admin,
 			"has_permission":current_user.permission == 2
-
 		}
 		try:
 			data['notif_count'] = len(today.get_notifications())
