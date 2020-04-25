@@ -71,9 +71,9 @@
                               {{ i.is_activated }}
                             </td>
                             <td>
-                              <button class="btn btn-danger" onclick="{{ i.full_name|replace(' ', '') }}()">Delete account</button>
+                              <button class="btn btn-danger" onclick="{{ (i.full_name|replace(' ', ''))|replace('-', '') }}()">Delete account</button>
                               <script type="text/javascript">
-                                function {{ i.full_name|replace(' ', '') }}() {
+                                function {{ (i.full_name|replace(' ', ''))|replace('-', '') }}() {
                                   swal({
                                     type: "error",
                                     title: "Delete Account",
