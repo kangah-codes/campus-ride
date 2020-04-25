@@ -609,6 +609,19 @@ def del_user(ids):
 		return redirect('/admin_students')
 	return redirect('/')
 
+@mod_auth.route('/act_user/<ids>', methods=["POST"])
+@login_required
+def del_user(ids):
+	if current_user.is_admin:
+		user = User.query.filter_by(public_id=ids).first()
+		user.is_activated = True
+		admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
+		admin_notifications.add_notification(datetime.date.today(), f"Admin activated user {user.public_id}")
+		db.session.add_all([admin_notifications, user])
+		db.session.commit()
+		return redirect('/admin_students')
+	return redirect('/')
+
 @mod_auth.route('/reg_admin', methods=["POST"])
 @login_required
 def add_admin():
