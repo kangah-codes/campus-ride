@@ -331,9 +331,10 @@ def user_pay(bus):
 				# "cancelled":cancel,
 				"url":url
 			}
-			admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
-			admin_notifications.add_notification(datetime.date.today(), f"User {current_user.public_id} boarded bus {bus}")
-			db.session.add_all([current_user, admin_notifications])
+			# admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
+			# admin_notifications.add_notification(datetime.date.today(), f"User {current_user.public_id} boarded bus {bus}")
+			# db.session.add([current_user, admin_notifications])
+			db.session.add(current_user)
 			db.session.commit()
 			#payed = True
 			return render_template('user_wallet.html', **data)

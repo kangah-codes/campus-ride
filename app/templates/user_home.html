@@ -133,12 +133,24 @@
                                 {% for i in ride_history %}
                                     <tr class="py-5">
                                         <td class="text-center">
-
                                             {{ ride_history[i][1] }}
                                         </td>
                                         <td class="text-center">
-                                            {{ ride_history[i][0] }}
+                                            <button onclick="{{ ride_history[i][0]|replace('-', '') }}">{{ ride_history[i][0] }}</button>
                                         </td>
+                                        <script type="text/javascript">
+                                            function {{ ride_history[i][0]|replace('-', '') }}() {
+                                                // body...
+                                                swal({
+                                                  title: 'Receipt',
+                                                  text: 'Date {{ ride_history[i][1] }},Amount GH₵ 1.00',
+                                                  imageUrl: '<img src="https://api.qrserver.com/v1/create-qr-code/?data={{ ride_history[i][0] }}&size=500x500" alt="" title="" style="width: 50vw;padding: 5%" />',
+                                                  imageWidth: 400,
+                                                  imageHeight: 400,
+                                                  imageAlt: 'Custom image',
+                                                });
+                                            }
+                                        </script>
                                     </tr>
                                 {% endfor %}
                             </tbody>
