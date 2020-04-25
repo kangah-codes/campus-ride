@@ -15,8 +15,8 @@ class DevelopmentConfig(Config):
 
 	# Define the database - we are working with
 	# SQLite for this example
-	#SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'app.db')
-	SQLALCHEMY_DATABASE_URI = 'postgres://hvqhidstfdeetm:9ca3a9492da4d277312046186f7cc8c969602fa377ff107d8b60048beb9eedde@ec2-34-202-7-83.compute-1.amazonaws.com:5432/d5khtdmlbch2t0'
+	SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'app.db')
+	#SQLALCHEMY_DATABASE_URI = 'postgres://hvqhidstfdeetm:9ca3a9492da4d277312046186f7cc8c969602fa377ff107d8b60048beb9eedde@ec2-34-202-7-83.compute-1.amazonaws.com:5432/d5khtdmlbch2t0'
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
 	DATABASE_CONNECT_OPTIONS = {}
 
@@ -70,5 +70,5 @@ class ProductionConfig(Config):
 	SECRET_KEY = "secret"
 
 config_by_name = dict(
-    dev=ProductionConfig,
+    dev=DevelopmentConfig,
     )
