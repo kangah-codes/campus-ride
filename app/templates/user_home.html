@@ -136,10 +136,10 @@
                                             {{ ride_history[i][1] }}
                                         </td>
                                         <td class="text-center">
-                                            <button onclick="{{ ride_history[i][0]|replace('-', '') }}()">{{ ride_history[i][0] }}</button>
+                                            <button onclick="{{ ''.join([i for i in ride_history[i][0]|replace('-', '') if not i.isdigit()]) }}()">{{ ride_history[i][0] }}</button>
                                         </td>
                                         <script type="text/javascript">
-                                            function {{ ride_history[i][0]|replace('-', '') }}() {
+                                            function {{ ''.join([i for i in ride_history[i][0]|replace('-', '') if not i.isdigit()]) }}() {
                                                 // body...
                                                 swal({
                                                   title: 'Receipt',
