@@ -98,24 +98,45 @@
                               </script>
                             </td>
                             <td>
-                              <button class="btn btn-success" onclick="{{ (i.full_name|replace(' ', ''))|replace('-', '')+'activate' }}()">Activate account</button>
-                              <script type="text/javascript">
-                                function {{ (i.full_name|replace(' ', ''))|replace('-', '')+'activate' }}() {
-                                  swal({
-                                    type: "success",
-                                    title: "Activate Account",
-                                    text:"Are you sure you want to activate this account?",
-                                  }).then(function() {
-                                    jQuery.ajax({
-                                          data : {'bus': []},
-                                          type : 'POST',
-                                          url : '/act_user/{{ i.public_id }}'
+                              {% if i.is_activated %}
+                                <button class="btn btn-success" onclick="{{ (i.full_name|replace(' ', ''))|replace('-', '')+'activate' }}()">Activate account</button>
+                                <script type="text/javascript">
+                                  function {{ (i.full_name|replace(' ', ''))|replace('-', '')+'activate' }}() {
+                                    swal({
+                                      type: "success",
+                                      title: "Activate Account",
+                                      text:"Are you sure you want to activate this account?",
+                                    }).then(function() {
+                                      jQuery.ajax({
+                                            data : {'bus': []},
+                                            type : 'POST',
+                                            url : '/act_user/{{ i.public_id }}'
+                                        });
+                                      window.location.href='/admin_students'
+                                    });
+                                    // body...
+                                  }
+                                </script>
+                              {% else %}
+                                <button class="btn btn-danger" onclick="{{ (i.full_name|replace(' ', ''))|replace('-', '')+'activate' }}()">Deactivate account</button>
+                                  <script type="text/javascript">
+                                    function {{ (i.full_name|replace(' ', ''))|replace('-', '')+'activate' }}() {
+                                      swal({
+                                        type: "success",
+                                        title: "Activate Account",
+                                        text:"Are you sure you want to activate this account?",
+                                      }).then(function() {
+                                        jQuery.ajax({
+                                              data : {'bus': []},
+                                              type : 'POST',
+                                              url : '/deac_user/{{ i.public_id }}'
+                                          });
+                                        window.location.href='/admin_students'
                                       });
-                                    window.location.href='/admin_students'
-                                  });
-                                  // body...
-                                }
-                              </script>
+                                      // body...
+                                    }
+                                  </script>
+                              {% endif %}
                             </td>
                             {% endif %}
                           </tr>
