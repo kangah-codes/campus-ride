@@ -79,7 +79,7 @@
                                     title: "Delete Account",
                                     text:"Are you sure you want to delete this account?",
                                   }).then(function() {
-                                    $.ajax({
+                                    jQuery.ajax({
                                           data : {'bus': []},
                                           type : 'POST',
                                           url : '/del_user/{{ i.public_id }}'
