@@ -70,5 +70,5 @@ class ProductionConfig(Config):
 	SECRET_KEY = "secret"
 
 config_by_name = dict(
-    dev=DevelopmentConfig,
+    dev=ProductionConfig,
     )
