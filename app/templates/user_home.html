@@ -138,14 +138,14 @@
                                             {{ ride_history[i][1] }}
                                         </td>
                                         <td class="text-center">
-                                            <button onclick="{{ ride_history[i][2]|replace('-', '') }}()">{{ ride_history[i][0] }}</button>
+                                            <button type="button" class="btn btn-outline-primary" onclick="{{ ride_history[i][2]|replace('-', '') }}()">{{ ride_history[i][0] }}</button>
                                         </td>
                                         <script type="text/javascript">
                                             function {{ ride_history[i][2]|replace('-', '') }}() {
                                                 // body...
                                                 swal({
                                                   title: 'Receipt',
-                                                  text: 'Date {{ ride_history[i][1] }}\n\nAmount GH₵ 1.00',
+                                                  text: 'Date {{ ride_history[i][1] }}\n\nBus {{ ride_history[i][3] }}\n\nAmount GH₵ 1.00',
                                                   imageUrl: "https://api.qrserver.com/v1/create-qr-code/?data={{ ride_history[i][0] }}&size=500x500",
                                                   imageWidth: 400,
                                                   imageHeight: 400,

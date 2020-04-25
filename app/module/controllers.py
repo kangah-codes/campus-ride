@@ -249,7 +249,9 @@ def home():
 		"payment_history":json.loads(current_user.payment_history),
 	}
 	for i in data['ride_history']:
-		data['ride_history'][i].append(''.join([i for i in data['ride_history'][i][0] if not i.isdigit()]) )
+		bus_plate = Bus.query.filter_by(qr_id=data['ride_history'][i][0]).first()
+		data['ride_history'][i].append(''.join([i for i in data['ride_history'][i][0] if not i.isdigit()]))
+		data['ride_history'][i].append(bus_plate.alt_id)
 	return render_template('user_home.html', **data)
 
 @mod_auth.route('/notifications')
