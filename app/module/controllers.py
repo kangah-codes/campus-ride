@@ -611,7 +611,7 @@ def del_user(ids):
 
 @mod_auth.route('/act_user/<ids>', methods=["POST"])
 @login_required
-def del_user(ids):
+def act_user(ids):
 	if current_user.is_admin:
 		user = User.query.filter_by(public_id=ids).first()
 		user.is_activated = True
