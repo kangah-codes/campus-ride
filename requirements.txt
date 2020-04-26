@@ -33,3 +33,4 @@ gunicorn
 requests
 sendgrid-python
 psycopg2-binary
+pg8000

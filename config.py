@@ -3,6 +3,7 @@ DEBUG = True
 
 # Define the application directory
 import os
+import sqlalchemy
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
@@ -16,7 +17,16 @@ class DevelopmentConfig(Config):
 	# Define the database - we are working with
 	# SQLite for this example
 	SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'app.db')
-	#SQLALCHEMY_DATABASE_URI = 'postgres://hvqhidstfdeetm:9ca3a9492da4d277312046186f7cc8c969602fa377ff107d8b60048beb9eedde@ec2-34-202-7-83.compute-1.amazonaws.com:5432/d5khtdmlbch2t0'
+	#SQLALCHEMY_DATABASE_URI = 'postgres+pg8000://postgres:campusridegh11@/campusride?unix_sock=/cloudsql/campusride/.s.PGSQL.5432'
+	# SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL(
+ #        drivername='postgres+pg8000',
+ #        username='postgres',
+ #        password='campusridegh11',
+ #        database='campusride',
+ #        query={
+ #            'unix_sock': '/cloudsql/campusride/.s.PGSQL.5432'
+ #        }
+ #    )
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
 	DATABASE_CONNECT_OPTIONS = {}
 
@@ -72,3 +82,18 @@ class ProductionConfig(Config):
 config_by_name = dict(
     dev=ProductionConfig,
     )
+
+"""
+
+sqlalchemy.engine.url.URL(
+        drivername='postgres+pg8000',
+        username=db_user,
+        password=db_pass,
+        database=db_name,
+        query={
+            'unix_sock': '/cloudsql/{}/.s.PGSQL.5432'.format(
+                cloud_sql_connection_name)
+        }
+    )
+
+"""

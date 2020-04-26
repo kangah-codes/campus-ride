@@ -75,9 +75,6 @@ pay_amt = 0
 invoice = None
 error = None
 
-
-
-
 # if Notifications.query.filter_by(date=str(datetime.date.today())).first() is None:
 # 	admin_notifications = Notifications()
 # else:
@@ -134,6 +131,9 @@ def login():
 			return render_template('user_login.html', error="Invalid Username/Password")
 		except:
 			return render_template('user_login.html', error="No account exists for these credentials")
+		finally:
+			db.session.close()
+			
 	return render_template('user_login.html')
 
 @mod_auth.route('/login_admin', methods=["GET", "POST"])
@@ -154,6 +154,9 @@ def login_admin():
 			return render_template('admin_login.html', error="Invalid username/password")
 		except:
 			return render_template('admin_login.html', error="No account exists for these credentials")
+		finally:
+			db.session.close()
+			
 	return render_template('admin_login.html')
 
 @mod_auth.route('/register', methods=["GET", "POST"])
@@ -212,6 +215,7 @@ def register():
 					return render_template('user_register.html', error="An account already exists with these credentials")
 				finally:
 					db.session.close()
+					
 			else:
 				return render_template('user_register.html', error="You must use your student mail")
 
@@ -228,6 +232,9 @@ def activate(url):
 			db.session.commit()
 		except:
 			db.session.rollback()
+		finally:
+			db.session.close()
+			
 		login_user(user)
 		return redirect('/home')
 	else:
@@ -252,6 +259,8 @@ def home():
 		bus_plate = Bus.query.filter_by(qr_id=data['ride_history'][i][0]).first()
 		data['ride_history'][i].append(''.join([i for i in data['ride_history'][i][0] if not i.isdigit()]))
 		data['ride_history'][i].append(bus_plate.alt_id)
+	db.session.close()
+	
 	return render_template('user_home.html', **data)
 
 @mod_auth.route('/notifications')
@@ -297,6 +306,9 @@ def wallet():
 			db.session.commit()
 		except:
 			db.session.rollback()
+		finally:
+			db.session.close()
+			
 
 	return render_template('user_wallet.html', **data)
 
@@ -306,15 +318,14 @@ def amt():
 	current_user.temp_payment = float(request.form['amt'])
 	global pay_amt
 	pay_amt = current_user.temp_payment
-
 	try:
 		db.session.add(current_user)
 		db.session.commit()
 	except:
 		db.session.rollback()
-	else:
+	finally:
 		db.session.close()
-
+		
 	return ""
 
 @mod_auth.route('/user_pay/<bus>', methods=["POST"])
@@ -340,10 +351,12 @@ def user_pay(bus):
 			# db.session.add([current_user, admin_notifications])
 			db.session.add(current_user)
 			db.session.commit()
-			#payed = True
 			return render_template('user_wallet.html', **data)
 		except Exception as e:
 			db.session.rollback()
+		finally:
+			db.session.close()
+			
 	return redirect('/wallet')
 
 @mod_auth.route('/payment_success/<uid>')
@@ -383,10 +396,11 @@ def success(uid):
 			return render_template('user_wallet.html', **data)
 			db.session.rollback()
 		else:
-			db.session.close()
-			# payed = True
 			data['pay'] = True
 			return render_template('user_wallet.html', **data)
+		finally:
+			db.session.close()
+			
 		return redirect('/wallet')
 	return redirect('/pay')
 
@@ -406,8 +420,15 @@ def cancelled(uid):
 		}
 		
 		current_user.temp_payment = 0
-		db.session.add(current_user)
-		db.session.commit()
+		try:
+			db.session.add(current_user)
+			db.session.commit()
+		except:
+			db.session.rollback()
+		finally:
+			db.session.close()
+			
+
 		return render_template('user_wallet.html', **data)
 	return redirect('/')
 
@@ -444,9 +465,10 @@ def user_profile():
 		except:
 			error = "Server error, please try later"
 			db.session.rollback()
-		
+		finally:
+			db.session.close()
+			db.session.dispose()
 		return redirect('/profile')	
-
 	return render_template('user.html', **data)
 
 @mod_auth.route('/pay')
@@ -456,6 +478,8 @@ def pay():
 		"buses": Bus.query.all(),
 		"amount": current_user.account_bal
 	}
+	db.session.close()
+	
 	return render_template('user_payment.html', **data)
 
 @mod_auth.route('/admin_home')
@@ -482,6 +506,9 @@ def admin_home():
 			data['notif_count'] = len(today.get_notifications())
 		except:
 			data['notif_count'] = 0
+		finally:
+			db.session.close()
+			
 		return render_template('admin_dashboard.html', **data)
 	return redirect('/')
 
@@ -500,6 +527,9 @@ def admin_students():
 			data['notif_count'] = len(today.get_notifications())
 		except:
 			data['notif_count'] = 0
+		finally:
+			db.session.close()
+			
 		return render_template('admin_user.html', **data)
 	return redirect('/')
 
@@ -518,6 +548,9 @@ def admin_buses():
 			data['notif_count'] = len(today.get_notifications())
 		except:
 			data['notif_count'] = 0
+		finally:
+			db.session.close()
+			
 		return render_template('admin_buses.html', **data)
 	return redirect('/')
 
@@ -530,6 +563,8 @@ def admin_admin():
 			"admins":User.query.filter_by(is_admin=True).all(),
 			"has_permission":current_user.permission == 2
 		}
+		db.session.close()
+		
 		return render_template('admin_admin.html',**data)
 	return redirect('/')
 
@@ -547,6 +582,9 @@ def admin_notification():
 			data['notif_count'] = len(today.get_notifications())
 		except:
 			data['notif_count'] = 0
+		finally:
+			db.session.close()
+			
 		return render_template('admin_notifications.html', **data)
 	return redirect('/')
 
@@ -556,19 +594,21 @@ def admin_reg_bus():
 	if current_user.is_admin:
 		plate = request.form.get("plate")
 		seats = request.form.get("seats")
-
 		new_bus = Bus()
 		new_bus.number_plate = plate
 		new_bus.seats = seats
 		admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
 		admin_notifications.add_notification(datetime.date.today(), f"Admin registered bus {plate}")
-
-		db.session.add_all([new_bus, admin_notifications])
-		db.session.commit()
-
+		try:
+			db.session.add_all([new_bus, admin_notifications])
+			db.session.commit()
+		except:
+			db.session.rollback()
+		finally:
+			db.session.close()
+			
 		return redirect('/admin_buses')
 	return redirect('/')
-	#return render_template('qr.html', code=new_bus.qr_id, bus=plate)
 
 @mod_auth.route('/dec_bus/<bus>', methods=["POST"])
 @login_required
@@ -578,8 +618,14 @@ def dec_bus(bus):
 		admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
 		admin_notifications.add_notification(datetime.date.today(), f"Admin decomissioned bus {bus}")
 		bus_qr.is_active = False
-		db.session.add_all([bus_qr,admin_notifications])
-		db.session.commit()
+		try:
+			db.session.add_all([bus_qr,admin_notifications])
+			db.session.commit()
+		except:
+			db.session.rollback()
+		finally:
+			db.session.close()
+			
 		return redirect('/admin_buses')
 	return redirect('/')
 
@@ -591,8 +637,13 @@ def rec_bus(bus):
 		admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
 		admin_notifications.add_notification(datetime.date.today(), f"Admin recomissioned bus {bus}")
 		bus_qr.is_active = True
-		db.session.add_all([bus_qr,admin_notifications])
-		db.session.commit()
+		try:
+			db.session.add_all([bus_qr,admin_notifications])
+			db.session.commit()
+		except:
+			db.session.rollback()
+		finally:
+			db.session.close()
 		return redirect('/admin_buses')
 	return redirect('/')
 
@@ -604,8 +655,14 @@ def del_user(ids):
 		admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
 		admin_notifications.add_notification(datetime.date.today(), f"Admin deleted user {user.public_id}")
 		db.session.add(admin_notifications)
-		db.session.delete(user)
-		db.session.commit()
+		try:
+			db.session.delete(user)
+			db.session.commit()
+		except:
+			db.session.rollback()
+		finally:
+			db.session.close()
+			
 		return redirect('/admin_students')
 	return redirect('/')
 
@@ -617,8 +674,14 @@ def act_user(ids):
 		user.is_activated = True
 		admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
 		admin_notifications.add_notification(datetime.date.today(), f"Admin activated user {user.public_id}")
-		db.session.add_all([admin_notifications, user])
-		db.session.commit()
+		try:
+			db.session.add_all([admin_notifications, user])
+			db.session.commit()
+		except:
+			db.session.rollback()
+		finally:
+			db.session.close()
+			
 		return redirect('/admin_students')
 	return redirect('/')
 
@@ -630,8 +693,14 @@ def deact_user(ids):
 		user.is_activated = False
 		admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
 		admin_notifications.add_notification(datetime.date.today(), f"Admin deactivated user {user.public_id}")
-		db.session.add_all([admin_notifications, user])
-		db.session.commit()
+		try:
+			db.session.add_all([admin_notifications, user])
+			db.session.commit()
+		except:
+			db.session.rollback()
+		finally:
+			db.session.close()
+			
 		return redirect('/admin_students')
 	return redirect('/')
 
@@ -655,19 +724,24 @@ def add_admin():
 			new_admin.permission = 2
 		admin_notifications = Notifications.query.filter_by(date=str(datetime.date.today())).first()
 		admin_notifications.add_notification(datetime.date.today(), f"Admin registered {name}")
-		db.session.add_all([new_admin, admin_notifications])
-		db.session.commit()
-		message = Mail(
-	    from_email='info@campusride.africa',
-	    to_emails=email,
-	    subject='Account Details',
-	    html_content=f"<strong>Username: {gid}<br>Password: {pwd}</strong>")
 		try:
-			sg = SendGridAPIClient('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')
-			response = sg.send(message)
-		except Exception as e:
-			pass
-		#login_user(new_user, remember=True)
+			db.session.add_all([new_admin, admin_notifications])
+			db.session.commit()
+			message = Mail(
+		    from_email='info@campusride.africa',
+		    to_emails=email,
+		    subject='Account Details',
+		    html_content=f"<strong>Username: {gid}<br>Password: {pwd}</strong>")
+			try:
+				sg = SendGridAPIClient('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')
+				response = sg.send(message)
+			except Exception as e:
+				pass
+		except:
+			db.session.rollback()
+		finally:
+			db.session.close()
+			
 		return redirect('/admin_admin')
 	return redirect('/')
 
