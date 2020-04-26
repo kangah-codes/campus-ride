@@ -11,7 +11,3 @@ handlers:
 
 - url: /templates
   static_dir: app/templates
-
-libraries:
-- name: MySQLdb
-  version: latest

@@ -681,7 +681,6 @@ def act_user(ids):
 			db.session.rollback()
 		finally:
 			db.session.close()
-			
 		return redirect('/admin_students')
 	return redirect('/')
 

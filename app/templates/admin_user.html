@@ -91,9 +91,8 @@
                                           type : 'POST',
                                           url : '/del_user/{{ i.public_id }}'
                                       });
-                                    window.location.href='/admin_students'
                                   });
-                                  // body...
+                                  location.reload();
                                 }
                               </script>
                             </td>
@@ -112,9 +111,8 @@
                                               type : 'POST',
                                               url : '/deac_user/{{ i.public_id }}'
                                           });
-                                        window.location.href='/admin_students'
                                       });
-                                      // body...
+                                      location.reload();
                                     }
                                   </script>
                               {% else %}
@@ -131,9 +129,8 @@
                                             type : 'POST',
                                             url : '/act_user/{{ i.public_id }}'
                                         });
-                                      window.location.href='/admin_students'
                                     });
-                                    // body...
+                                    location.reload();
                                   }
                                 </script>
                               {% endif %}
