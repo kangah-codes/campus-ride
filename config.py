@@ -62,7 +62,8 @@ class ProductionConfig(Config):
 	PRESERVE_CONTEXT_ON_EXCEPTION = False
 	SQLALCHEMY_TRACK_MODIFICATIONS = True
 	DATABASE_CONNECT_OPTIONS = {}
-
+	# 60 seconds before a connection is recycled
+	SQLALCHEMY_POOL_RECYCLE = 60
 	# Application threads. A common general assumption is
 	# using 2 per available processor cores - to handle
 	# incoming requests using one and performing background
