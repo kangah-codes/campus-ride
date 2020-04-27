@@ -52,6 +52,8 @@ try:
 	db.session.commit()
 except:
 	db.session.rollback()
+finally:
+	db.session.close()
 
 try:
 	pay = PaymentStats()
@@ -59,14 +61,17 @@ try:
 	db.session.commit()
 except Exception as e:
 	db.session.rollback()
+finally:
+	db.session.close()
 
 try:
 	payment = Payment()
 	db.session.add(payment)
 	db.session.commit()
-
 except Exception as e:
 	db.session.rollback()
+finally:
+	db.session.close()
 
 
 payed = False
@@ -410,7 +415,7 @@ def cancelled(uid):
 	if current_user.payment_url == uid:
 		data = {
 			"bal":current_user.account_bal,
-			"payment_url":current_user.payment_url,
+			"p10015257ayment_url":current_user.payment_url,
 			"number":current_user.momo_number,
 			"full_name":current_user.full_name,
 			"email":current_user.email,
