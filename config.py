@@ -17,16 +17,6 @@ class DevelopmentConfig(Config):
 	# Define the database - we are working with
 	# SQLite for this example
 	SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'app.db')
-	#SQLALCHEMY_DATABASE_URI = 'postgres+pg8000://postgres:campusridegh11@/campusride?unix_sock=/cloudsql/campusride/.s.PGSQL.5432'
-	# SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL(
- #        drivername='postgres+pg8000',
- #        username='postgres',
- #        password='campusridegh11',
- #        database='campusride',
- #        query={
- #            'unix_sock': '/cloudsql/campusride/.s.PGSQL.5432'
- #        }
- #    )
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
 	DATABASE_CONNECT_OPTIONS = {}
 

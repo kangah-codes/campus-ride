@@ -6,7 +6,9 @@ from flask_login import LoginManager, current_user, login_user
 
 # Define the WSGI application object
 app = Flask(__name__)
-db = SQLAlchemy(app)
+db = SQLAlchemy(app, session_options={
+    'expire_on_commit': False
+})
 flask_bcrypt = Bcrypt()
 db.init_app(app)
 flask_bcrypt.init_app(app)
