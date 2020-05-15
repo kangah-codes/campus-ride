@@ -48,7 +48,7 @@ class TestingConfig(Config):
 class ProductionConfig(Config):
 	DEBUG = False
 	TESTING = False
-	SQLALCHEMY_DATABASE_URI = 'postgres://tdcllfsruioqbz:1f4779fba92ae0091b89353a3b74167af2732839d7cc5da0552e54032023cdea@ec2-52-207-25-133.compute-1.amazonaws.com:5432/d6nemaka83c6sq'
+	SQLALCHEMY_DATABASE_URI = 'postgres://syigawqygvttem:e178f60183852ff7cf3188414ecb6ff6759a5bfd3ac6a9ce1443646a913f5a25@ec2-52-0-155-79.compute-1.amazonaws.com:5432/d88g0vurtncee8'
 	PRESERVE_CONTEXT_ON_EXCEPTION = False
 	SQLALCHEMY_TRACK_MODIFICATIONS = True
 	DATABASE_CONNECT_OPTIONS = {}
